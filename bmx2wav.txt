@@ -1,0 +1,53 @@
+
+!!!! BMX2WAV
+
+!!! 概要
+
+BMX2WAV は BMS を WAV ファイルまたは ogg ファイルに変換します。
+
+* 標準的な BMS 記述に広く対応
+** #RANDOM 構文
+** 00 ～ ZZ までの拡張定義
+** 拡張 BPM
+** STOP シーケンス
+** ロングノート
+* ogg 読み込み、ogg 出力対応
+* 音量調整（ノーマライズ）機能搭載
+* 変換したい BMS を探す BMX2WAV Searcher を搭載。
+* 一括変換機能搭載
+* 変換後に任意のプログラム（mp3 変換など)との連携が可能
+* スクリプト（Squirrel）による拡張機能を備えています。
+
+
+!!! 使い方
+
+bmx2wav.exe を起動させて、BMS ファイルをドラッグ&ドロップ等で一覧に登録します。
+登録された BMS を選択して変換ボタンを押すと変換されます。
+変換後は WAV または ogg で保存します。
+
+他にも色々と設定や機能があります。
+
+
+!!! マニュアル
+
+manual/index.html を見て
+
+
+!!! 開発環境
+
+コンパイラ : Visual Studio Build Tools 2019
+IDE        : TTVC Developer
+エディタ   : xyzzy
+開発言語   : C++
+
+
+!!! 更新履歴
+
+マニュアル中の更新履歴を見て。
+
+
+!!! 作った人
+
+NAME : TEM
+WEB  : CHILD'S SQUARE - http://childs.squares.net/
+BLOG : https://bmx2wav.hatenadiary.jp/
