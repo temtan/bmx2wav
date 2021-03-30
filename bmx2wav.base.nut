@@ -79,7 +79,7 @@ class Column {
     if ( str_y == "" ) {
       return -1;
     }
-    return str_x <=> str_y;
+    return str_x.tolower() <=> str_y.tolower();
   }
 
   name = null;
