@@ -107,15 +107,20 @@ class MostPlaylevelSearchMethod extends SearchMethod {
       entry.parse_as_bms_data_once();
 
       if ( key in entry.bms_data.headers ) {
-        if ( current == null ) {
-          current = entry;
+        try {
+          if ( current == null ) {
+            current = entry;
+          }
+          else if ( current.bms_data.headers[key].tointeger() > entry.bms_data.headers[key].tointeger() ) {
+            entry.search_hit = false;
+          }
+          else {
+            current.search_hit = false;
+            current = entry;
+          }
         }
-        else if ( current.bms_data.headers[key].tointeger() > entry.bms_data.headers[key].tointeger() ) {
-          entry.search_hit = false;
-        }
-        else {
-          current.search_hit = false;
-          current = entry;
+        catch ( e ) {
+          // continue;
         }
       }
     }

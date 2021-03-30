@@ -43,6 +43,16 @@ function safety_get( table, key, default_value ) {
   return ( key in table ) ? table[key] : default_value;
 }
 
+function convertible_to_integer( str ) {
+  try {
+    str.tointeger();
+    return true;
+  }
+  catch ( e ) {
+    return false;
+  }
+}
+
 // -- Column
 class Column {
   constructor( name ) {
@@ -111,10 +121,10 @@ class HeaderColumn extends Column {
   function compare_as_integer_asc( x, y ) {
     local x_value = ::safety_get( x.bms_data.headers, this.header_name, "" );
     local y_value = ::safety_get( y.bms_data.headers, this.header_name, "" );
-    if ( x_value == "" ) {
-      return y_value == "" ? 0 : 1;
+    if ( !( ::convertible_to_integer( x_value ) ) ) {
+      return ::convertible_to_integer( y_value ) ? 1 : 0;
     }
-    if ( y_value == "" ) {
+    if ( !( ::convertible_to_integer( y_value ) ) ) {
       return -1;
     }
     return x_value.tointeger() <=> y_value.tointeger();
@@ -123,10 +133,10 @@ class HeaderColumn extends Column {
   function compare_as_integer_desc( x, y ) {
     local x_value = ::safety_get( x.bms_data.headers, this.header_name, "" );
     local y_value = ::safety_get( y.bms_data.headers, this.header_name, "" );
-    if ( x_value == "" ) {
-      return y_value == "" ? 0 : 1;
+    if ( !( ::convertible_to_integer( x_value ) ) ) {
+      return ::convertible_to_integer( y_value ) ? 1 : 0;
     }
-    if ( y_value == "" ) {
+    if ( !( ::convertible_to_integer( y_value ) ) ) {
       return -1;
     }
     return y_value.tointeger() <=> x_value.tointeger();
