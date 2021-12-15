@@ -27,8 +27,27 @@ namespace BMX2WAV::Utility {
 
   int64_t GetCurrentProcessWorkingSetSize( void );
 
+  bool UserDefaultLocaleIsJapanese( void );
+
   std::string GetNotExistPathFrom( const std::string& path );
   std::string RemoveCanNotUseCharacterAsFilePathFrom( const std::string& path );
+
+  inline std::string Format( const std::string& format ) {
+    return format;
+  };
+  inline std::string Format( const char* format ) {
+    return format;
+  };
+  template <class... Rest>
+  std::string Format( const std::string& format, Rest&&... rest ) {
+    return Format( format.c_str(), rest... );
+  };
+  template <class... Rest>
+  std::string Format( const char* format, Rest&&... rest ) {
+    char tmp[1024];
+    ::sprintf_s( tmp, sizeof( tmp ), format, rest... );
+    return tmp;
+  };
 
   // -- TextFileReader ---------------------------------------------------
   class TextFileReader {

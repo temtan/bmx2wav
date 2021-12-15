@@ -7,6 +7,7 @@
 
 #include "exception.h"
 #include "utility.h"
+#include "string_table.h"
 
 #include "core/wave_maker.h"
 
@@ -123,14 +124,14 @@ Searcher::MainFrame::Created( void )
 
   // Show しないと表示されないので注意
   squirrel_standard_output_dialog_.ShowDialog( *this );
-  squirrel_standard_output_dialog_.SetText( "スクリプト標準出力" );
+  squirrel_standard_output_dialog_.SetText( StrT::Searcher::Main::SquirrelStandardOutputDialogTitle.Get() );
 
   this->SetAccelerator();
 
   // 色々と初期化
   {
     last_sort_parameter_ = MainFrame::NoSorted;
-    this->SetSortMethodToStatusBar( "なし" );
+    this->SetSortMethodToStatusBar( StrT::Searcher::Main::DefaultSortMethodName.Get() );
   }
 
   this->InitializeSquirrelVM();
@@ -217,23 +218,18 @@ Searcher::MainFrame::RegisterHandlers( void )
     MainTree::Item item = tree_.GetSelected();
     if ( NOT( item.IsValid() ) || item.GetParameter()->GetPathSafety().empty() ) {
       TtMessageBoxOk box;
-      box.SetMessage( "この場所では検索できません。" );
-      box.SetCaption( "検索実行不可" );
+      box.SetCaption( StrT::Searcher::Main::MBExecuteSearchImpossibleDirectoryCaption.Get() );
+      box.SetMessage( StrT::Searcher::Main::MBExecuteSearchImpossibleDirectoryMessage.Get() );
       box.SetIcon( TtMessageBox::Icon::ERROR );
       box.ShowDialog( *this );
     }
     else {
       this->WaitEntryPoolThread();
 
-      std::string tmp = "以下の条件で検索を実行します。よろしいですか？\r\n";
-      tmp.append( "\r\n元フォルダ ： " );
-      tmp.append( item.GetParameter()->GetPathSafety() );
-      tmp.append( "\r\n検索条件 ： " );
-      tmp.append( tool_bar_.select_search_box_.GetSelectedString() );
-
       TtMessageBoxYesNo box;
-      box.SetMessage( tmp );
-      box.SetCaption( "検索実行の確認" );
+      box.SetMessage( Utility::Format( StrT::Searcher::Main::MBExecuteSearchExecuteConfirmMessage.Get(),
+                                      item.GetParameter()->GetPathSafety().c_str(), tool_bar_.select_search_box_.GetSelectedString().c_str() ) );
+      box.SetCaption( StrT::Searcher::Main::MBExecuteSearchExecuteConfirmCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::QUESTION );
 
       if ( box.ShowDialog( *this ) == TtMessageBox::Result::YES ) {
@@ -302,8 +298,8 @@ Searcher::MainFrame::RegisterHandlers( void )
       this->WaitEntryPoolThread();
       if ( searched_flag_ ) {
         TtMessageBoxYesNo box;
-        box.SetMessage( "検索結果が破棄されますがよろしいですか？" );
-        box.SetCaption( "検索結果の破棄の確認" );
+        box.SetMessage( StrT::Searcher::Main::MBSearchResultDestructionConfirmMessage.Get() );
+        box.SetCaption( StrT::Searcher::Main::MBSearchResultDestructionConfirmCaption.Get() );
         box.SetIcon( TtMessageBox::Icon::QUESTION );
         if ( box.ShowDialog( *this ) == TtMessageBox::Result::NO ) {
           return {WMResult::Done};
@@ -492,7 +488,7 @@ Searcher::MainFrame::SaveSettingsToFile( void )
 void
 Searcher::MainFrame::SetSortMethodToStatusBar( const std::string& str )
 {
-  status_bar_.SetTextAt( 0, "並び順 : " + str );
+  status_bar_.SetTextAt( 0, StrT::Searcher::Main::StatusBarSortMethodTitle.Get() + str );
 }
 
 
@@ -562,7 +558,7 @@ Searcher::MainFrame::SetEntryProcessorMenu( void )
   entry_menu_.SetEntryProcessorMenu( entry_processor_menu_maker_.MakeMenu() );
   if ( entry_processor_menu_maker_.GetRoot().empty() ) {
     TtSubMenuCommand menu = TtSubMenuCommand::Create();
-    TtMenuItem item = menu.AppendNewItem( 0, "(なし)" );
+    TtMenuItem item = menu.AppendNewItem( 0, StrT::Searcher::Main::EntryProcessorMenuEmpty.Get() );
     item.SetEnabled( false );
     item.SetParameterAs<void*>( nullptr );
     entry_menu_.SetEntryProcessorMenu( menu );
@@ -736,7 +732,7 @@ Searcher::MainFrame::SortEntries( unsigned int group_index, unsigned int column_
   bool ascending = (last_sort_parameter_ != sort_parameter);
   last_sort_parameter_ = ascending ? sort_parameter : MainFrame::NoSorted;
 
-  this->SetSortMethodToStatusBar( list_.GetColumn( column_index ).GetText() + (ascending ? "" : "（逆順）") );
+  this->SetSortMethodToStatusBar( list_.GetColumn( column_index ).GetText() + (ascending ? "" : StrT::Searcher::Main::StatusBarSortMethodDescending.Get()) );
 
   if ( column_index == 0 ) {
     list_.Sort<Entry*>( [&] ( Entry* x, Entry* y ) -> int {
@@ -828,7 +824,7 @@ Searcher::MainFrame::SquirrelErrorHandlingReturnErrorNotOccurred( std::function<
     return function();
   }
   catch ( TtSquirrel::Exception& ex ) {
-    std::string tmp = "拡張スクリプトでエラーがありました。";
+    std::string tmp = StrT::Searcher::Main::MBScriptErrorMessage.Get();
     std::string message = ex.GetStandardMessage();
     if ( NOT( message.empty() ) ) {
       tmp.append( "\r\n\r\n" );
@@ -839,7 +835,7 @@ Searcher::MainFrame::SquirrelErrorHandlingReturnErrorNotOccurred( std::function<
 
     TtMessageBoxOk box;
     box.SetMessage( tmp );
-    box.SetCaption( "拡張スクリプトのエラー" );
+    box.SetCaption( StrT::Searcher::Main::MBScriptErrorCaption.Get() );
     box.SetIcon( TtMessageBox::Icon::ERROR );
     box.ShowDialog( *this );
     return false;

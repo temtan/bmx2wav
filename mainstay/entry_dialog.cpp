@@ -3,6 +3,7 @@
 #include "tt_message_box.h"
 
 #include "parameter_property_sheet.h"
+#include "string_table.h"
 
 #include "mainstay/entry_dialog.h"
 
@@ -33,7 +34,7 @@ Mainstay::EntryDialog::GetExtendedStyle( void )
 bool
 Mainstay::EntryDialog::Created( void )
 {
-  this->SetText( "エントリー詳細ダイアログ" );
+  this->SetText( StrT::Entry::Title.Get() );
 
   struct CommandID {
     enum ID : int {
@@ -68,17 +69,17 @@ Mainstay::EntryDialog::Created( void )
   this->SetClientSize( 330, 400, false );
   this->SetCenterRelativeToParent();
 
-  using_parameter_title_label_.SetText( "使用する設定 :" );
-  use_common_parameter_button_.SetText( "共通設定を使用する" );
-  use_individual_parameter_button_.SetText( "個別設定を使用する" );
-  convert_button_.SetText( "変換する" );
+  using_parameter_title_label_.SetText(     StrT::Entry::UsingParameterTitleLabel.Get() );
+  use_common_parameter_button_.SetText(     StrT::Entry::UseCommonParameterButton.Get() );
+  use_individual_parameter_button_.SetText( StrT::Entry::UseIndividualParameterButton.Get() );
+  convert_button_.SetText(                  StrT::Entry::ConvertButton.Get() );
   {
     auto column_name = list_.MakeNewColumn();
-    column_name.SetText( "名称" );
+    column_name.SetText( StrT::Entry::ColumnName.Get() );
     column_name.SetWidth( 120 );
 
     auto column_value = list_.MakeNewColumn();
-    column_value.SetText( "値" );
+    column_value.SetText( StrT::Entry::ColumnValue.Get() );
     column_value.SetWidth( 180 );
   }
 
@@ -95,8 +96,8 @@ Mainstay::EntryDialog::Created( void )
   this->AddCommandHandler( CommandID::UseCommonParameterButton, [&] ( int, HWND ) -> WMResult {
     if ( entry_->parameter_ ) {
       TtMessageBoxYesNo box;
-      box.SetMessage( "個別設定を廃棄して共通設定を使用します。よろしいですか？" );
-      box.SetCaption( "個別設定廃棄の確認" );
+      box.SetMessage( StrT::Entry::MBUseCommonMessage.Get() );
+      box.SetCaption( StrT::Entry::MBUseCommonCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::QUESTION );
       if ( box.ShowDialog( *this ) == TtMessageBox::Result::YES ) {
         entry_->parameter_.reset();
@@ -109,8 +110,8 @@ Mainstay::EntryDialog::Created( void )
   this->AddCommandHandler( CommandID::UseIndividualParameterButton, [&] ( int, HWND ) -> WMResult {
     if ( NOT( entry_->parameter_ ) ) {
       TtMessageBoxYesNoCancel box;
-      box.SetMessage( "共通設定をコピーして個別設定を使用しますか？（使用しない場合はデフォルト設定になります）" );
-      box.SetCaption( "確認" );
+      box.SetMessage( StrT::Entry::MBUseIndividualMessage.Get() );
+      box.SetCaption( StrT::Entry::MBUseIndividualCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::QUESTION );
       auto ret = box.ShowDialog( *this );
       if ( ret == TtMessageBox::Result::CANCEL ) {
@@ -155,5 +156,5 @@ Mainstay::EntryDialog::Created( void )
 void
 Mainstay::EntryDialog::SetUsingParameterLabelFromParameter( void )
 {
-  using_parameter_label_.SetText( entry_->parameter_ ? "個別設定" : "共通設定" );
+  using_parameter_label_.SetText( entry_->parameter_ ? StrT::Entry::UsingParameterLabelIndividual.Get() : StrT::Entry::UsingParameterLabelCommon.Get() );
 }

@@ -2,6 +2,9 @@
 
 #include <sstream>
 
+#include "string_table.h"
+#include "utility.h"
+
 #include "base/base_exception.h"
 
 using namespace BMX2WAV;
@@ -46,7 +49,7 @@ BL::InvalidCharUsedAsWordException::GetAsString( void ) const
 std::string
 BL::InvalidCharUsedAsWordException::GetMessage( void )
 {
-  return Exception::MakeMessage( "0～9, A～Z 以外の文字をオブジェクトにしようとしました。\r\n文字列 : %s", this->GetAsString().c_str() );
+  return Utility::Format( StrT::Message::InvalidCharUsedAsWord.Get(), this->GetAsString().c_str() );
 }
 
 std::string
@@ -74,7 +77,7 @@ BL::InvalidWordValueUsedException::GetValue( void ) const
 std::string
 BL::InvalidWordValueUsedException::GetMessage( void )
 {
-  return Exception::MakeMessage( "00 ～ ZZ の範囲外の値のオブジェクトが使用されました。\r\n値 : %d", this->GetValue() );
+  return Utility::Format( StrT::Message::InvalidWordValueUsed.Get(), this->GetValue() );
 }
 
 
@@ -104,7 +107,7 @@ BL::BufferOutOfRangeAccessException::GetPosition( void ) const
 std::string
 BL::BufferOutOfRangeAccessException::GetMessage( void )
 {
-  return Exception::MakeMessage( "Buffer の範囲外にアクセスしようとしました。\r\n位置 : %d", this->GetPosition() );
+  return Utility::Format( StrT::Message::BufferOutOfRangeAccess.Get(), this->GetPosition() );
 }
 
 std::string
@@ -131,7 +134,7 @@ BL::RequiredResolutionIsTooBigException::GetRequiredResolution( void ) const
 std::string
 BL::RequiredResolutionIsTooBigException::GetMessage( void )
 {
-  return Exception::MakeMessage( "限界を超える分解能が要求されました。\r\n要求分解能 : %d", this->GetRequiredResolution() );
+  return Utility::Format( StrT::Message::RequiredResolutionIsTooBig.Get(), this->GetRequiredResolution() );
 }
 
 std::string

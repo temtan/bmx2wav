@@ -4,6 +4,7 @@
 #include "tt_string.h"
 
 #include "common.h"
+#include "utility.h"
 
 #include "utility_dialogs.h"
 
@@ -117,6 +118,12 @@ VersionDialog::GetExtendedStyle( void )
 bool
 VersionDialog::Created( void )
 {
+  std::string title = "version information";
+  std::string close_mark = "X";
+  if ( BMX2WAV::Utility::UserDefaultLocaleIsJapanese() ) {
+    title = "バージョン情報";
+    close_mark = "閉";
+  }
   const int ButtonCommandID = 10001;
 
   name_label_.Create( {this} );
@@ -124,7 +131,7 @@ VersionDialog::Created( void )
   date_label_.Create( {this} );
   close_button_.Create( {this, ButtonCommandID} );
 
-  this->SetText( "バージョン情報" );
+  this->SetText( title );
 
   this->SetSize( 300, 108 );
 
@@ -143,7 +150,7 @@ VersionDialog::Created( void )
     date_str.append( __TIME__ );
     date_label_.SetText( date_str );
   }
-  close_button_.SetText( "閉" );
+  close_button_.SetText( close_mark );
 
   this->AddCommandHandler( ButtonCommandID, [this] ( int, HWND ) -> WMResult {
     this->Close();

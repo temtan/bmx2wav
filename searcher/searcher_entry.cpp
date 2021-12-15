@@ -7,6 +7,7 @@
 #include "base/parser.h"
 
 #include "exception.h"
+#include "string_table.h"
 
 #include "searcher/searcher_common.h"
 
@@ -264,7 +265,7 @@ Searcher::EntryPool::WaitThreadDialog::GetExtendedStyle( void )
 bool
 Searcher::EntryPool::WaitThreadDialog::Created( void )
 {
-  this->SetText( "‘Ò‹@’†" );
+  this->SetText( StrT::Searcher::EntryWaitDialog::Title.Get() );
 
   wait_label_.Create( {this} );
 
@@ -272,7 +273,7 @@ Searcher::EntryPool::WaitThreadDialog::Created( void )
   this->SetCenterRelativeToParent();
   wait_label_.SetPositionSize( 4, 12,  160 - 16, 60 );
 
-  wait_label_.SetText( "ˆ—’†‚Å‚·B\r\n‚µ‚Î‚ç‚­‚¨‘Ò‚¿‚­‚¾‚³‚¢" );
+  wait_label_.SetText( StrT::Searcher::EntryWaitDialog::Text.Get() );
 
   thread_.emplace( [&] ( void ) {
     parent_thread_.Join();

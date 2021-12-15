@@ -3,6 +3,9 @@
 #include "ttl_define.h"
 #include "tt_message_box.h"
 
+#include "utility.h"
+#include "string_table.h"
+
 #include "searcher/searcher_common.h"
 #include "searcher/searcher_frame.h"
 
@@ -23,6 +26,9 @@ WinMain( HINSTANCE h_instance,
   TtWindow::InitializeCommonControls();
 
   try {
+    // 言語選択
+    BMX2WAV::StringTable::Initialize( BMX2WAV::IniFileOperation::LoadLanguage() );
+
     BMX2WAV::Searcher::Image::Initialize();
     BMX2WAV::Searcher::MainFrame frame;
     frame.Create();
@@ -39,6 +45,26 @@ WinMain( HINSTANCE h_instance,
     frame.Show();
     return TtForm::LoopDispatchMessage();
   }
+  catch ( BMX2WAV::LanguageException& e ) {
+    // ここだけは生メッセージ
+    if ( BMX2WAV::Utility::UserDefaultLocaleIsJapanese() ) {
+      TtMessageBoxOk box;
+      box.AppendMessage() << "言語 DLL の読み込み時にエラーが発生しました。\r\n";
+      box.AppendMessage() << "言語 : " << e.GetLanguage();
+      box.SetCaption( "言語選択エラー" );
+      box.SetIcon( TtMessageBox::Icon::ERROR );
+      box.ShowDialog();
+    }
+    else {
+      TtMessageBoxOk box;
+      box.AppendMessage() << "Error occurred while loading the language DLL.\r\n";
+      box.AppendMessage() << "Language : " << e.GetLanguage();
+      box.SetCaption( "Language selection error" );
+      box.SetIcon( TtMessageBox::Icon::ERROR );
+      box.ShowDialog();
+    }
+    return 3;
+  }
   catch ( TtException& e ) {
     BMX2WAV::Searcher::IniFileOperation::SaveErrorLogDump( e );
     show_unexpected_error_message_box();
@@ -54,8 +80,8 @@ static void
 show_unexpected_error_message_box( void )
 {
   TtMessageBoxOk box;
-  box.SetMessage( "予期しないエラーが発生しました。アプリケーションを終了させます。" );
-  box.SetCaption( "予期しないエラー" );
+  box.SetMessage( BMX2WAV::StrT::Message::UnexpectedError.Get() );
+  box.SetCaption( BMX2WAV::StrT::Message::UnexpectedErrorCaption.Get() );
   box.SetIcon( TtMessageBox::Icon::ERROR );
   box.ShowDialog();
 }

@@ -41,6 +41,7 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( ErrorLog );
   DEFINE_PARAMETER_NAME_STRING( Dump );
   DEFINE_PARAMETER_NAME_STRING( Time );
+  DEFINE_PARAMETER_NAME_STRING( Language );
 }
 
 void
@@ -77,6 +78,15 @@ IniFileOperation::LoadAutoDisplayCells( void )
   TtIniFile ini;
   TtIniSection section = ini[Tag::BMX2WAV];
   return section.GetBoolean( Tag::AutoDisplayCells, true );
+}
+
+
+std::string
+IniFileOperation::LoadLanguage( void )
+{
+  TtIniFile ini;
+  TtIniSection section = ini[Tag::BMX2WAV];
+  return section.GetString( Tag::Language, "japanese" );
 }
 
 

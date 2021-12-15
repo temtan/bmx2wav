@@ -173,7 +173,7 @@ class PlayerColumn extends HeaderColumn {
 // -- ObjectCountColumn
 class ObjectCountColumn extends Column {
   constructor() {
-    base.constructor( "オブジェクト数" );
+    base.constructor( StrT.Main.ColumnName.ObjectCount.get() );
   }
 
   function display_cell( entry ) {
@@ -192,7 +192,7 @@ class ObjectCountColumn extends Column {
 // -- ObjectOf1PCountColumn
 class ObjectOf1PCountColumn extends Column {
   constructor() {
-    base.constructor( "1Pオブジェクト数" );
+    base.constructor( StrT.Main.ColumnName.ObjectOf1PCount.get() );
   }
 
   function display_cell( entry ) {
@@ -211,7 +211,7 @@ class ObjectOf1PCountColumn extends Column {
 // -- ObjectOf2PCountColumn
 class ObjectOf2PCountColumn extends Column {
   constructor() {
-    base.constructor( "2Pオブジェクト数" );
+    base.constructor( StrT.Main.ColumnName.ObjectOf2PCount.get() );
   }
 
   function display_cell( entry ) {
@@ -230,7 +230,7 @@ class ObjectOf2PCountColumn extends Column {
 // -- MostSeriousErrorColumn
 class MostSeriousErrorColumn extends Column {
   constructor() {
-    base.constructor( "最重エラー" )
+    base.constructor( StrT.Main.ColumnName.MostSeriousError.get() )
   }
 
   function display_cell( entry ) {
@@ -249,11 +249,16 @@ class MostSeriousErrorColumn extends Column {
 // -- ContainsRandomStatementColumn
 class ContainsRandomStatementColumn extends Column {
   constructor() {
-    base.constructor( "ランダム構文" );
+    base.constructor( StrT.Main.ColumnName.RandomStatement.get() );
   }
 
   function display_cell( entry ) {
-    return entry.bms_data.has_random_statement ? "有" : "無";
+    if ( entry.bms_data.has_random_statement ) {
+      return StrT.Main.ColumnName.RandomStatementExist.get();
+    }
+    else {
+      return StrT.Main.ColumnName.RandomStatementNotExist.get();
+    }
   }
 
   function compare( x, y ) {
@@ -268,7 +273,7 @@ class ContainsRandomStatementColumn extends Column {
 // -- FullPathColumn
 class FullPathColumn extends Column {
   constructor() {
-    base.constructor( "ファイルパス" );
+    base.constructor( StrT.Main.ColumnName.FullPath.get() );
   }
 
   function display_cell( entry ) {
@@ -283,7 +288,7 @@ class FullPathColumn extends Column {
 // -- BasenameColumn
 class BasenameColumn extends Column {
   constructor() {
-    base.constructor( "ファイル名" );
+    base.constructor( StrT.Main.ColumnName.Basename.get() );
   }
 
   function display_cell( entry ) {
@@ -298,7 +303,7 @@ class BasenameColumn extends Column {
 // -- ParentDirectoryColumn
 class ParentDirectoryColumn extends Column {
   constructor() {
-    base.constructor( "フォルダ" );
+    base.constructor( StrT.Main.ColumnName.ParentDirectory.get() );
   }
 
   function get_parent_directory( entry ) {
@@ -317,7 +322,7 @@ class ParentDirectoryColumn extends Column {
 // -- ParentsParentDirectoryColumn
 class ParentsParentDirectoryColumn extends Column {
   constructor() {
-    base.constructor( "親フォルダ" );
+    base.constructor( StrT.Main.ColumnName.ParentsParentDirectory.get() );
   }
 
   function get_parents_parent_directory( entry ) {
@@ -336,7 +341,7 @@ class ParentsParentDirectoryColumn extends Column {
 // -- PlayingTimeColumn
 class PlayingTimeColumn extends Column {
   constructor() {
-    base.constructor( "演奏時間" );
+    base.constructor( StrT.Main.ColumnName.PlayingTime.get() );
   }
 
   function display_cell( entry ) {

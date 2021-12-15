@@ -123,6 +123,7 @@ namespace BMX2WAV {
     bool LoadPlacement( WINDOWPLACEMENT& placement );
     void SaveAutoDisplayCells( bool flag );
     bool LoadAutoDisplayCells( void );
+    std::string LoadLanguage( void );
 
     void SaveErrorLogDump( TtException& e );
 

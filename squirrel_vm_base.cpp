@@ -819,6 +819,10 @@ SquirrelVMBase::Initialize( void )
       this->NewNullSlotOfTopByString( Tag::name );
       this->NewNullSlotOfTopByString( Tag::items );
     } );
+
+  // ---------------------------------------------------------------------
+  // StringTable —‚Ý
+  this->InitializeStringTable();
 }
 
 

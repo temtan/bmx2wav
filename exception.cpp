@@ -3,12 +3,16 @@
 #include "tt_string.h"
 #include "tt_enum.h"
 
+#include "string_table.h"
+#include "utility.h"
+
 #include "exception.h"
 
 using namespace BMX2WAV;
 
 
 // -- Exception --------------------------------------------------------
+/*
 std::string
 Exception::MakeMessage( const char* format, ... )
 {
@@ -19,6 +23,7 @@ Exception::MakeMessage( const char* format, ... )
   va_end( args );
   return tmp;
 }
+*/
 
 Exception::Exception( void ) :
 TtException()
@@ -28,7 +33,7 @@ TtException()
 std::string
 Exception::GetMessage( void )
 {
-  return Exception::MakeMessage( "Error" );
+  return Utility::Format( "Error" );
 }
 
 
@@ -56,7 +61,7 @@ InternalException::GetLine( void ) const
 std::string
 InternalException::GetMessage( void )
 {
-  return Exception::MakeMessage( "内部エラーが発生しました。\r\nファイル : %s\r\n行番号 : %d", file_, line_ );
+  return Utility::Format( StrT::Message::InternalError.Get(), file_, line_ );
 }
 
 
@@ -68,6 +73,32 @@ InternalException::Dump( void ) const
   return os.str();
 }
 
+
+// -- LanguageException --------------------------------------------------
+LanguageException::LanguageException( const std::string& language ) :
+language_( language )
+{
+}
+
+const std::string&
+LanguageException::GetLanguage( void )
+{
+  return language_;
+}
+
+std::string
+LanguageException::GetMessage( void )
+{
+  throw BMX2WAV_INTERNAL_EXCEPTION;
+}
+
+std::string
+LanguageException::Dump( void ) const
+{
+  std::ostringstream os;
+  os << typeid( *this ).name() << " : " << language_;
+  return os.str();
+}
 
 // -- ConvertException ---------------------------------------------------
 ConvertException::ConvertException( ErrorLevel error_level ) :
@@ -119,7 +150,7 @@ WithObjectNumberException( object_number )
 std::string
 EntriedAudioFileNotFoundException::GetMessage( void )
 {
-  return Exception::MakeMessage( "指定された音声ファイルが存在しません。ヘッダ : WAV%s ; ファイル : %s", this->GetObjectNumber().ToCharPointer(), this->GetFilePath().c_str() );
+  return Utility::Format( StrT::Message::EntriedAudioFileNotFound.Get(), this->GetObjectNumber().ToCharPointer(), this->GetFilePath().c_str() );
 }
 
 
@@ -134,7 +165,7 @@ WithErrorNumberException( error_number )
 std::string
 AudioFileOpenException::GetMessage( void )
 {
-  return Exception::MakeMessage( "音声ファイルを開くのに失敗しました。ファイル : %s ; メッセージ : %s", this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
+  return Utility::Format( StrT::Message::AudioFileOpenError.Get(), this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
 }
 
 
@@ -148,7 +179,7 @@ WithErrorNumberException( error_number )
 std::string
 WavFileReadException::GetMessage( void )
 {
-  return Exception::MakeMessage( "WAV ファイルの読み込みに失敗しました。ファイル : %s ; メッセージ : %s", this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
+  return Utility::Format( StrT::Message::WavFileReadError.Get(), this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
 }
 
 
@@ -162,7 +193,7 @@ WithErrorNumberException( error_number )
 std::string
 WavFileWriteException::GetMessage( void )
 {
-  return Exception::MakeMessage( "WAV ファイルの書き込みに失敗しました。ファイル : %s ; メッセージ : %s", this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
+  return Utility::Format( StrT::Message::WavFileWriteError.Get(), this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
 }
 
 
@@ -178,7 +209,7 @@ WithErrorNumberException( error_number )
 std::string
 OggFileOpenException::GetMessage( void )
 {
-  return Exception::MakeMessage( "ogg ファイルを開くのに失敗しました。ファイル : %s ; エラー番号 : %d", this->GetFilePath().c_str(), error_number_ );
+  return Utility::Format( StrT::Message::OggFileOpenError.Get(), this->GetFilePath().c_str(), error_number_ );
 }
 
 
@@ -191,7 +222,7 @@ AudioFileErrorWith( path )
 std::string
 OggFileReadException::GetMessage( void )
 {
-  return Exception::MakeMessage( "ogg ファイルの読み込みに失敗しました。ファイル : %s", this->GetFilePath().c_str() );
+  return Utility::Format( StrT::Message::OggFileReadError.Get(), this->GetFilePath().c_str() );
 }
 
 
@@ -205,7 +236,7 @@ reason_( reason )
 std::string
 InvalidWavFileFormatException::GetMessage( void )
 {
-  return Exception::MakeMessage( "WAV ファイルの形式が不正です。ファイル : %s ; 理由 : %s", this->GetFilePath().c_str(), reason_.c_str() );
+  return Utility::Format( StrT::Message::InvalidWavFileFormat.Get(), this->GetFilePath().c_str(), reason_.c_str() );
 }
 
 const std::string&
@@ -224,7 +255,7 @@ reason_( reason )
 std::string
 UnsupportedWavFileFormatException::GetMessage( void )
 {
-  return Exception::MakeMessage( "サポートしていない WAV ファイルの形式です。ファイル : %s ; 理由 : %s", this->GetFilePath().c_str(), reason_.c_str() );
+  return Utility::Format( StrT::Message::UnsupportedWavFileFormat.Get(), this->GetFilePath().c_str(), reason_.c_str() );
 }
 
 const std::string&
@@ -243,7 +274,7 @@ source_( source )
 std::string
 BadAllocationException::GetMessage( void )
 {
-  return Exception::MakeMessage( "メモリ確保に失敗しました。 メッセージ : %s", source_.what() );
+  return Utility::Format( StrT::Message::BadAllocation.Get(), source_.what() );
 }
 
 
@@ -264,7 +295,7 @@ std::string
 BmsFileAccessException::GetMessage( void )
 {
   auto tmp = TtUtility::GetANSIErrorMessage( error_number_ );
-  return Exception::MakeMessage( "BMS ファイルのアクセスでエラーがありました。ファイル : %s ; メッセージ : %s", this->GetFilePath().c_str(), tmp.c_str() );
+  return Utility::Format( StrT::Message::BmsFileAccessError.Get(), this->GetFilePath().c_str(), tmp.c_str() );
 }
 
 
@@ -278,7 +309,7 @@ WithFilePathException( path )
 std::string
 OutputFileIsInputFilePathException::GetMessage( void )
 {
-  return Exception::MakeMessage( "出力ファイルのパスが BMS ファイルの WAV で指定されている入力ファイルになっています。ヘッダ名 : WAV%s ; ファイルパス : %s", this->GetObjectNumber().ToCharPointer(), this->GetFilePath().c_str() );
+  return Utility::Format( StrT::Message::OutputFileIsInputFilePath.Get(), this->GetObjectNumber().ToCharPointer(), this->GetFilePath().c_str() );
 }
 
 
@@ -290,7 +321,7 @@ InvalidFormatAsBpmHeaderException::InvalidFormatAsBpmHeaderException( void )
 std::string
 InvalidFormatAsBpmHeaderException::GetMessage( void )
 {
-  return Exception::MakeMessage( "指定された BPM の表記が不正です。" );
+  return Utility::Format( StrT::Message::InvalidFormatAsBpmHeader.Get() );
 }
 
 
@@ -303,7 +334,7 @@ WithObjectNumberException( object_number )
 std::string
 InvalidFormatAsExtendedBpmChangeValueException::GetMessage( void )
 {
-  return Exception::MakeMessage( "指定された拡張 BPM の表記が不正です。ヘッダ名 BPM%s", this->GetObjectNumber().ToCharPointer() );
+  return Utility::Format( StrT::Message::InvalidFormatAsExtendedBpm.Get(), this->GetObjectNumber().ToCharPointer() );
 }
 
 
@@ -316,7 +347,7 @@ WithObjectNumberException( object_number )
 std::string
 InvalidFormatAsStopSequenceException::GetMessage( void )
 {
-  return Exception::MakeMessage( "指定されたストップシーケンスの表記が不正です。ヘッダ名 STOP%s", this->GetObjectNumber().ToCharPointer() );
+  return Utility::Format( StrT::Message::InvalidFormatAsStopSequence.Get(), this->GetObjectNumber().ToCharPointer() );
 }
 
 // -- InvalidFormatAsLongNoteObjectHeaderException -----------------------
@@ -327,7 +358,7 @@ InvalidFormatAsLongNoteObjectHeaderException::InvalidFormatAsLongNoteObjectHeade
 std::string
 InvalidFormatAsLongNoteObjectHeaderException::GetMessage( void )
 {
-  return Exception::MakeMessage( "LNOBJ で指定された表記が不正です。" );
+  return Utility::Format( StrT::Message::InvalidFormatAsLNOBJHeader.Get() );
 }
 
 
@@ -341,9 +372,9 @@ end_( end )
 std::string
 LongNoteObjectInvalidEncloseException::GetMessage( void )
 {
-  auto tmp1 = Exception::MakeMessage( "( 小節:%d - ch:%s - object:%s )", start_.bar_number_, start_.channel_number_.ToCharPointer(), start_.object_number_.ToCharPointer() );
-  auto tmp2 = Exception::MakeMessage( "( 小節:%d - ch:%s - object:%s )", end_.bar_number_,   end_.channel_number_.ToCharPointer(),   end_.object_number_.ToCharPointer() );
-  return Exception::MakeMessage( "ロングノートの終端のオブジェクトが始端と異なっています。 始端 : %s ; 終端 : %s", tmp1.c_str(), tmp2.c_str() );
+  auto tmp1 = Utility::Format( StrT::Message::LNObjectInvalidEncloseAdd.Get(), start_.bar_number_, start_.channel_number_.ToCharPointer(), start_.object_number_.ToCharPointer() );
+  auto tmp2 = Utility::Format( StrT::Message::LNObjectInvalidEncloseAdd.Get(), end_.bar_number_,   end_.channel_number_.ToCharPointer(),   end_.object_number_.ToCharPointer() );
+  return Utility::Format( StrT::Message::LNObjectInvalidEnclose.Get(), tmp1.c_str(), tmp2.c_str() );
 }
 
 BL::ObjectWithLocation
@@ -369,7 +400,7 @@ std::string
 LongNoteObjectNotEnclosedException::GetMessage( void )
 {
   auto tmp = this->GetObjectWithLocation();
-  return Exception::MakeMessage( "ロングノートの終端がありません。始端小節番号 : %d ; チャンネル : %s ; オブジェクト : %s", tmp.bar_number_, tmp.channel_number_.ToCharPointer(), tmp.object_number_.ToCharPointer() );
+  return Utility::Format( StrT::Message::LNObjectNotEnclosed.Get(), tmp.bar_number_, tmp.channel_number_.ToCharPointer(), tmp.object_number_.ToCharPointer() );
 }
 
 
@@ -383,7 +414,7 @@ std::string
 NotEntriedWavWasUsedException::GetMessage( void )
 {
   auto tmp = this->GetObjectWithLocation();
-  return Exception::MakeMessage( "WAV として登録されていないオブジェクトが使用されました。 小節番号 : %d ; チャンネル : %s ; オブジェクト : %s", tmp.bar_number_, tmp.channel_number_.ToCharPointer(), tmp.object_number_.ToCharPointer() );
+  return Utility::Format( StrT::Message::NotEntriedWavWasUsed.Get(), tmp.bar_number_, tmp.channel_number_.ToCharPointer(), tmp.object_number_.ToCharPointer() );
 }
 
 // -- InvalidFormatAsBpmChangeValueException -----------------------------
@@ -396,7 +427,7 @@ WithObjectNumberException( object_number )
 std::string
 InvalidFormatAsBpmChangeValueException::GetMessage( void )
 {
-  return Exception::MakeMessage( "通常の BPM 変更に使用されたオブジェクトが不正です。 小節番号 : %d ; オブジェクト : %s", this->GetBarNumber(), this->GetObjectNumber().ToCharPointer() );
+  return Utility::Format( StrT::Message::InvalidFormatAsBpmChange.Get(), this->GetBarNumber(), this->GetObjectNumber().ToCharPointer() );
 }
 
 // -- ExtendedBpmChangeEntryNotExistException ----------------------------
@@ -409,7 +440,7 @@ WithObjectNumberException( object_number )
 std::string
 ExtendedBpmChangeEntryNotExistException::GetMessage( void )
 {
-  return Exception::MakeMessage( "拡張 BPM 変更でヘッダに未設定のオブジェクトが使用されました。 小節番号 : %d ; オブジェクト : %s", this->GetBarNumber(), this->GetObjectNumber().ToCharPointer() );
+  return Utility::Format( StrT::Message::ExBpmChangeEntryNotExist.Get(), this->GetBarNumber(), this->GetObjectNumber().ToCharPointer() );
 }
 
 // -- StopSequenceEntryNotExistException ---------------------------------
@@ -422,7 +453,7 @@ WithObjectNumberException( object_number )
 std::string
 StopSequenceEntryNotExistException::GetMessage( void )
 {
-  return Exception::MakeMessage( "ストップシーケンスでヘッダに未設定のオブジェクトが使用されました。 小節番号 : %d ; オブジェクト : %s", this->GetBarNumber(), this->GetObjectNumber().ToCharPointer() );
+  return Utility::Format( StrT::Message::StopSequenceEntryNotExist.Get(), this->GetBarNumber(), this->GetObjectNumber().ToCharPointer() );
 }
 
 // -- OutputFileAccessException ----------------------------------------
@@ -435,5 +466,5 @@ WithErrorNumberException( parent.GetErrorNumber() )
 std::string
 OutputFileAccessException::GetMessage( void )
 {
-  return Exception::MakeMessage( "出力用の音声ファイルを開くのに失敗しました。ファイル : %s ; メッセージ : %s", this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
+  return Utility::Format( StrT::Message::OutputFileAccessError.Get(), this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
 }

@@ -1,6 +1,7 @@
 // mainstay/custom_control.cpp
 
 #include "common.h"
+#include "string_table.h"
 
 #include "mainstay/custom_control.h"
 
@@ -29,44 +30,44 @@ column_group_menu_( TtSubMenuCommand::Create() )
   };
   using Index = Image::Index;
 
-  this->AppendMenu( file_menu_, "ファイル(&F)" );
-  add_menu( file_menu_, CommandID::Close, Index::None, "終了(&X)" );
+  this->AppendMenu( file_menu_, StrT::Main::Menu::File.Get() );
+  add_menu( file_menu_, CommandID::Close, Index::None, StrT::Main::Menu::FileClose.Get() );
 
-  this->AppendMenu( view_menu_, "表示(&V)" );
-  add_menu( view_menu_, CommandID::AutoDisplayCells, Index::AutoDisplayCells, "自動でセルの内容を表示する(&T)" );
+  this->AppendMenu( view_menu_, StrT::Main::Menu::View.Get() );
+  add_menu( view_menu_, CommandID::AutoDisplayCells, Index::AutoDisplayCells, StrT::Main::Menu::ViewAutoDisplayCells.Get() );
   view_menu_.GetLastItem().SetCheck( true );
-  view_menu_.AppendMenu( column_group_menu_, "表示するカラムグループ(&G)" );
-  add_menu( view_menu_, CommandID::DisplayCells,     Index::DisplayCells,     "セルの内容を表示する(&D)" );
-  add_menu( view_menu_, CommandID::Reload,           Index::Reload,           "BMSの再読込(&R)" );
+  view_menu_.AppendMenu( column_group_menu_, StrT::Main::Menu::ViewColumnGroup.Get() );
+  add_menu( view_menu_, CommandID::DisplayCells,     Index::DisplayCells,     StrT::Main::Menu::ViewDisplayCells.Get() );
+  add_menu( view_menu_, CommandID::Reload,           Index::Reload,           StrT::Main::Menu::ViewReload.Get() );
 
-  this->AppendMenu( edit_menu_, "編集(&E)" );
-  add_menu( edit_menu_, CommandID::EditCommonParameter,     Index::EditCommonParameter,     "共通設定の編集(&E)..." );
+  this->AppendMenu( edit_menu_, StrT::Main::Menu::Edit.Get() );
+  add_menu( edit_menu_, CommandID::EditCommonParameter,     Index::EditCommonParameter,     StrT::Main::Menu::EditEditCommonParameter.Get() );
   edit_menu_.AppendSeparator();
-  add_menu( edit_menu_, CommandID::AddEntry,                Index::AddEntry,                "BMSの追加(&A)" );
+  add_menu( edit_menu_, CommandID::AddEntry,                Index::AddEntry,                StrT::Main::Menu::EditAddEntry.Get() );
   edit_menu_.AppendSeparator();
-  add_menu( edit_menu_, CommandID::DeleteEntry,             Index::DeleteEntry,             "BMSの削除(&D)" );
-  add_menu( edit_menu_, CommandID::DeleteAllEntry,          Index::DeleteAllEntry,          "全BMSの削除(&E)" );
+  add_menu( edit_menu_, CommandID::DeleteEntry,             Index::DeleteEntry,             StrT::Main::Menu::EditDeleteEntry.Get() );
+  add_menu( edit_menu_, CommandID::DeleteAllEntry,          Index::DeleteAllEntry,          StrT::Main::Menu::EditDeleteAllEntry.Get() );
   edit_menu_.AppendSeparator();
-  add_menu( edit_menu_, CommandID::ShowPropertyOfEntry,     Index::ShowPropertyOfEntry,     "BMSのプロパティ(&P)..." );
-  add_menu( edit_menu_, CommandID::EditIndividualParameter, Index::EditIndividualParameter, "BMSの個別設定(&I)..." );
+  add_menu( edit_menu_, CommandID::ShowPropertyOfEntry,     Index::ShowPropertyOfEntry,     StrT::Main::Menu::EditShowPropertyOfEnty.Get() );
+  add_menu( edit_menu_, CommandID::EditIndividualParameter, Index::EditIndividualParameter, StrT::Main::Menu::EditEditIndividualParameter.Get() );
 
-  this->AppendMenu( convert_menu_, "変換(&C)" );
-  add_menu( convert_menu_, CommandID::ConvertOneBms, Index::ConvertOneBms, "個別に変換する(&C)..." );
-  add_menu( convert_menu_, CommandID::ConvertAllBms, Index::ConvertAllBms, "全て変換する(&A)..." );
+  this->AppendMenu( convert_menu_, StrT::Main::Menu::Convert.Get() );
+  add_menu( convert_menu_, CommandID::ConvertOneBms, Index::ConvertOneBms, StrT::Main::Menu::ConvertConvertOneBms.Get() );
+  add_menu( convert_menu_, CommandID::ConvertAllBms, Index::ConvertAllBms, StrT::Main::Menu::ConvertConvertAllBms.Get() );
 
-  this->AppendMenu( tool_menu_, "ツール(&T)" );
+  this->AppendMenu( tool_menu_, StrT::Main::Menu::Tool.Get() );
   /*
   // TODO いる？
-  add_menu( tool_menu_, CommandID::Settings,              Index::None, "環境設定(&S)..." );
+  add_menu( tool_menu_, CommandID::Settings,              Index::None, StrT::Main::Menu::ToolSettings.Get() );
   tool_menu_.AppendSeparator();
    */
-  add_menu( tool_menu_, CommandID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     "スクリプトファイルを再読み込みする(&R)" );
-  add_menu( tool_menu_, CommandID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, "スクリプト出力ダイアログを表示する(&O)..." );
+  add_menu( tool_menu_, CommandID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     StrT::Main::Menu::ToolReloadSquirrelScript.Get() );
+  add_menu( tool_menu_, CommandID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Main::Menu::ToolShowSquirrelOutputDialog.Get() );
   tool_menu_.AppendSeparator();
-  add_menu( tool_menu_, CommandID::StartSearcher,            Index::SearcherMainSmall,        "BMX2WAV Searcherを起動する(&T)..." );
+  add_menu( tool_menu_, CommandID::StartSearcher,            Index::SearcherMainSmall,        StrT::Main::Menu::ToolStartSearcher.Get() );
 
-  this->AppendMenu( help_menu_, "ヘルプ(&H)" );
-  add_menu( help_menu_, CommandID::VersionInformation, Index::None, "バージョン情報(&A)..." );
+  this->AppendMenu( help_menu_, StrT::Main::Menu::Help.Get() );
+  add_menu( help_menu_, CommandID::VersionInformation, Index::None, StrT::Main::Menu::HelpVersionInformation.Get() );
 
   if ( IniFileOperation::LoadTestMode() ) {
     this->AppendMenu( prototype_menu_, "開発中" );
@@ -91,14 +92,14 @@ last_selected_item_( nullptr, TtListViewItem::INVALID_INDEX )
   };
   using Index = Image::Index;
 
-  add_menu( CommandID::ShowPropertyOfEntry,     Index::ShowPropertyOfEntry,     "プロパティ(&P)" );
-  add_menu( CommandID::EditIndividualParameter, Index::EditIndividualParameter, "個別設定編集(&E)" );
+  add_menu( CommandID::ShowPropertyOfEntry,     Index::ShowPropertyOfEntry,     StrT::Main::PopupEntry::ShowPropertyOfEntry.Get() );
+  add_menu( CommandID::EditIndividualParameter, Index::EditIndividualParameter, StrT::Main::PopupEntry::EditIndividualParameter.Get() );
   this->AppendSeparator();
-  add_menu( CommandID::ConvertOneBms,           Index::ConvertOneBms,           "変換(&C)" );
+  add_menu( CommandID::ConvertOneBms,           Index::ConvertOneBms,           StrT::Main::PopupEntry::ConvertOneBms.Get() );
   this->AppendSeparator();
-  add_menu( CommandID::DeleteEntry,             Index::DeleteEntry,             "削除(&D)" );
+  add_menu( CommandID::DeleteEntry,             Index::DeleteEntry,             StrT::Main::PopupEntry::DeleteEntry.Get() );
   this->AppendSeparator();
-  this->AppendMenu( entry_processor_menu_, "スクリプト関数を実行する(&F)" );
+  this->AppendMenu( entry_processor_menu_, StrT::Main::PopupEntry::ProcessorMenu.Get() );
   // この辺の構成を変えたら↓の EntryProcessorElement の数値を変える事
 }
 
@@ -161,28 +162,28 @@ Mainstay::MainToolBar::CreatedInternal( void )
     label.Show();
   };
 
-  add_button( ID::AutoDisplayCells, Index::AutoDisplayCells, "セルの自動表示", TtToolBar::Button::Style::Standard | TtToolBar::Button::Style::Check );
-  add_label( ID::SelectColumnLabel, select_column_label_, "カラム表示", 60 );
+  add_button( ID::AutoDisplayCells, Index::AutoDisplayCells, StrT::Main::Toolbar::AutoDisplayCells.Get(), TtToolBar::Button::Style::Standard | TtToolBar::Button::Style::Check );
+  add_label( ID::SelectColumnLabel, select_column_label_, StrT::Main::Toolbar::SelectColumnLael.Get(), 60 );
   add_drop_down_box( ID::SelectColumnGroup, select_column_group_box_, 120, 120 );
-  add_standard_button( ID::DisplayCells, Index::DisplayCells, "セルの内容を表示する" );
-  add_standard_button( ID::Reload,       Index::Reload,       "BMSの再読込" );
+  add_standard_button( ID::DisplayCells, Index::DisplayCells, StrT::Main::Toolbar::DisplayCells.Get() );
+  add_standard_button( ID::Reload,       Index::Reload,       StrT::Main::Toolbar::Reload.Get() );
   this->AddSeparator();
-  add_standard_button( ID::EditCommonParameter, Index::EditCommonParameter, "共通設定の編集" );
+  add_standard_button( ID::EditCommonParameter, Index::EditCommonParameter, StrT::Main::Toolbar::EditCommonParameter.Get() );
   this->AddSeparator();
-  add_standard_button( ID::AddEntry,       Index::AddEntry,       "BMSの追加" );
-  add_standard_button( ID::DeleteEntry,    Index::DeleteEntry,    "BMSの削除" );
-  add_standard_button( ID::DeleteAllEntry, Index::DeleteAllEntry, "全BMSの削除" );
+  add_standard_button( ID::AddEntry,       Index::AddEntry,       StrT::Main::Toolbar::AddEntry.Get() );
+  add_standard_button( ID::DeleteEntry,    Index::DeleteEntry,    StrT::Main::Toolbar::DeleteEntry.Get() );
+  add_standard_button( ID::DeleteAllEntry, Index::DeleteAllEntry, StrT::Main::Toolbar::DeleteAllEntry.Get() );
   this->AddSeparator();
-  add_standard_button( ID::ShowPropertyOfEntry,     Index::ShowPropertyOfEntry,     "BMSのプロパティ" );
-  add_standard_button( ID::EditIndividualParameter, Index::EditIndividualParameter, "BMSの個別設定" );
+  add_standard_button( ID::ShowPropertyOfEntry,     Index::ShowPropertyOfEntry,     StrT::Main::Toolbar::ShowPropertyOfEntry.Get() );
+  add_standard_button( ID::EditIndividualParameter, Index::EditIndividualParameter, StrT::Main::Toolbar::EditIndividualParameter.Get() );
   this->AddSeparator();
-  add_standard_button( ID::ConvertOneBms, Index::ConvertOneBms, "個別に変換する" );
-  add_standard_button( ID::ConvertAllBms, Index::ConvertAllBms, "全て変換する");
+  add_standard_button( ID::ConvertOneBms, Index::ConvertOneBms, StrT::Main::Toolbar::ConvertOneBms.Get() );
+  add_standard_button( ID::ConvertAllBms, Index::ConvertAllBms, StrT::Main::Toolbar::ConvertAllBms.Get() );
   this->AddSeparator();
-  add_standard_button( ID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     "スクリプトファイルを再読み込みする");
-  add_standard_button( ID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, "スクリプト出力ダイアログを表示する");
+  add_standard_button( ID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     StrT::Main::Toolbar::ReloadSquirrelScript.Get() );
+  add_standard_button( ID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Main::Toolbar::ShowSquirrelOutputDialog.Get() );
   this->AddSeparator();
-  add_standard_button( ID::StartSearcher, Index::SearcherMainSmall, "BMX2WAV Searcherを起動する");
+  add_standard_button( ID::StartSearcher, Index::SearcherMainSmall, StrT::Main::Toolbar::StartSearcher.Get() );
 
   return true;
 }

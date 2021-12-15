@@ -3,6 +3,7 @@
 #include "tt_path.h"
 #include "tt_string.h"
 
+#include "string_table.h"
 #include "utility.h"
 
 #include "exception.h"
@@ -168,7 +169,7 @@ Core::Converter::BmsFileParse( void )
   parser.callbacks_.resolution_extended_ = [usable_memory_mega_byte_size = parameter_.usable_memory_mega_byte_size_] ( BL::Parser::Parser& parser, BL::Parser::Channel& channel, unsigned int new_resolution ) {
     auto use_size = Utility::GetCurrentProcessWorkingSetSize();
     if ( usable_memory_mega_byte_size != 0 && use_size / 1000 / 1000 > usable_memory_mega_byte_size ) {
-      std::string message = "使用メモリが設定された限界を超えました。実使用メモリ : " + TtUtility::ToStringFrom( use_size / 1000 / 1000 ) + "MB. 要求分解能 : " + TtUtility::ToStringFrom( new_resolution );
+      auto message = Utility::Format( StrT::Message::Converter::UsedMemoryExceededLimit.Get(), use_size / 1000 / 1000, new_resolution );
       parser.CauseErrorWithoutCallback( std::make_shared<BL::Parser::BmsDescriptionCustomMessageException>( *channel.raw_line_, ErrorLevel::ImmediatelyAbort, message ) );
     }
   };
@@ -205,12 +206,12 @@ Core::Converter::BmsDataPreprocess( void )
   if ( auto it = info_.bms_data_->headers_.find( "BPM" ); it != info_.bms_data_->headers_.end() ) {
     if ( NOT( TtUtility::StringToDouble( it->second, &info_.bpm_ ) ) || info_.bpm_ == 0.0 ) {
       this->SafeErrorCallback<&Callbacks::invalid_format_as_bpm_header_>();
-      this->PushExceptionMessage( "BPM はデフォルト値の 120 を使用します。" );
+      this->PushExceptionMessage( StrT::Message::Converter::UseDefaultBPM.Get() );
       info_.bpm_ = 120.0;
     }
   }
   else {
-    this->PushExceptionMessage( "BPM が指定されなかった為、デフォルト値の 120 を使用します。" );
+    this->PushExceptionMessage( StrT::Message::Converter::UseDefaultBPMNoSpecified.Get() );
     info_.bpm_ = 120.0;
   }
 
@@ -219,7 +220,7 @@ Core::Converter::BmsDataPreprocess( void )
     if ( info_.bms_data_->extended_bpm_array_.IsExists( i ) ) {
       if ( double tmp; NOT( TtUtility::StringToDouble( info_.bms_data_->extended_bpm_array_[i], &tmp ) ) || tmp == 0.0 ) {
         this->SafeErrorCallback<&Callbacks::invalid_format_as_extended_bpm_change_value_>( i );
-        this->PushExceptionMessage( "BPM%s は指定されなかったとします。", i.ToCharPointer() );
+        this->PushExceptionMessage( StrT::Message::Converter::TreatExtendedBPMAsNotSpecified.Get(), i.ToCharPointer() );
       }
       else {
         info_.extended_bpm_table_[i] = tmp;
@@ -229,10 +230,10 @@ Core::Converter::BmsDataPreprocess( void )
       if ( int tmp; NOT( TtUtility::StringToInteger( info_.bms_data_->stop_sequence_array_[i], &tmp ) ) ) {
         this->SafeErrorCallback<&Callbacks::invalid_format_as_stop_sequence_>( i );
         if ( double tmp_double; NOT( TtUtility::StringToDouble( info_.bms_data_->stop_sequence_array_[i], &tmp_double ) ) ) {
-          this->PushExceptionMessage( "STOP%s は指定されなかったとします。", i.ToCharPointer() );
+          this->PushExceptionMessage( StrT::Message::Converter::TreatStopSequenceAsNotSpecified.Get(), i.ToCharPointer() );
         }
         else {
-          this->PushExceptionMessage( "STOP%s に小数が指定されました。仕様上は整数のみ指定可能ですが指定された小数を使います。", i.ToCharPointer() );
+          this->PushExceptionMessage( StrT::Message::Converter::DecimalIsSpecifiedAsStopSequence.Get(), i.ToCharPointer() );
           info_.stop_sequence_table_[i] = tmp_double;
         }
       }
@@ -247,7 +248,7 @@ Core::Converter::BmsDataPreprocess( void )
     std::string tmp = it->second;
     if ( tmp.size() != 2 || NOT( BL::Word::CanConstructAsWord( tmp ) ) || BL::Word( tmp ) == BL::Word::MIN ) {
       this->SafeErrorCallback<&Callbacks::invalid_format_as_lnobj_>();
-      this->PushExceptionMessage( "LNOBJ は指定されなかったとします。" );
+      this->PushExceptionMessage( StrT::Message::Converter::TreatLNOBJAsNotSpecified.Get() );
     }
     else {
       info_.lnobj_word_ = BL::Word( tmp );
@@ -274,13 +275,13 @@ Core::Converter::ReadAudioFiles( void )
 
       if ( NOT( TtPath::FileExists( path ) ) ) {
         this->SafeErrorCallback<&Callbacks::entried_audio_file_not_found_>( i, path );
-        this->PushExceptionMessage( "WAV%s は指定されなかったとします。", i.ToCharPointer() );
+        this->PushExceptionMessage( StrT::Message::Converter::TreatWavAsNotSpecified.Get(), i.ToCharPointer() );
         continue;
       }
 
       if ( TtPath::AreTheseSamePath( path, info_.output_file_path_ ) ) {
         this->SafeErrorCallback<&Callbacks::output_file_is_input_file_path_>( i, path );
-        this->PushExceptionMessage( "WAV%s は指定されなかったとします。", i.ToCharPointer() );
+        this->PushExceptionMessage( StrT::Message::Converter::TreatWavAsNotSpecified.Get(), i.ToCharPointer() );
         continue;
       }
 
@@ -296,7 +297,7 @@ Core::Converter::ReadAudioFiles( void )
       }
       catch ( AudioFileError& ex ) {
         this->SafeErrorCallbackOf( ex.ToSharedPointer(), callbacks_.wav_file_access_error_ );
-        this->PushExceptionMessage( "WAV%s には空の音声ファイルが指定されたとします。", i.ToCharPointer() );
+        this->PushExceptionMessage( StrT::Message::Converter::TreatEmptyFileAsSpecifiedAsWav.Get(), i.ToCharPointer() );
         info_.wave_table_[i] = std::make_shared<Core::Wave>();
       }
     }
@@ -376,7 +377,7 @@ Core::Converter::MixinWaves( void )
         else if ( current_channel.IsBpmChangeChannel() ) {
           if ( int new_bpm; NOT( TtUtility::StringToInteger( current_word.ToCharPointer(), &new_bpm, 16 ) ) ) {
             this->SafeErrorCallback<&Callbacks::invalid_format_as_bpm_change_value_>( current_bar_number, current_word );
-            this->PushExceptionMessage( "BPM は変更されなかったとします。 小節番号 : %d", current_bar_number );
+            this->PushExceptionMessage( StrT::Message::Converter::TreatBPMAsNotChangedWithNumber.Get(), current_bar_number );
           }
           else {
             info_.bpm_ = static_cast<double>( new_bpm );
@@ -386,7 +387,7 @@ Core::Converter::MixinWaves( void )
         else if ( current_channel.IsExtendedBpmChangeChannel() ) {
           if ( auto it = info_.extended_bpm_table_.find( current_word ); it == info_.extended_bpm_table_.end() ) {
             this->SafeErrorCallback<&Callbacks::extended_bpm_change_entry_not_exist_>( current_bar_number, current_word );
-            this->PushExceptionMessage( "BPM は変更されなかったとします。 小節番号 : %d  オブジェクト : %s", current_bar_number, current_word.ToCharPointer() );
+            this->PushExceptionMessage( StrT::Message::Converter::TreatBPMAsNotChangedWithNumberObject.Get(), current_bar_number, current_word.ToCharPointer() );
           }
           else {
             info_.bpm_ = it->second;
@@ -397,7 +398,7 @@ Core::Converter::MixinWaves( void )
           if ( auto it = info_.stop_sequence_table_.find( current_word ); it == info_.stop_sequence_table_.end() ) {
             // this->SafeErrorCallbackOf<StopSequenceEntryNotExistException>( &Callbacks::stop_sequence_entry_not_exist_, current_bar_number, current_word );
             this->SafeErrorCallback<&Callbacks::stop_sequence_entry_not_exist_>( current_bar_number, current_word );
-            this->PushExceptionMessage( "ストップシーケンスはなかったとします。 小節番号 : %d  オブジェクト : %s", current_bar_number, current_word.ToCharPointer() );
+            this->PushExceptionMessage( StrT::Message::Converter::TreatStopSequenceAsNothing.Get(), current_bar_number, current_word.ToCharPointer() );
           }
           else {
             current_stop_sequence = info_.stop_sequence_table_[current_word];
@@ -587,6 +588,6 @@ template <class... Args>
 void
 Core::Converter::PushExceptionMessage( const std::string& format, Args... args )
 {
-  std::string message = Exception::MakeMessage( format.c_str(), args... );
+  std::string message = Utility::Format( format, args... );
   this->SafeErrorCallback<&Callbacks::message_only_exception_>( message );
 }

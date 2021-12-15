@@ -4,6 +4,8 @@
 #include "tt_window_utility.h"
 #include "tt_file_dialog.h"
 
+#include "string_table.h"
+
 #include "parameter_property_sheet.h"
 
 using namespace BMX2WAV;
@@ -11,7 +13,7 @@ using namespace BMX2WAV;
 
 // -- GeneralPage --------------------------------------------------------
 ParameterPropertySheet::GeneralPage::GeneralPage( Core::ConvertParameter& parameter, ParameterPropertySheet& parent ) :
-Page( "全般" ),
+Page( StrT::PPS::General.Get() ),
 parameter_( parameter ),
 parent_( parent )
 {
@@ -50,16 +52,16 @@ ParameterPropertySheet::GeneralPage::Created( void )
   log_edit_.SetPositionSize(           12, 236, 300, 20 );
   log_ref_button_.SetPositionSize(    316, 236,  52, 20 );
 
-  load_save_group_.SetText( "設定の読み込み・保存" );
-  load_button_.SetText( "設定を読み込む(&D)" );
-  save_button_.SetText( "設定を保存する(&A)" );
-  name_label_.SetText( "この設定の名前(&N)" );
-  use_script_check_.SetText( "スクリプトファイルを使用する(&S)" );
-  script_label_.SetText( "スクリプトファイルのパス(&P)" );
-  script_ref_button_.SetText( "参照..." );
-  output_log_check_.SetText( "ログを出力する(&L)" );
-  log_label_.SetText( "ログファイルのパス(&O)" );
-  log_ref_button_.SetText( "参照..." );
+  load_save_group_.SetText(   StrT::PPS::GeneralLoadSaveGroup.Get() );
+  load_button_.SetText(       StrT::PPS::GeneralLoadButton.Get() );
+  save_button_.SetText(       StrT::PPS::GeneralSaveButton.Get() );
+  name_label_.SetText(        StrT::PPS::GeneralNameLabel.Get() );
+  use_script_check_.SetText(  StrT::PPS::GeneralUseScriptCheck.Get() );
+  script_label_.SetText(      StrT::PPS::GeneralScriptLabel.Get() );
+  script_ref_button_.SetText( StrT::PPS::GeneralScriptRefButton.Get() );
+  output_log_check_.SetText(  StrT::PPS::GeneralOutputLogCheck.Get() );
+  log_label_.SetText(         StrT::PPS::GeneralLogLabel.Get() );
+  log_ref_button_.SetText(    StrT::PPS::GeneralLogRefButton.Get() );
 
   this->GetHandlers().at_apply = [this] ( void ) -> bool {
     parameter_.name_             = name_edit_.GetText();
@@ -72,7 +74,7 @@ ParameterPropertySheet::GeneralPage::Created( void )
 
   this->AddCommandHandler( CommandID::LoadButton, [&] ( int, HWND ) -> WMResult {
     TtOpenFileDialog dialog;
-    dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+    dialog.GetFilters().push_back( {StrT::PPS::GeneralFileDialogAllFile.Get(), "*.*"} );
     if ( dialog.ShowDialog( *this ) ) {
       Core::ConvertParameter tmp;
       tmp.ReadFromFile( dialog.GetFileName() );
@@ -84,7 +86,7 @@ ParameterPropertySheet::GeneralPage::Created( void )
 
   this->AddCommandHandler( CommandID::SaveButton, [&] ( int, HWND ) -> WMResult {
     TtSaveFileDialog dialog;
-    dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+    dialog.GetFilters().push_back( {StrT::PPS::GeneralFileDialogAllFile.Get(), "*.*"} );
     if ( dialog.ShowDialog( *this ) ) {
       auto tmp = parameter_;
       parent_.CallAtApplyOfPages();
@@ -105,7 +107,7 @@ ParameterPropertySheet::GeneralPage::Created( void )
 
   this->AddCommandHandler( CommandID::ScriptReferenceButton, [&] ( int, HWND ) -> WMResult {
     TtOpenFileDialog dialog;
-    dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+    dialog.GetFilters().push_back( {StrT::PPS::GeneralFileDialogAllFile.Get(), "*.*"} );
     if ( dialog.ShowDialog( *this ) ) {
       script_edit_.SetText( dialog.GetFileName() );
     }
@@ -124,7 +126,7 @@ ParameterPropertySheet::GeneralPage::Created( void )
   this->AddCommandHandler( CommandID::LogReferenceButton, [&] ( int, HWND ) -> WMResult {
     TtSaveFileDialog dialog;
     dialog.SetOverwritePrompt( false );
-    dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+    dialog.GetFilters().push_back( {StrT::PPS::GeneralFileDialogAllFile.Get(), "*.*"} );
     if ( dialog.ShowDialog( *this ) ) {
       log_edit_.SetText( dialog.GetFileName() );
     }
@@ -165,7 +167,7 @@ ParameterPropertySheet::GeneralPage::SetParameterToControlsBody( void )
 
 // -- OutputPage ---------------------------------------------------------
 ParameterPropertySheet::OutputPage::OutputPage( Core::ConvertParameter& parameter ) :
-Page( "出力" ),
+Page( StrT::PPS::Output.Get() ),
 parameter_( parameter )
 {
 }
@@ -192,20 +194,20 @@ ParameterPropertySheet::OutputPage::Created( void )
   output_file_template_edit_.SetPositionSize(   12, 144, 400,  20 );
   output_file_help_button_.SetPositionSize(     12, 174, 220,  24 );
 
-  output_as_ogg_check_.SetText( "ogg ファイルとして出力する(&G)" );
-  ogg_base_quality_label_.SetText( "出力 ogg ファイルの品質（-0.1～1.0）(&Q)" );
-  never_overwrite_check_.SetText( "出力ファイルが既に存在する場合は別名で出力する(&N)" );
-  remove_char_check_.SetText( "ファイルパスとして使用できない文字があった場合削除する(&R)" );
-  output_file_template_label_.SetText( "出力ファイル指定テンプレート(&O)" );
-  output_file_help_button_.SetText( "使用できる変数一覧を表示する(&H)" );
+  output_as_ogg_check_.SetText(        StrT::PPS::OutputOutputAsOggCheck.Get() );
+  ogg_base_quality_label_.SetText(     StrT::PPS::OutputOggBaseQualityLabel.Get());
+  never_overwrite_check_.SetText(      StrT::PPS::OutputNeverOverwriteCheck.Get() );
+  remove_char_check_.SetText(          StrT::PPS::OutputRemoveCharCheck.Get() );
+  output_file_template_label_.SetText( StrT::PPS::OutputOutputFileTemplateLabel.Get() );
+  output_file_help_button_.SetText(    StrT::PPS::OutputOutputFileHelpButton.Get() );
 
   this->GetHandlers().at_kill_active = [this] ( void ) -> bool {
     TtMessageBoxOk box;
-    box.SetCaption( "エラー" );
+    box.SetCaption( StrT::PPS::OutputMBOggBaseQualityCaption.Get() );
     box.SetIcon( TtMessageBox::Icon::ERROR );
 
     if ( double tmp; NOT( TtUtility::StringToDouble( ogg_base_quality_edit_.GetText(), &tmp ) ) ) {
-      box.SetMessage( "出力 ogg ファイルの品質を正しく入力してください。" );
+      box.SetMessage( StrT::PPS::OutputMBOggBaseQualityMessage.Get() );
       box.ShowDialog( *this );
       return false;
     }
@@ -270,7 +272,7 @@ ParameterPropertySheet::OutputPage::SetParameterToControlsBody( void )
 
 // -- ParserPage ---------------------------------------------------------
 ParameterPropertySheet::ParserPage::ParserPage( Core::ConvertParameter& parameter ) :
-Page( "解析" ),
+Page( StrT::PPS::Parser.Get() ),
 parameter_( parameter )
 {
 }
@@ -285,8 +287,8 @@ ParameterPropertySheet::ParserPage::Created( void )
   ignore_bga_channel_check_.SetPositionSize(        4, 12, 400, 16 );
   not_nesting_if_statement_check_.SetPositionSize(  4, 32, 400, 16 );
 
-  ignore_bga_channel_check_.SetText( "BGA チャンネルの行は読み込みを無視する(&I)" );
-  not_nesting_if_statement_check_.SetText( "ランダム構文の #IF はネストしない(&S)" );
+  ignore_bga_channel_check_.SetText(       StrT::PPS::ParserIgnoreBGAChannelCheck.Get() );
+  not_nesting_if_statement_check_.SetText( StrT::PPS::ParserNotNestingIfStatementCheck.Get() );
 
   this->GetHandlers().at_apply = [this] ( void ) -> bool {
     parameter_.ignore_bga_channel_       = ignore_bga_channel_check_.GetCheck();
@@ -312,7 +314,7 @@ ParameterPropertySheet::ParserPage::SetParameterToControlsBody( void )
 
 // -- MixinPage ----------------------------------------------------------
 ParameterPropertySheet::MixinPage::MixinPage( Core::ConvertParameter& parameter ) :
-Page( "変換" ),
+Page( StrT::PPS::Mixin.Get() ),
 parameter_( parameter )
 {
 }
@@ -349,58 +351,58 @@ ParameterPropertySheet::MixinPage::Created( void )
   insert_front_silence_second_label_.SetPositionSize(    4, 204, 120, 16 );
   insert_front_silence_second_edit_.SetPositionSize(   130, 200,  60, 20 );
 
-  cancel_at_resounding_check_.SetText( "WAV が鳴り終わる前に同じ WAV が鳴った場合、前の WAV を消す(&D)" );
-  start_label_.SetText( "開始小説番号" );
-  end_label_.SetText( "終了小説番号");
-  convert_start_end_bar_number_label_.SetText( "WAV を演奏する範囲(&P)" );
-  do_triming_check_.SetText( "出力する WAV の一部を切り出す(&C)" );
-  remove_front_silence_check_.SetText( "先頭の無音部分を除去する(&R)" );
-  insert_front_silence_check_.SetText( "先頭に無音を挿入する(&I)" );
-  insert_front_silence_second_label_.SetText( "挿入する時間（秒）(&S)" );
+  cancel_at_resounding_check_.SetText(         StrT::PPS::MixinCancelAtResoundingCheck.Get() );
+  start_label_.SetText(                        StrT::PPS::MixinStartLabel.Get() );
+  end_label_.SetText(                          StrT::PPS::MixinEndLabel.Get() );
+  convert_start_end_bar_number_label_.SetText( StrT::PPS::MixinConvertStartEndBarNumberLabel.Get() );
+  do_triming_check_.SetText(                   StrT::PPS::MixinDoTrimingCheck.Get() );
+  remove_front_silence_check_.SetText(         StrT::PPS::MixinRemoveFrontSilenceCheck.Get() );
+  insert_front_silence_check_.SetText(         StrT::PPS::MixinInsertFrontSilenceCheck.Get() );
+  insert_front_silence_second_label_.SetText(  StrT::PPS::MixinInsertFrontSilenceSecondLabel.Get() );
 
   this->GetHandlers().at_kill_active = [this] ( void ) -> bool {
     TtMessageBoxOk box;
-    box.SetCaption( "エラー" );
+    box.SetCaption( StrT::PPS::MixinMBKillActiveCaption.Get() );
     box.SetIcon( TtMessageBox::Icon::ERROR );
     unsigned int start;
     unsigned int end;
     if ( NOT( TtUtility::StringToInteger( convert_start_bar_number_edit_.GetText(), &start ) ) ||
          ( start < 0 || start > 999 ) ) {
-      box.SetMessage( "変換開始小節番号の値を正しく入力してください。" );
+      box.SetMessage( StrT::PPS::MixinMBKillActiveMessageStart.Get() );
       box.ShowDialog( *this );
       return false;
     };
     if ( NOT( TtUtility::StringToInteger( convert_end_bar_number_edit_.GetText(), &end ) ) ||
          ( end < 0 || end > 999 ) ) {
-      box.SetMessage( "変換終了小節番号の値を正しく入力してください。" );
+      box.SetMessage( StrT::PPS::MixinMBKillActiveMessageEnd.Get() );
       box.ShowDialog( *this );
       return false;
     };
     if ( start > end ) {
-      box.SetMessage( "変換終了小節番号が変換終了小節番号よりも後になっています。" );
+      box.SetMessage( StrT::PPS::MixinMBKillActiveMessageOrder.Get() );
       box.ShowDialog( *this );
       return false;
     }
     if ( NOT( TtUtility::StringToInteger( triming_start_bar_number_edit_.GetText(), &start ) ) ||
          ( start < 0 || start > 999 ) ) {
-      box.SetMessage( "切り出し開始小節番号の値を正しく入力してください。" );
+      box.SetMessage( StrT::PPS::MixinMBKillActiveMessageTrimStart.Get() );
       box.ShowDialog( *this );
       return false;
     };
     if ( NOT( TtUtility::StringToInteger( triming_end_bar_number_edit_.GetText(), &end ) ) ||
          ( end < 0 || end > 999 ) ) {
-      box.SetMessage( "切り出し終了小節番号の値を正しく入力してください。" );
+      box.SetMessage( StrT::PPS::MixinMBKillActiveMessageTrimEnd.Get() );
       box.ShowDialog( *this );
       return false;
     };
     if ( start > end ) {
-      box.SetMessage( "切り出し終了小節番号が切り出し終了小節番号よりも後になっています。" );
+      box.SetMessage( StrT::PPS::MixinMBKillActiveMessageTrimOrder.Get() );
       box.ShowDialog( *this );
       return false;
     }
 
     if ( double tmp; NOT( TtUtility::StringToDouble( insert_front_silence_second_edit_.GetText(), &tmp ) ) ) {
-      box.SetMessage( "先頭に挿入する無音時間を正しく入力してください。" );
+      box.SetMessage( StrT::PPS::MixinMBKillActiveMessageFrontSilence.Get() );
       box.ShowDialog( *this );
       return false;
     }
@@ -480,7 +482,7 @@ ParameterPropertySheet::MixinPage::SetParameterToControlsBody( void )
 
 // -- AudioPage ----------------------------------------------------------
 ParameterPropertySheet::AudioPage::AudioPage( Core::ConvertParameter& parameter ) :
-Page( "音声" ),
+Page( StrT::PPS::Audio.Get() ),
 parameter_( parameter )
 {
 }
@@ -514,26 +516,29 @@ ParameterPropertySheet::AudioPage::Created( void )
   volume_label_.SetPositionSize(                   8, 164, 100,  16 );
   volume_edit_.SetPositionSize(                  100, 160,  60,  20 );
 
-  normalize_kind_none_radio_.SetText( "ノーマライズを行わない(&Y)" );
-  normalize_kind_peak_radio_.SetText( "ピークノーマライズ(&P)" );
-  normalize_kind_average_radio_.SetText( "平均ノーマライズ(&A)" );
-  normalize_kind_over_radio_.SetText( "微少標本廃棄(&O)" );
-  normalize_kind_group_.SetText( "ノーマライズ" );
-  normalize_over_ppm_label_.SetText( "廃棄標本率（ppm）(&N)" );
-  volume_label_.SetText( "音量（%）(&V)" );
+  normalize_kind_none_radio_.SetText(    StrT::PPS::AudioNormalizeKindNoneRadio.Get() );
+  normalize_kind_peak_radio_.SetText(    StrT::PPS::AudioNormalizeKindPeakRadio.Get() );
+  normalize_kind_average_radio_.SetText( StrT::PPS::AudioNormalizeKindAverageRadio.Get() );
+  normalize_kind_over_radio_.SetText(    StrT::PPS::AudioNormalizeKindOverRadio.Get() );
+  normalize_kind_group_.SetText(         StrT::PPS::AudioNormalizeKindGroup.Get() );
+  normalize_over_ppm_label_.SetText(     StrT::PPS::AudioNormalizeOverPPMLabel.Get() );
+  volume_label_.SetText(                 StrT::PPS::AudioVolumeLabel.Get() );
 
+       
+
+ 
   this->GetHandlers().at_kill_active = [this] ( void ) -> bool {
     TtMessageBoxOk box;
-    box.SetCaption( "エラー" );
+    box.SetCaption( StrT::PPS::AudioMBKillActiveCaption.Get() );
     box.SetIcon( TtMessageBox::Icon::ERROR );
 
     if ( unsigned int tmp; NOT( TtUtility::StringToInteger( normalize_over_ppm_edit_.GetText(), &tmp ) ) ) {
-      box.SetMessage( "微少標本廃棄の廃棄標本率を正しく入力してください。" );
+      box.SetMessage( StrT::PPS::AudioMBKillActiveMessageOverPPM.Get() );
       box.ShowDialog( *this );
       return false;
     }
     if ( int tmp; NOT( TtUtility::StringToInteger( volume_edit_.GetText(), &tmp ) ) ) {
-      box.SetMessage( "音量の値を正しく入力してください。" );
+      box.SetMessage( StrT::PPS::AudioMBKillActiveMessageVolume.Get() );
       box.ShowDialog( *this );
       return false;
     }
@@ -609,7 +614,7 @@ ParameterPropertySheet::AudioPage::SetParameterToControlsBody( void )
 
 // -- AfterProcessPage ---------------------------------------------------
 ParameterPropertySheet::AfterProcessPage::AfterProcessPage( Core::ConvertParameter& parameter ) :
-Page( "後処理" ),
+Page( StrT::PPS::AfterProcess.Get() ),
 parameter_( parameter )
 {
 }
@@ -640,14 +645,14 @@ ParameterPropertySheet::AfterProcessPage::Created( void )
   wait_for_process_exit_check_.SetPositionSize(  12, 176, 384,  16 );
   delete_output_file_check_.SetPositionSize(     12, 196, 384,  16 );
 
-  execute_after_process_check_.SetText( "出力ファイル作成後にプログラムを起動する(&E)" );
-  execute_file_label_.SetText( "実行ファイル(&F)" );
-  execute_file_ref_button_.SetText( "参照..." );
-  execute_arguments_label_.SetText( "実行時引数(&A)" );
-  execute_arguments_help_.SetText( "※ 出力 WAV ファイルは @@output_file_path@@ で指定できます。" );
-  start_on_background_check_.SetText( "プログラムをバックグラウンドで起動してみる(&B)" );
-  wait_for_process_exit_check_.SetText( "プログラムが終了するまで待機する(&W)" );
-  delete_output_file_check_.SetText( "プログラム起動後・待機後に出力ファイルを削除する(&D)" );
+  execute_after_process_check_.SetText( StrT::PPS::AfterProcessExecuteAfterProcessCheck.Get() );
+  execute_file_label_.SetText(          StrT::PPS::AfterProcessExecuteFileLabel.Get() );
+  execute_file_ref_button_.SetText(     StrT::PPS::AfterProcessExecuteFileRefButton.Get() );
+  execute_arguments_label_.SetText(     StrT::PPS::AfterProcessExecuteArgumentsLabel.Get() );
+  execute_arguments_help_.SetText(      StrT::PPS::AfterProcessExecuteArgumentsHelp.Get() );
+  start_on_background_check_.SetText(   StrT::PPS::AfterProcessStartOnBackgroundCheck.Get() );
+  wait_for_process_exit_check_.SetText( StrT::PPS::AfterProcessWaitForProcessExitCheck.Get() );
+  delete_output_file_check_.SetText(    StrT::PPS::AfterProcessDeleteOutputFileCheck.Get() );
 
   this->GetHandlers().at_apply = [this] ( void ) -> bool {
     parameter_.execute_after_process_               = execute_after_process_check_.GetCheck();
@@ -677,8 +682,8 @@ ParameterPropertySheet::AfterProcessPage::Created( void )
 
   this->AddCommandHandler( CommandID::ExecuteFileReferenceButton, [this] ( int, HWND ) -> WMResult {
     TtOpenFileDialog dialog;
-    dialog.GetFilters().push_back( {"実行ファイル(*.exe)", "*.exe"} );
-    dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+    dialog.GetFilters().push_back( {StrT::PPS::AfterProcessFileDialogExeFile.Get(), "*.exe"} );
+    dialog.GetFilters().push_back( {StrT::PPS::AfterProcessFileDialogAllFile.Get(), "*.*"} );
     if ( dialog.ShowDialog( *this ) ) {
       execute_file_edit_.SetText( dialog.GetFileName() );
     }
@@ -739,7 +744,7 @@ bool
 ParameterPropertySheet::Created( void )
 {
   this->SetIconAsLarge( Image::ICONS[is_common_ ? Image::Index::EditCommonParameter : Image::Index::EditIndividualParameter] );
-  this->SetText( "変換設定編集" );
+  this->SetText( StrT::PPS::Title.Get() );
 
   return true;
 }

@@ -1,5 +1,8 @@
 // base/parser.cpp
 
+#include "string_table.h"
+#include "utility.h"
+
 // parser_exception.h は parser.h から一部切り出しなので parser.h を読み込む
 #include "base/parser.h"
 
@@ -29,7 +32,7 @@ std::string
 BL::Parser::FileAccessException::GetMessage( void )
 {
   auto tmp = TtUtility::GetANSIErrorMessage( error_number_ );
-  return Exception::MakeMessage( "ファイルアクセスにエラーがありました。ファイル : %s  メッセージ : %s", path_.c_str(), tmp.c_str() );
+  return Utility::Format( StrT::Message::Parser::FileAccessError.Get(), path_.c_str(), tmp.c_str() );
 }
 
 
@@ -89,7 +92,7 @@ BL::Parser::NoBeginningEndRandomException::GetEndRandom( void ) const
 std::string
 BL::Parser::NoBeginningEndRandomException::GetMessage( void )
 {
-  return Exception::MakeMessage( "RANDOM が使用されずに ENDRANDOM が使用されました。" );
+  return Utility::Format( StrT::Message::Parser::NoBeginningEndRandom.Get() );
 }
 
 // -- HeaderCollisionException -------------------------------------------
@@ -102,7 +105,7 @@ WithHeader( header )
 std::string
 BL::Parser::HeaderCollisionException::GetMessage( void )
 {
-  return Exception::MakeMessage( "ヘッダ %s が重複しました。", line_.key_.c_str() );
+  return Utility::Format( StrT::Message::Parser::HeaderCollision.Get(), line_.key_.c_str() );
 }
 
 // -- InvalidBpmException ------------------------------------------------
@@ -115,7 +118,7 @@ WithHeader( header )
 std::string
 BL::Parser::InvalidBpmException::GetMessage( void )
 {
-  return Exception::MakeMessage( "BPM の指定値が不正です。" );
+  return Utility::Format( StrT::Message::Parser::InvalidBpm.Get() );
 }
 
 // -- InvalidLnobjException --------------------------------------------
@@ -128,7 +131,7 @@ WithHeader( header )
 std::string
 BL::Parser::InvalidLnobjException::GetMessage( void )
 {
-  return Exception::MakeMessage( "LNOBJ の指定値が不正です。" );
+  return Utility::Format( StrT::Message::Parser::InvalidLnobj.Get() );
 }
 
 // -- ObjectCollisionException -------------------------------------------
@@ -154,7 +157,7 @@ BL::Parser::ObjectCollisionException::GetNewWord( void ) const
 std::string
 BL::Parser::ObjectCollisionException::GetMessage( void )
 {
-  return Exception::MakeMessage( "オブジェクトが重複しました。" );
+  return Utility::Format( StrT::Message::Parser::ObjectCollision.Get() );
 }
 
 // -- BarLengthChangeCollisionException ----------------------------------
@@ -173,7 +176,7 @@ BL::Parser::BarLengthChangeCollisionException::GetBarLengthChange( void ) const
 std::string
 BL::Parser::BarLengthChangeCollisionException::GetMessage( void )
 {
-  return Exception::MakeMessage( "小節長変更が重複しました。" );
+  return Utility::Format( StrT::Message::Parser::BarLengthChangeCollision.Get() );
 }
 
 // -- InvalidChannelOrHeaderSyntaxException ------------------------------
@@ -185,7 +188,7 @@ BmsDescriptionExceptionWith( raw_line )
 std::string
 BL::Parser::InvalidChannelOrHeaderSyntaxException::GetMessage( void )
 {
-  return Exception::MakeMessage( "ヘッダまたはチャンネルの指定構文が不正です。" );
+  return Utility::Format( StrT::Message::Parser::InvalidChannelOrHeaderSyntax.Get() );
 }
 
 // -- CorrespondingEndIfIsNotingException --------------------------------
@@ -204,7 +207,7 @@ BL::Parser::CorrespondingEndIfIsNotingException::GetBlock( void ) const
 std::string
 BL::Parser::CorrespondingEndIfIsNotingException::GetMessage( void )
 {
-  return Exception::MakeMessage( "対応する ENDIF が存在しません。" );
+  return Utility::Format( StrT::Message::Parser::CorrespondingEndIfIsNoting.Get() );
 }
 
 // -- InvalidRandomStatementValueException -------------------------------
@@ -216,7 +219,7 @@ BmsDescriptionExceptionWith( raw_line )
 std::string
 BL::Parser::InvalidRandomStatementValueException::GetMessage( void )
 {
-  return Exception::MakeMessage( "RANDOM 構文 %s の指定値が不正です。", line_.key_.c_str() );
+  return Utility::Format( StrT::Message::Parser::InvalidRandomStatementValue.Get(), line_.key_.c_str() );
 }
 
 // -- CorrespondingIfIsNotingException -----------------------------------
@@ -228,7 +231,7 @@ BmsDescriptionExceptionWith( raw_line )
 std::string
 BL::Parser::CorrespondingIfIsNotingException::GetMessage( void )
 {
-  return Exception::MakeMessage( "対応する IF がありません。" );
+  return Utility::Format( StrT::Message::Parser::CorrespondingIfIsNoting.Get() );
 }
 
 // -- InvalidBarLengthChangeValueException -------------------------------
@@ -240,7 +243,7 @@ BmsDescriptionExceptionWith( raw_line )
 std::string
 BL::Parser::InvalidBarLengthChangeValueException::GetMessage( void )
 {
-  return Exception::MakeMessage( "小節長変更の指定値が不正です。" );
+  return Utility::Format( StrT::Message::Parser::InvalidBarLengthChangeValue.Get() );
 }
 
 // -- InvalidObjectExpressionException -----------------------------------
@@ -252,7 +255,7 @@ BmsDescriptionExceptionWith( raw_line )
 std::string
 BL::Parser::InvalidObjectExpressionException::GetMessage( void )
 {
-  return Exception::MakeMessage( "オブジェクト構文が不正です。" );
+  return Utility::Format( StrT::Message::Parser::InvalidObjectExpression.Get() );
 }
 
 // -- InvalidExtendedBpmException --------------------------------------
@@ -265,7 +268,7 @@ WithHeader( header )
 std::string
 BL::Parser::InvalidExtendedBpmException::GetMessage( void )
 {
-  return Exception::MakeMessage( "拡張BPM の指定値が不正です。" );
+  return Utility::Format( StrT::Message::Parser::InvalidExtendedBPM.Get() );
 }
 
 // -- InvalidStopSequenceException ---------------------------------------
@@ -278,7 +281,7 @@ WithHeader( header )
 std::string
 BL::Parser::InvalidStopSequenceException::GetMessage( void )
 {
-  return Exception::MakeMessage( "ストップシーケンスの指定値が不正です。" );
+  return Utility::Format( StrT::Message::Parser::InvalidStopSequence.Get() );
 }
 
 // -- UndefinedObjectUsedException ---------------------------------------
@@ -298,7 +301,7 @@ BL::Parser::UndefinedObjectUsedException::GetUsedObject( void ) const
 std::string
 BL::Parser::UndefinedObjectUsedException::GetMessage( void )
 {
-  return Exception::MakeMessage( "定義されていないオブジェクト %s が使用されました。", used_object_.ToCharPointer() );
+  return Utility::Format( StrT::Message::Parser::UndefinedObjectUsed.Get(), used_object_.ToCharPointer() );
 }
 
 // -- DefinedObjectNotUsedException ------------------------------------
@@ -311,7 +314,7 @@ WithHeader( header )
 std::string
 BL::Parser::DefinedObjectNotUsedException::GetMessage( void )
 {
-  return Exception::MakeMessage( "指定されているオブジェクト %s が使用されませんでした。", line_.key_.c_str() );
+  return Utility::Format( StrT::Message::Parser::DefinedObjectNotUsed.Get(), line_.key_.c_str() );
 }
 
 // -- ResolutionExceededLimitException ---------------------------------
@@ -331,7 +334,7 @@ BL::Parser::ResolutionExceededLimitException::GetRequiredResolution( void ) cons
 std::string
 BL::Parser::ResolutionExceededLimitException::GetMessage( void )
 {
-  return Exception::MakeMessage( "分解能が限界を超えました。要求分解能 : %d", required_resolution_ );
+  return Utility::Format( StrT::Message::Parser::ResolutionExceededLimit.Get(), required_resolution_ );
 }
 
 

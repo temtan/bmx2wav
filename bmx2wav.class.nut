@@ -3,17 +3,17 @@
 // -- ParameterColumn
 class ParameterColumn extends Column {
   constructor() {
-    base.constructor( "変換設定" );
+    base.constructor( StrT.Main.ColumnName.Parameter.get() );
   }
 
   function display_cell( entry ) {
     local parameter = entry.get_individual_parameter();
 
     if ( parameter ) {
-      return parameter.name + "（個別）"
+      return parameter.name + StrT.Main.ColumnName.ParameterIndividual.get();
     }
     else {
-      return Main.get_common_parameter().name + "（共通）"
+      return Main.get_common_parameter().name + StrT.Main.ColumnName.ParameterCommon.get();
     }
   }
 
@@ -49,9 +49,9 @@ Main.puts_with_end_string <- function ( str ) {
 // abort
 Main.callback_table.aborted = function ( converter, user_abort ) {
   if ( user_abort ) {
-    ::puts( "ユーザによる変換の中断要求。" );
+    ::puts( StrT.Message.Converter.RequestToAbortByUser.get() );
   }
-  ::puts( "変換は中断されました。" );
+  ::puts( StrT.Message.Converter.Aborted.get() );
 }
 
 // exception
@@ -60,7 +60,7 @@ Main.callback_table.exception_occurred = function ( converter, exception ) {
   ::puts( tmp + " : " + exception.message );
 
   if ( exception.get_error_level() <= ErrorLevel.Tiny ) {
-    Main.callback_current_end_string = "エラー有";
+    Main.callback_current_end_string = StrT.Message.Converter.ExceptionOccurredErrorExist.get();
   }
 }
 
@@ -71,24 +71,24 @@ Main.callback_table.parser_exception_occurred = function ( converter, exception 
   ::puts( tmp + " : " + exception.message );
 
   if ( exception.get_error_level() <= ErrorLevel.Tiny ) {
-    Main.callback_current_end_string = "エラー有";
+    Main.callback_current_end_string = StrT.Message.Converter.ExceptionOccurredErrorExist.get();
   }
 }
 
 // progress
 Main.callback_table.before_initialize = function ( converter ) {
-  ::puts( "== 変換開始 =====" );
+  ::puts( StrT.Message.Converter.ConvertStart.get() );
   ::puts( "BMS File Path : " + converter.parameter.input_file_path );
-  ::puts( "初期化・前処理: 開始" );
+  ::puts( StrT.Message.Converter.InitializeStart.get() );
   Main.callback_current_end_string = null;
 }
 
 Main.callback_table.after_initialize = function ( converter ) {
-  Main.puts_with_end_string( "初期化・前処理: 完了" );
+  Main.puts_with_end_string( StrT.Message.Converter.InitializeEnd.get() );
 }
 
 Main.callback_table.before_parse = function ( converter ) {
-  ::puts( "BMS 構文解析: 開始" );
+  ::puts( StrT.Message.Converter.ParseStart.get() );
   Main.callback_current_end_string = null;
 }
 
@@ -104,12 +104,14 @@ Main.callback_table.decide_output_file_path = function ( converter ) {
 }
 
 Main.callback_table.after_parse = function ( converter ) {
-  Main.puts_with_end_string( "BMS 構文解析: 完了" );
-  ::puts( "最大分解能 : " + converter.bms_data.max_resolution + "; That Bar Number : " + converter.bms_data.bar_number_of_max_resolution );
+  Main.puts_with_end_string( StrT.Message.Converter.ParseEnd.get() );
+  ::puts( ::format( StrT.Message.Converter.MaxResolutionAndBarNumber.get(),
+                    converter.bms_data.max_resolution,
+                    converter.bms_data.bar_number_of_max_resolution ) );
 }
 
 Main.callback_table.before_read_audio_files = function ( converter ) {
-  ::puts( "音声ファイル読み込み: 開始" );
+  ::puts( StrT.Message.Converter.ReadAudioFilesStart.get() );
   Main.callback_current_end_string = null;
 }
 
@@ -136,25 +138,25 @@ Main.callback_table.audio_file_read_end = function( converter, word, path ) {
 }
 
 Main.callback_table.after_read_audio_files = function ( converter ) {
-  Main.puts_with_end_string( "音声ファイル読み込み: 完了" );
+  Main.puts_with_end_string( StrT.Message.Converter.ReadAudioFilesEnd.get() );
 }
 
 Main.callback_table.before_mixin_waves = function ( converter ) {
-  ::puts( "音声合成: 開始" );
+  ::puts( StrT.Message.Converter.MixinWavesStart.get() );
   Main.callback_current_end_string = null;
 }
 
 Main.callback_table.after_mixin_waves = function ( converter ) {
-  Main.puts_with_end_string( "音声合成: 完了" );
+  Main.puts_with_end_string( StrT.Message.Converter.MixinWavesEnd.get() );
 }
 
 Main.callback_table.before_affect_wave = function ( converter ) {
-  ::puts( "音量調整: 開始" );
+  ::puts( StrT.Message.Converter.AffectWaveStart.get() );
   Main.callback_current_end_string = null;
 }
 
 Main.callback_table.after_affect_wave = function ( converter ) {
-  Main.puts_with_end_string( "音量調整: 完了" );
+  Main.puts_with_end_string( StrT.Message.Converter.AffectWaveEnd.get() );
 }
 
 Main.callback_table.complete_normalize = function ( converter, ratio ) {
@@ -162,26 +164,26 @@ Main.callback_table.complete_normalize = function ( converter, ratio ) {
   if ( converter.parameter.normalize_kind == NormalizeKind.Over || converter.parameter.normalize_kind == NormalizeKind.Default ) {
     tmp += " : OverPPM : " + converter.parameter.normalize_over_ppm;
   }
-  ::puts( "ノーマライズ種別 : " + tmp );
-  ::puts( "ノーマライズの音量調整率 : " + ratio );
+  ::puts( StrT.Message.Converter.NormalizeKind.get() + tmp );
+  ::puts( StrT.Message.Converter.NormalizeRatio.get() + ratio );
 }
 
 Main.callback_table.before_output_to_file = function ( converter ) {
-  ::puts( "ファイル出力: 開始" );
+  ::puts( StrT.Message.Converter.OutputToFileStart.get() );
   Main.callback_current_end_string = null;
 }
 
 Main.callback_table.after_output_to_file = function ( converter ) {
   if ( converter.output_file_path == null || converter.output_file_path == "" ) {
-    ::puts( "出力が指定されていないのでファイルには出力されませんでした。" );
-    Main.puts_with_end_string( "ファイル出力: 完了: ファイル未出力" );
+    ::puts( StrT.Message.Converter.OutputToFileNoOutputNotice.get() );
+    Main.puts_with_end_string( StrT.Message.Converter.OutputToFileNoOutputEnd.get() );
   }
   else {
-    ::puts( "出力ファイル : " + converter.output_file_path );
-    Main.puts_with_end_string( "ファイル出力: 完了" );
+    ::puts( StrT.Message.Converter.OutputFile.get() + converter.output_file_path );
+    Main.puts_with_end_string( StrT.Message.Converter.OutputToFileEnd.get() );
   }
 
-  ::puts( ::format( "変換時間 : %.2f second.", converter.get_processing_time() ) );
+  ::puts( ::format( StrT.Message.Converter.ProcessingTime.get(), converter.get_processing_time() ) );
 }
 
 Main.callback_table.after_process = function ( converter ) {

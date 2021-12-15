@@ -16,7 +16,7 @@ class DisplayFilter {
 // -- AllPassFilter
 class AllPassFilter extends DisplayFilter {
   constructor() {
-    base.constructor( "全て表示" );
+    base.constructor( StrT.Searcher.Main.Toolbar.DisplayFilterAllPass.get() );
   }
 
   function filtering( entry ) {
@@ -70,7 +70,7 @@ class SearchMethod {
 // -- BmsAllSearchMethod
 class BmsAllSearchMethod extends SearchMethod {
   constructor() {
-    base.constructor( "BMS系一般全て" );
+    base.constructor( StrT.Searcher.Main.Toolbar.SearchMethodBmsAll.get() );
   }
 
   function search( entry ) {
@@ -83,13 +83,13 @@ class BmsAllSearchMethod extends SearchMethod {
     }
   }
 
-  filter = ExtensionsFilter( "BMS系一般", "bms", "bme", "bml", "pms" );
+  filter = ExtensionsFilter( StrT.Searcher.Main.Toolbar.SearchMethodFilterBmsGeneral.get(), "bms", "bme", "bml", "pms" );
 }
 
 // -- MostPlaylevelSearchMethod
 class MostPlaylevelSearchMethod extends SearchMethod {
   constructor() {
-    base.constructor( "BMS系（フォルダ毎Playlevel最大のみ）" );
+    base.constructor( StrT.Searcher.Main.Toolbar.SearchMethodMostPlaylevel.get() );
   }
 
   function search( entry ) {
@@ -126,5 +126,5 @@ class MostPlaylevelSearchMethod extends SearchMethod {
     }
   }
 
-  filter = ExtensionsFilter( "BMS系一般", "bms", "bme", "bml", "pms" );
+  filter = ExtensionsFilter( StrT.Searcher.Main.Toolbar.SearchMethodFilterBmsGeneral.get(), "bms", "bme", "bml", "pms" );
 }

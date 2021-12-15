@@ -4,6 +4,8 @@
 #include "tt_clipboard.h"
 #include "tt_text_template.h"
 
+#include "string_table.h"
+
 #include "core/convert_parameter.h"
 
 using namespace BMX2WAV;
@@ -326,7 +328,7 @@ Core::TemplatePathTranslateHelpDialog::Created( void )
     };
   };
 
-  this->SetText( "使用可能変数一覧" );
+  this->SetText( StrT::TemplatePath::Title.Get() );
 
   list_.Create( {this, CommandID::List} );
 
@@ -336,7 +338,7 @@ Core::TemplatePathTranslateHelpDialog::Created( void )
   } );
   this->SetClientSize( 670, 200, false );
 
-  menu_.AppendNewItem( CommandID::MenuCopy, "変数名をコピー(&C)" );
+  menu_.AppendNewItem( CommandID::MenuCopy, StrT::TemplatePath::MenuCopy.Get() );
   this->AddNotifyHandler( CommandID::List, [this] ( NMHDR* nmhdr ) -> WMResult {
     // アイテム右クリック
     if ( nmhdr->code == NM_RCLICK ) {
@@ -370,9 +372,9 @@ Core::TemplatePathTranslateHelpDialog::Created( void )
   {
     list_.SetFullRowSelect( true );
     TtListViewColumn column_name = list_.MakeNewColumn();
-    column_name.SetText( "変数名" );
+    column_name.SetText( StrT::TemplatePath::ColumnName.Get() );
     TtListViewColumn column_description = list_.MakeNewColumn();
-    column_description.SetText( "説明" );
+    column_description.SetText( StrT::TemplatePath::ColumnDescription.Get() );
 
     auto add = [this] ( const std::string& var, const std::string& description ) {
       auto item = list_.MakeNewItem();
@@ -380,17 +382,17 @@ Core::TemplatePathTranslateHelpDialog::Created( void )
       item.SetSubItemText( 1, description );
     };
 
-    add( "input_bms_path", "入力 BMS ファイルのパス" );
-    add( "input_bms_path_without_extension", "入力 BMS ファイルのパスから拡張子部分を除いたもの" );
-    add( "input_bms_directory", "入力 BMS ファイルがあるフォルダのパス" );
-    add( "input_bms_parent_directory", "入力 BMS ファイルがあるフォルダの親フォルダのパス" );
-    add( "input_bms_basename", "入力 BMS ファイルのパスのファイル名部分" );
-    add( "input_bms_basename_without_extension", "入力 BMS ファイルのパスのファイル名部分から拡張子部分を除いたもの" );
-    add( "input_bms_auto_extension_change", "入力 BMS ファイルのパスから拡張子を出力設定に合わせて wav または ogg に変えたもの" );
-    add( "input_bms_basename_auto_extension_change", "入力 BMS ファイルのパスのファイル名部分からその拡張子を出力設定に合わせて wav または ogg に変えたもの" );
-    add( "auto_extension", "出力設定に合わせて wav または ogg" );
-    add( "bmx2wav_directory", "BMX2WAV 実行ファイルの置かれているフォルダのパス" );
-    add( "header_XXXXX", "入力 BMS ファイル内データのヘッダ XXXXX の値" );
+    add( "input_bms_path",                           StrT::TemplatePath::TextInputBmsPath.Get() );
+    add( "input_bms_path_without_extension",         StrT::TemplatePath::TextInputBmsPathWithoutExtension.Get() );
+    add( "input_bms_directory",                      StrT::TemplatePath::TextInputBmsDirectory.Get() );
+    add( "input_bms_parent_directory",               StrT::TemplatePath::TextInputBmsParentDirectory.Get() );
+    add( "input_bms_basename",                       StrT::TemplatePath::TextInputBmsBasename.Get() );
+    add( "input_bms_basename_without_extension",     StrT::TemplatePath::TextInputBmsBasenameWithoutExtension.Get() );
+    add( "input_bms_auto_extension_change",          StrT::TemplatePath::TextInputBmsAutoExtensionChange.Get() );
+    add( "input_bms_basename_auto_extension_change", StrT::TemplatePath::TextInputBmsBasenameAutoExtensionChange.Get() );
+    add( "auto_extension",                           StrT::TemplatePath::TextAutoExtension.Get() );
+    add( "bmx2wav_directory",                        StrT::TemplatePath::TextBMX2WAVDirectory.Get() );
+    add( "header_XXXXX",                             StrT::TemplatePath::TextHeaderXXXXX.Get() );
 
     column_name.SetWidthAuto();
     column_description.SetWidthAuto();

@@ -7,6 +7,8 @@
 #include "tt_path.h"
 
 #include "random_statement_dialog.h"
+#include "string_table.h"
+#include "utility.h"
 
 #include "converter_dialog.h"
 
@@ -99,7 +101,7 @@ bool
 ConverterDialog::Created( void )
 {
   this->SetIconAsLarge( Image::ICONS[Image::Index::Main] );
-  this->SetText( "BMX2WAV 変換中" );
+  this->SetText( StrT::Convert::Title.Get() );
 
   struct CommandID {
     enum ID : int {
@@ -167,23 +169,23 @@ ConverterDialog::Created( void )
   open_wav_button_.SetPositionSize(          16, 348, 132,  24 );
   show_output_box_button_.SetPositionSize(  208, 348, 132,  24 );
 
-  abort_button_.SetText( "変換を中断" );
-  initialize_title_label_.SetText( "初期化・前処理:" );
-  initialize_report_label_.SetText( "未実行" );
-  parse_title_label_.SetText( "BMS 構文解析:" );
-  parse_report_label_.SetText( "未実行" );
-  wav_title_label_.SetText( "音声ファイル読み込み:" );
-  wav_report_label_.SetText( "未実行" );
-  mixin_title_label_.SetText( "音声合成:" );
-  mixin_report_label_.SetText( "未実行" );
-  after_title_label_.SetText( "調整・後処理・出力:" );
-  after_report_label_.SetText( "未実行" );
-  play_wav_button_.SetText( "直接再生する" );
-  stop_wav_button_.SetText( "再生を止める" );
-  save_as_wav_button_.SetText( "wavとして保存する" );
-  save_as_ogg_button_.SetText( "oggとして保存する" );
-  open_wav_button_.SetText( "出力ファイルを開く" );
-  show_output_box_button_.SetText( "詳細ログを表示" );
+  abort_button_.SetText(            StrT::Convert::AbortButton.Get() );
+  initialize_title_label_.SetText(  StrT::Convert::InitializeTitleLabel.Get() );
+  initialize_report_label_.SetText( StrT::Convert::InitializeReportLabel.Get() );
+  parse_title_label_.SetText(       StrT::Convert::ParseTitleLabel.Get() );
+  parse_report_label_.SetText(      StrT::Convert::ParseReportLabel.Get() );
+  wav_title_label_.SetText(         StrT::Convert::WavTitleLabel.Get() );
+  wav_report_label_.SetText(        StrT::Convert::WavReportLabel.Get() );
+  mixin_title_label_.SetText(       StrT::Convert::MixinTitleLabel.Get() );
+  mixin_report_label_.SetText(      StrT::Convert::MixinReportLabel.Get() );
+  after_title_label_.SetText(       StrT::Convert::AfterTitleLabel.Get() );
+  after_report_label_.SetText(      StrT::Convert::AfterReportLabel.Get() );
+  play_wav_button_.SetText(         StrT::Convert::PlayWavButton.Get() );
+  stop_wav_button_.SetText(         StrT::Convert::StopWavButton.Get() );
+  save_as_wav_button_.SetText(      StrT::Convert::SaveAsWavButton.Get() );
+  save_as_ogg_button_.SetText(      StrT::Convert::SaveAsOggButton.Get() );
+  open_wav_button_.SetText(         StrT::Convert::OpenWavButton.Get() );
+  show_output_box_button_.SetText(  StrT::Convert::ShowOutputBoxButton.Get() );
 
   initialize_report_label_.SetTextAreaAsStandard();
   parse_report_label_.SetTextAreaAsStandard();
@@ -251,8 +253,8 @@ ConverterDialog::Created( void )
   this->AddCommandHandler( CommandID::SaveAsWavButton, [&] ( int, HWND ) -> WMResult {
     if ( converter_.info_.wave_ ) {
       TtSaveFileDialog dialog;
-      dialog.GetFilters().push_back( {"WAV ファイル(*.wav)", "*.*"} );
-      dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+      dialog.GetFilters().push_back( {StrT::Convert::FileDialogWavFile.Get(), "*.wav"} );
+      dialog.GetFilters().push_back( {StrT::Convert::FileDialogAllFile.Get(), "*.*"} );
       if ( dialog.ShowDialog( *this ) ) {
         std::string tmp = dialog.GetFileName();
         if ( TtPath::FindExtension( tmp ).empty() ) {
@@ -266,8 +268,8 @@ ConverterDialog::Created( void )
   this->AddCommandHandler( CommandID::SaveAsOggButton, [&] ( int, HWND ) -> WMResult {
     if ( converter_.info_.wave_ ) {
       TtSaveFileDialog dialog;
-      dialog.GetFilters().push_back( {"ogg ファイル(*.ogg)", "*.*"} );
-      dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+      dialog.GetFilters().push_back( {StrT::Convert::FileDialogOggFile.Get(), "*.ogg"} );
+      dialog.GetFilters().push_back( {StrT::Convert::FileDialogAllFile.Get(), "*.*"} );
       if ( dialog.ShowDialog( *this ) ) {
         std::string tmp = dialog.GetFileName();
         if ( TtPath::FindExtension( tmp ).empty() ) {
@@ -285,13 +287,8 @@ ConverterDialog::Created( void )
       if ( ret <= 32 ) {
         DWORD error_code = ::GetLastError();
         TtMessageBoxOk box;
-        {
-          std::string tmp = "ファイルを開くのに失敗しました。\r\n\r\n";
-          tmp.append( "ファイル名 : " + converter_.info_.output_file_path_ + "\r\n" );
-          tmp.append( "メッセージ : " + TtUtility::GetWindowsSystemErrorMessage( error_code ) );
-          box.SetMessage( tmp );
-        }
-        box.SetCaption( "ファイルオープンエラー" );
+        box.SetMessage( Utility::Format( StrT::Convert::MBOpenWavMessage.Get(), converter_.info_.output_file_path_.c_str(), TtUtility::GetWindowsSystemErrorMessage( error_code ).c_str() ) );
+        box.SetCaption( StrT::Convert::MBOpenWavCaption.Get() );
         box.SetIcon( TtMessageBox::Icon::ERROR );
         box.ShowDialog( *this );
       }
@@ -333,7 +330,7 @@ ConverterDialog::Created( void )
 
   // Show しないと表示されないので注意
   output_dialog_.ShowDialog( *this );
-  output_dialog_.SetText( "変換詳細ログ" );
+  output_dialog_.SetText( StrT::Convert::OutputDialogTitle.Get() );
 
   this->RegisterConverterCallbacks();
 
@@ -345,8 +342,9 @@ ConverterDialog::Created( void )
       log_file_.reset( file, [] ( FILE* f ) { std::fclose( f ); } );
     }
     else {
-      auto tmp = TtUtility::GetANSIErrorMessage( error_number );
-      output_dialog_.PutsText( "ログファイルを開くのに失敗しました。ファイル : " + converter_.GetConvertParameter().log_file_path_ + " ; メッセージ : " + tmp  );
+      output_dialog_.PutsText( Utility::Format( StrT::Convert::OpenLogErrorMessage.Get(),
+                                                converter_.GetConvertParameter().log_file_path_.c_str(),
+                                                TtUtility::GetANSIErrorMessage( error_number ).c_str() ) );
     }
   }
 
@@ -384,23 +382,23 @@ ConverterDialog::ThreadInitializeAndStart( void )
 
       if ( result_ == Result::Aborted || result_ == Result::UserAborted ) {
         TtMessageBoxOk box;
-        box.SetMessage( "変換は中断されました。詳しくは詳細ログを確認して下さい。" );
-        box.SetCaption( "エラー" );
+        box.SetMessage( StrT::Convert::MBErrorAbortMessage.Get() );
+        box.SetCaption( StrT::Convert::MBErrorAbortCaption.Get() );
         box.SetIcon( TtMessageBox::Icon::ERROR );
         box.ShowDialog( *this );
       }
     }
     catch ( std::bad_alloc ) {
       TtMessageBoxOk box;
-      box.SetMessage( "メモリの確保でエラーが起きました。変換は中止されます。" );
-      box.SetCaption( "エラー" );
+      box.SetMessage( StrT::Convert::MBErrorMemoryMessage.Get() );
+      box.SetCaption( StrT::Convert::MBErrorMemoryCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::ERROR );
       box.ShowDialog( *this );
     }
     catch ( ... ) {
       TtMessageBoxOk box;
-      box.SetMessage( "想定しないエラーが起きました。変換は中止されます。" );
-      box.SetCaption( "エラー" );
+      box.SetMessage( StrT::Convert::MBErrorUnexpectedMessage.Get() );
+      box.SetCaption( StrT::Convert::MBErrorUnexpectedCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::ERROR );
       box.ShowDialog( *this );
     }
@@ -430,7 +428,7 @@ ConverterDialog::RegisterConverterCallbacks( void )
 
     if ( exception.GetErrorLevel() <= ErrorLevel::Tiny ) {
       current_report_end_state_  = BorderLabel::State::WithError;
-      current_report_end_string_ = "エラー有";
+      current_report_end_string_ = StrT::Convert::ReportLabelErrorExist.Get();
 
       result_ = Result::WithError;
     }
@@ -439,9 +437,9 @@ ConverterDialog::RegisterConverterCallbacks( void )
   converter_.callbacks_.aborted_ = [&] ( Core::Converter& ) {
     if ( current_label_ ) {
       current_label_->SetState( BorderLabel::State::Aborted );
-      current_label_->SetText( "中断" );
+      current_label_->SetText( StrT::Convert::ReportLabelAbort.Get() );
     }
-    result_label_.SetText( "変換は中断されました。" );
+    result_label_.SetText( StrT::Convert::ReportResultAbort.Get() );
     result_ = user_abort_ ? Result::UserAborted : Result::Aborted;
 
     this->CallAborted( user_abort_ );
@@ -459,10 +457,10 @@ ConverterDialog::RegisterConverterCallbacks( void )
 
     this->ResetCurrentLabel( initialize_report_label_ );
     initialize_report_label_.SetState( BorderLabel::State::Running );
-    initialize_report_label_.SetText( "実行中" );
+    initialize_report_label_.SetText( StrT::Convert::ReportLabelInitializeRunning.Get() );
 
     path_label_.SetText( converter_.GetConvertParameter().input_file_path_ );
-    result_label_.SetText( "初期化・前処理の実行中です。" );
+    result_label_.SetText( StrT::Convert::ReportResultInitializeRunning.Get() );
 
     this->CallBeforeInitialize();
   };
@@ -478,9 +476,9 @@ ConverterDialog::RegisterConverterCallbacks( void )
   converter_.callbacks_.before_parse_ = [&] ( Core::Converter& ) {
     this->ResetCurrentLabel( parse_report_label_ );
     parse_report_label_.SetState( BorderLabel::State::Running );
-    parse_report_label_.SetText( "実行中" );
+    parse_report_label_.SetText( StrT::Convert::ReportLabelParseRunning.Get() );
 
-    result_label_.SetText( "BMS の構文解析中です。" );
+    result_label_.SetText( StrT::Convert::ReportResultParseRunning.Get() );
 
     this->CallBeforeParse();
   };
@@ -526,8 +524,8 @@ ConverterDialog::RegisterConverterCallbacks( void )
             dialog.CheckToRootItem();
 
             TtMessageBoxOk box;
-            box.SetMessage( "BMS にランダム構文が検出されました。\r\nツリーから適用するブロックを選択して下さい。" );
-            box.SetCaption( "ランダム構文ダイアログ" );
+            box.SetMessage( StrT::Convert::MBInfoRandomDialogMessage.Get() );
+            box.SetCaption( StrT::Convert::MBInfoRandomDialogCaption.Get() );
             box.SetIcon( TtMessageBox::Icon::INFORMATION );
             box.ShowDialog( *this );
           }
@@ -572,9 +570,9 @@ ConverterDialog::RegisterConverterCallbacks( void )
   converter_.callbacks_.before_read_audio_files_ = [&] ( Core::Converter& converter ) {
     this->ResetCurrentLabel( wav_report_label_ );
     wav_report_label_.SetState( BorderLabel::State::Running );
-    wav_report_label_.SetText( "実行中" );
+    wav_report_label_.SetText( StrT::Convert::ReportLabelReadAudioFilesRunning.Get() );
 
-    result_label_.SetText( "音声ファイルの読み込み中です。" );
+    result_label_.SetText( StrT::Convert::ReportResultReadAudioFilesRunning.Get() );
 
     wav_count_max_ = converter.info_.bms_data_->wav_array_.GetExistCount();
     wav_count_ = 0;
@@ -589,7 +587,7 @@ ConverterDialog::RegisterConverterCallbacks( void )
     wav_count_ += 1;
     wav_progress_.StepIt();
 
-    wav_report_label_.SetText( TtUtility::ToStringFrom( wav_count_ ) + " / " + TtUtility::ToStringFrom( wav_count_max_ ) + " 実行中" );
+    wav_report_label_.SetText( Utility::Format( "%d / %d " + StrT::Convert::ReportLabelOneAudioFileReadRunning.Get(), wav_count_, wav_count_max_ ) );
   };
 
   converter_.callbacks_.decide_audio_file_path_ = [&] ( Core::Converter& converter, const std::string& filename ) {
@@ -607,7 +605,7 @@ ConverterDialog::RegisterConverterCallbacks( void )
 
   converter_.callbacks_.after_read_audio_files_ = [&] ( Core::Converter& ) {
     wav_report_label_.SetState( current_report_end_state_ );
-    wav_report_label_.SetText( TtUtility::ToStringFrom( wav_count_ ) + " / " + TtUtility::ToStringFrom( wav_count_max_ ) + " " + current_report_end_string_ );
+    wav_report_label_.SetText( Utility::Format( "%d / %d " + current_report_end_string_, wav_count_, wav_count_max_ ) );
 
     this->CallAfterReadAudioFiles();
   };
@@ -616,9 +614,9 @@ ConverterDialog::RegisterConverterCallbacks( void )
   converter_.callbacks_.before_mixin_waves_ = [&] ( Core::Converter& ) {
     this->ResetCurrentLabel( mixin_report_label_ );
     mixin_report_label_.SetState( BorderLabel::State::Running );
-    mixin_report_label_.SetText( "実行中" );
+    mixin_report_label_.SetText( StrT::Convert::ReportLabelMixinRunning.Get() );
 
-    result_label_.SetText( "音声ファイルの合成中です。" );
+    result_label_.SetText( StrT::Convert::ReportResultMixinRunning.Get() );
 
     this->CallBeforeMixinWaves();
   };
@@ -634,9 +632,9 @@ ConverterDialog::RegisterConverterCallbacks( void )
   converter_.callbacks_.before_affect_wave_ = [&] ( Core::Converter& ) {
     this->ResetCurrentLabel( after_report_label_ );
     after_report_label_.SetState( BorderLabel::State::Running );
-    after_report_label_.SetText( "実行中" );
+    after_report_label_.SetText( StrT::Convert::ReportLabelAffectWaveRunning.Get() );
 
-    result_label_.SetText( "調整・後処理中です。" );
+    result_label_.SetText( StrT::Convert::ReportResultAffectWaveRunning.Get() );
 
     this->CallBeforeAffectWave();
   };
@@ -651,7 +649,7 @@ ConverterDialog::RegisterConverterCallbacks( void )
 
   // -- ファイル出力 -----
   converter_.callbacks_.before_output_to_file_ = [&] ( Core::Converter& ) {
-    result_label_.SetText( "ファイルに出力中です。" );
+    result_label_.SetText( StrT::Convert::ReportResultOutputToFileRunning.Get() );
 
     this->CallBeforeOutputToFile();
   };
@@ -662,11 +660,10 @@ ConverterDialog::RegisterConverterCallbacks( void )
 
     if ( converter_.info_.output_file_path_.empty() ) {
       after_report_label_.SetState( BorderLabel::State::WithError );
-      after_report_label_.SetText( "ファイル未出力" );
+      after_report_label_.SetText( StrT::Convert::ReportLabelAfterOutputToFileNoOutput.Get() );
     }
-    char buf[512];
-    ::sprintf_s( buf, sizeof( buf ), "%.2f", converter_.GetProcessingTime() );
-    result_label_.SetText( std::string( "変換は完了しました。(" ) + buf + " sec)" );
+
+    result_label_.SetText( Utility::Format( StrT::Convert::ReportResultAfterOutputToFileCompleted.Get(), converter_.GetProcessingTime() ) );
 
     this->CallAfterOutputToFile();
   };
@@ -716,7 +713,7 @@ ConverterDialog::OutputToLog( const std::string& str )
   if ( log_file_ ) {
     auto ret = std::fwrite( str.c_str(), 1, str.size(), log_file_.get() );
     if ( ret == 0 ) {
-      output_dialog_.PutsText( "ログファイルの書き込みに失敗しました。" );
+      output_dialog_.PutsText( StrT::Convert::OutputToLogError.Get() );
     }
     std::fflush( log_file_.get() );
   }
@@ -908,7 +905,7 @@ ConverterDialog::SquirrelErrorHandlingReturnErrorNotOccurred( std::function<bool
     return function();
   }
   catch ( TtSquirrel::Exception& ex ) {
-    std::string tmp = "拡張スクリプトでエラーがありました。";
+    std::string tmp = StrT::Convert::MBErrorScriptMessage.Get();
     std::string message = ex.GetStandardMessage();
     if ( NOT( message.empty() ) ) {
       tmp.append( "\r\n\r\n" );
@@ -919,7 +916,7 @@ ConverterDialog::SquirrelErrorHandlingReturnErrorNotOccurred( std::function<bool
 
     TtMessageBoxOk box;
     box.SetMessage( tmp );
-    box.SetCaption( "拡張スクリプトのエラー" );
+    box.SetCaption( StrT::Convert::MBErrorScriptCaption.Get() );
     box.SetIcon( TtMessageBox::Icon::ERROR );
     box.ShowDialog( *this );
     return false;
@@ -988,5 +985,5 @@ ConverterDialog::ResetCurrentLabel( BorderLabel& label )
 {
   current_label_             = &label;
   current_report_end_state_  = BorderLabel::State::Completed;
-  current_report_end_string_ = "完了";
+  current_report_end_string_ = StrT::Convert::ReportLabelCompleted.Get();
 }

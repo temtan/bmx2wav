@@ -88,9 +88,6 @@ namespace BMX2WAV {
   // -- Exception --------------------------------------------------------
   class Exception : public TtException {
   public:
-    static std::string MakeMessage( const char* format, ... );
-
-  public:
     explicit Exception( void );
     virtual std::string GetMessage( void ) = 0;
   };
@@ -112,6 +109,19 @@ namespace BMX2WAV {
   };
 #define BMX2WAV_INTERNAL_EXCEPTION BMX2WAV::InternalException( __FILE__, __LINE__ )
 
+  // -- LanguageException ------------------------------------------------
+  class LanguageException : public Exception {
+  public:
+    explicit LanguageException( const std::string& language );
+
+    const std::string& GetLanguage( void );
+
+    virtual std::string GetMessage( void ) override;
+    virtual std::string Dump( void ) const override;
+
+  private:
+    const std::string language_;
+  };
 
   // =====================================================================
   // -- ConvertException -------------------------------------------------

@@ -7,7 +7,7 @@ Main.first_column = null;
 
 // カラムグループ設定
 {
-  local group = ColumnGroup( "簡易" );
+  local group = ColumnGroup( StrT.Main.ColumnGroupName.Simple.get() );
   group.columns.append( ParameterColumn() );
   group.columns.append( HeaderColumn( "TITLE", HeaderColumn.compare_as_string ) );
   group.columns.append( HeaderColumn( "ARTIST", HeaderColumn.compare_as_string ) );
@@ -17,7 +17,7 @@ Main.first_column = null;
 }
 
 {
-  local group = ColumnGroup( "詳細" );
+  local group = ColumnGroup( StrT.Main.ColumnGroupName.Details.get() );
   group.columns.append( ParameterColumn() );
   group.columns.append( HeaderColumn( "TITLE", HeaderColumn.compare_as_string ) );
   group.columns.append( HeaderColumn( "ARTIST", HeaderColumn.compare_as_string ) );
@@ -31,7 +31,7 @@ Main.first_column = null;
 }
 
 {
-  local group = ColumnGroup( "他色々" );
+  local group = ColumnGroup( StrT.Main.ColumnGroupName.Various.get() );
   group.columns.append( ParameterColumn() );
   group.columns.append( PlayerColumn() );
   group.columns.append( HeaderColumn( "TITLE", HeaderColumn.compare_as_string ) );
@@ -61,7 +61,7 @@ Main.entry_dialog_list_items.append( ContainsRandomStatementColumn() );
 // -- EntryProcessors 関連 -----------------------------------------------
 {
   local preview = {
-    name = "プレビュー再生",
+    name = StrT.Main.PopupEntry.ProcessorMenuPlayPreview.get(),
     function execute( entry ) {
       entry.parse_as_bms_data_once();
       local key = "PREVIEW";
@@ -73,20 +73,20 @@ Main.entry_dialog_list_items.append( ContainsRandomStatementColumn() );
   };
 
   local shell_execute = {
-    name = "開く",
+    name = StrT.Main.PopupEntry.ProcessorMenuOpen.get(),
     function execute( entry ) {
       BMX2WAV.shell_execute( "open", entry.path, null, Path.dirname( entry.path ) );
     }
   };
 
   local notepad = {
-    name = "メモ帳で開く",
+    name = StrT.Main.PopupEntry.ProcessorMenuOpenByNotepad.get(),
     function execute( entry ) {
       BMX2WAV.create_process( "notepad.exe", entry.path, null, BMX2WAV.ShowState.SHOW, false );
     }
   };
 
   Main.entry_processors.items.append( preview );
-  local sub = SubMenu( "ファイル操作", [shell_execute, notepad] );
+  local sub = SubMenu( StrT.Main.PopupEntry.ProcessorMenuFileOperations.get(), [shell_execute, notepad] );
   Main.entry_processors.items.append( sub );
 }

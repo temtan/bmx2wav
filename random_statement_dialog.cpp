@@ -2,6 +2,8 @@
 
 #include "tt_message_box.h"
 
+#include "string_table.h"
+
 #include "random_statement_dialog.h"
 
 using namespace BMX2WAV;
@@ -37,7 +39,7 @@ RandomStatementDialog::GetExtendedStyle( void )
 bool
 RandomStatementDialog::Created( void )
 {
-  this->SetText( "ランダム構文選択ダイアログ" );
+  this->SetText( StrT::Random::Title.Get() );
 
   struct CommandID {
     enum ID : int {
@@ -59,8 +61,8 @@ RandomStatementDialog::Created( void )
   this->SetClientSize( 350, 500, false );
   this->SetCenterRelativeToParent();
 
-  check_button_.SetText( "構文に従ってランダムにチェックする" );
-  ok_button_.SetText( "OK" );
+  check_button_.SetText( StrT::Random::CheckButton.Get() );
+  ok_button_.SetText(    StrT::Random::OKButton.Get() );
 
   this->AddCommandHandler( CommandID::CheckButton, [&] ( int, HWND ) -> WMResult {
     this->CheckTreeItems();

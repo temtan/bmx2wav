@@ -1,0 +1,22 @@
+// main.rc
+
+#include "resource.h"
+
+
+RSID_ICON_MAIN                        ICON "icons/bmx2wav_main.ico"
+RSID_ICON_MAIN_SMALL                  ICON "icons/bmx2wav_main_small.ico"
+RSID_ICON_BMS_FILE                    ICON "icons/bms_file.ico"
+RSID_ICON_AUTO_DISPLAY_CELLS          ICON "icons/auto_display_cells.ico"
+RSID_ICON_DISPLAY_CELLS               ICON "icons/display_cells.ico"
+RSID_ICON_RELOAD                      ICON "icons/reload.ico"
+RSID_ICON_EDIT_COMMON_PARAMETER       ICON "icons/edit_common_parameter.ico"
+RSID_ICON_ADD_ENTRY                   ICON "icons/add_entry.ico"
+RSID_ICON_DELETE_ENTRY                ICON "icons/delete_entry.ico"
+RSID_ICON_DELETE_ALL_ENTRY            ICON "icons/delete_all_entry.ico"
+RSID_ICON_SHOW_PROPERTY_OF_ENTRY      ICON "icons/show_property_of_entry.ico"
+RSID_ICON_EDIT_INDIVIDUAL_PARAMETER   ICON "icons/edit_individual_parameter.ico"
+RSID_ICON_CONVERT_ONE_BMS             ICON "icons/convert_one_bms.ico"
+RSID_ICON_CONVERT_ALL_BMS             ICON "icons/convert_all_bms.ico"
+RSID_ICON_RELOAT_SQUIRREL_SCRIPT      ICON "icons/reload_squirrel_script.ico"
+RSID_ICON_SHOW_SQUIRREL_OUTPUT_DIALOG ICON "icons/show_squirrel_output_dialog.ico"
+RSID_ICON_SEARCHER_MAIN_SMALL         ICON "icons/searcher_main_small.ico"

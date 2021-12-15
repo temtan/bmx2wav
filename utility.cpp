@@ -152,6 +152,7 @@ Utility::KeyEqual( const std::string& s1, const std::string& s2 )
   return TtString::ToUpper( s1 ) == TtString::ToUpper( s2 );
 }
 
+
 bool
 Utility::MakeDirectoryOfFileIfNotExist( const std::string& path )
 {
@@ -162,6 +163,7 @@ Utility::MakeDirectoryOfFileIfNotExist( const std::string& path )
   return true;
 }
 
+
 int64_t
 Utility::GetCurrentProcessWorkingSetSize( void )
 {
@@ -169,6 +171,14 @@ Utility::GetCurrentProcessWorkingSetSize( void )
   ::GetProcessMemoryInfo( ::GetCurrentProcess(), &info, sizeof( info ) );
   return info.WorkingSetSize;
 }
+
+
+bool
+Utility::UserDefaultLocaleIsJapanese( void )
+{
+  return ::GetUserDefaultLCID() == 0x0411;
+}
+
 
 std::string
 Utility::GetNotExistPathFrom( const std::string& path )

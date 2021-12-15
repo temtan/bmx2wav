@@ -5,6 +5,8 @@
 #include "tt_message_box.h"
 
 #include "common.h"
+#include "utility.h"
+#include "string_table.h"
 #include "mainstay/main_frame.h"
 
 static void show_unexpected_error_message_box( void );
@@ -21,6 +23,9 @@ WinMain( HINSTANCE h_instance,
   NOT_USE( n_cmd_show );
 
   try {
+    // 言語選択
+    BMX2WAV::StringTable::Initialize( BMX2WAV::IniFileOperation::LoadLanguage() );
+
     BMX2WAV::Image::Initialize();
     BMX2WAV::Mainstay::MainFrame frame;
     frame.Create();
@@ -39,16 +44,34 @@ WinMain( HINSTANCE h_instance,
     }
     catch ( TtCommandLine::Exception& e ) {
       TtMessageBoxOk box;
-      ( box.AppendMessage() << "コマンドライン引数でエラーが発生しました。\r\n" <<
-        "情報 : " << e.Dump() << "\r\n\r\n" <<
-        "コマンドライン引数は無視されます。" );
-      box.SetCaption( "コマンドラインエラー" );
+      box.SetMessage( BMX2WAV::Utility::Format( BMX2WAV::StrT::Message::CommandLineError.Get(), e.Dump().c_str() ) );
+      box.SetCaption( BMX2WAV::StrT::Message::CommandLineErrorCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::ERROR );
       box.ShowDialog();
     }
 
     frame.Show();
     return TtForm::LoopDispatchMessage();
+  }
+  catch ( BMX2WAV::LanguageException& e ) {
+    // ここだけは生メッセージ
+    if ( BMX2WAV::Utility::UserDefaultLocaleIsJapanese() ) {
+      TtMessageBoxOk box;
+      box.AppendMessage() << "言語 DLL の読み込み時にエラーが発生しました。\r\n";
+      box.AppendMessage() << "言語 : " << e.GetLanguage();
+      box.SetCaption( "言語選択エラー" );
+      box.SetIcon( TtMessageBox::Icon::ERROR );
+      box.ShowDialog();
+    }
+    else {
+      TtMessageBoxOk box;
+      box.AppendMessage() << "Error occurred while loading the language DLL.\r\n";
+      box.AppendMessage() << "Language : " << e.GetLanguage();
+      box.SetCaption( "Language selection error" );
+      box.SetIcon( TtMessageBox::Icon::ERROR );
+      box.ShowDialog();
+    }
+    return 3;
   }
   catch ( TtException& e ) {
     BMX2WAV::IniFileOperation::SaveErrorLogDump( e );
@@ -65,8 +88,8 @@ static void
 show_unexpected_error_message_box( void )
 {
   TtMessageBoxOk box;
-  box.SetMessage( "予期しないエラーが発生しました。アプリケーションを終了させます。" );
-  box.SetCaption( "予期しないエラー" );
+  box.SetMessage( BMX2WAV::StrT::Message::UnexpectedError.Get() );
+  box.SetCaption( BMX2WAV::StrT::Message::UnexpectedErrorCaption.Get() );
   box.SetIcon( TtMessageBox::Icon::ERROR );
   box.ShowDialog();
 }

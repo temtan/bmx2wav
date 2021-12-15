@@ -5,6 +5,7 @@
 #include "tt_path.h"
 
 #include "exception.h"
+#include "string_table.h"
 
 #include "searcher/searcher_common.h"
 
@@ -28,11 +29,11 @@ prototype_menu_( TtSubMenu::Create() )
   };
   using Index = Image::Index;
 
-  this->AppendMenu( file_menu_, "ファイル(&F)" );
-  add_menu( file_menu_, CommandID::Close, Index::None, "終了(&X)" );
+  this->AppendMenu( file_menu_, StrT::Searcher::Main::Menu::File.Get() );
+  add_menu( file_menu_, CommandID::Close, Index::None, StrT::Searcher::Main::Menu::FileClose.Get() );
 
-  this->AppendMenu( tool_menu_, "ツール(&T)" );
-  add_menu( tool_menu_, CommandID::Settings, Index::None, "環境設定(&S)" );
+  this->AppendMenu( tool_menu_, StrT::Searcher::Main::Menu::Tool.Get() );
+  add_menu( tool_menu_, CommandID::Settings, Index::None, StrT::Searcher::Main::Menu::ToolSettings.Get() );
 
   if ( IniFileOperation::LoadTestMode() ) {
     this->AppendMenu( prototype_menu_, "開発中" );
@@ -47,7 +48,7 @@ prototype_menu_( TtSubMenu::Create() )
 Searcher::TreeMenu::TreeMenu( void ) :
 TtSubMenu( TtSubMenuCommand::Create() )
 {
-  this->AppendNewItem( CommandID::OpenTreeDirectory, "開く(&O)" );
+  this->AppendNewItem( CommandID::OpenTreeDirectory, StrT::Searcher::Main::PopupTree::OpenDirectory.Get() );
 }
 
 
@@ -57,9 +58,9 @@ TtSubMenu( TtSubMenuCommand::Create() ),
 entry_processor_menu_( TtSubMenuCommand::Create() ),
 last_selected_item_( nullptr, TtListViewItem::INVALID_INDEX )
 {
-  this->AppendNewItem( CommandID::HideEntry, "一時的に非表示(&H)" );
+  this->AppendNewItem( CommandID::HideEntry, StrT::Searcher::Main::PopupEntry::HideEntry.Get() );
   this->AppendSeparator();
-  this->AppendMenu( entry_processor_menu_, "スクリプト関数を実行する(&F)" );
+  this->AppendMenu( entry_processor_menu_, StrT::Searcher::Main::PopupEntry::ProcessorMenu.Get() );
 }
 
 
@@ -121,25 +122,25 @@ Searcher::MainToolBar::CreatedInternal( void )
     label.Show();
   };
 
-  add_standard_button( ID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     "スクリプトの再読み込み" );
-  add_standard_button( ID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, "スクリプトの標準出力ダイアログの表示" );
+  add_standard_button( ID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     StrT::Searcher::Main::Toolbar::ReloadSquirrelScript.Get() );
+  add_standard_button( ID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Searcher::Main::Toolbar::ShowSquirrelOutputDialog.Get() );
   this->AddSeparator();
 
-  add_label( ID::FilterLabel, filter_label_, "フィルタ", 48 );
+  add_label( ID::FilterLabel, filter_label_, StrT::Searcher::Main::Toolbar::FilterLabel.Get(), 48 );
   add_drop_down_box( ID::SelectFilter, select_filter_box_, 140, 120 );
   this->AddSeparator();
 
   this->AddButtonWithString( ID::AutoDisplayCells, Image::LIST->GetOffsetIndex( Index::AutoDisplayCells ),
-                             "カラムの自動表示", TtToolBar::Button::Style::Standard | TtToolBar::Button::Style::Check );
+                             StrT::Searcher::Main::Toolbar::AutoDisplayCells.Get(), TtToolBar::Button::Style::Standard | TtToolBar::Button::Style::Check );
 
-  add_label( ID::SelectColumnLabel, select_column_label_, "カラム表示", 60 );
+  add_label( ID::SelectColumnLabel, select_column_label_, StrT::Searcher::Main::Toolbar::SelectColumnLabel.Get(), 60 );
   add_drop_down_box( ID::SelectColumnGroup, select_column_group_box_, 120, 120 );
-  add_standard_button( ID::DisplayCells, Index::DisplayCells, "カラム内容の表示" );
+  add_standard_button( ID::DisplayCells, Index::DisplayCells, StrT::Searcher::Main::Toolbar::DisplayCells.Get() );
   this->AddSeparator();
 
-  add_label( ID::ExecuteSearchLabel, execute_search_label_, "検索方法", 48 );
+  add_label( ID::ExecuteSearchLabel, execute_search_label_, StrT::Searcher::Main::Toolbar::ExecuteSearchLabel.Get(), 48 );
   add_drop_down_box( ID::SelectSearch, select_search_box_, 220, 120 );
-  add_standard_button( ID::ExecuteSearch, Index::ExecuteSearch, "検索実行" );
+  add_standard_button( ID::ExecuteSearch, Index::ExecuteSearch, StrT::Searcher::Main::Toolbar::ExecuteSearch.Get() );
 
   return true;
 }
@@ -257,7 +258,7 @@ Searcher::MainList::ResetColumnsBy( const std::vector<std::string>& columns )
   this->ClearColumns();
   {
     auto column = this->MakeNewColumn();
-    column.SetText( "ファイル名" );
+    column.SetText( StrT::Searcher::Main::DefaultFirstColumnName.Get() );
   }
   for ( auto& name : columns ) {
     auto column = this->MakeNewColumn();

@@ -2,6 +2,8 @@
 
 #include "tt_folder_browser_dialog.h"
 
+#include "string_table.h"
+
 #include "searcher/searcher_common.h"
 
 #include "searcher/searcher_settings_property_sheet.h"
@@ -11,7 +13,7 @@ using namespace BMX2WAV;
 
 // -- SettingsPage -------------------------------------------------------
 Searcher::SettingsPropertySheet::SettingsPage::SettingsPage( Settings& settings ) :
-Page( "設定" ),
+Page( StrT::Searcher::SPS::Settings.Get() ),
 settings_( settings )
 {
   this->PresetSizeAtPageCreate( 268, 220 );
@@ -39,10 +41,10 @@ asynchronous_check_;
   auto_display_check_.SetPositionSize(     4,  60, 316, 16);
   asynchronous_check_.SetPositionSize(     4,  84, 316, 16 );
 
-  home_label_.SetText( "ホームフォルダ(&H)" );
-  home_ref_button_.SetText( "参照..." );
-  auto_display_check_.SetText( "セルの内容を自動で表示する(&A)" );
-  asynchronous_check_.SetText( "セルの内容を非同期で表示する(&S)" );
+  home_label_.SetText(         StrT::Searcher::SPS::SettingsHomeLabel.Get() );
+  home_ref_button_.SetText(    StrT::Searcher::SPS::SettingsHomeRefButton.Get() );
+  auto_display_check_.SetText( StrT::Searcher::SPS::SettingsAutoDisplayCheck.Get() );
+  asynchronous_check_.SetText( StrT::Searcher::SPS::SettingsAsynchronousCheck.Get() );
 
   this->GetHandlers().at_apply = [this] ( void ) -> bool {
     settings_.home_folder_          = home_edit_.GetText();
@@ -53,7 +55,7 @@ asynchronous_check_;
 
   this->AddCommandHandler( CommandID::HomeReferenceButton, [&] ( int, HWND ) -> WMResult {
     TtFolderBrowserDialog dialog;
-    dialog.SetDescription( "ホームフォルダの選択" );
+    dialog.SetDescription( StrT::Searcher::SPS::SettingsHomeRefFolderDialogDescription.Get() );
     if ( NOT( settings_.home_folder_.empty() ) ) {
       dialog.SetSelectedPath( settings_.home_folder_ );
     }
@@ -89,7 +91,7 @@ bool
 Searcher::SettingsPropertySheet::Created( void )
 {
   this->SetIconAsLarge( Image::ICONS[Image::Index::Main] );
-  this->SetText( "環境設定" );
+  this->SetText( StrT::Searcher::SPS::Title.Get() );
 
   return true;
 }

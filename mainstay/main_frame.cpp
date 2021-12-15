@@ -10,6 +10,7 @@
 #include "utility_dialogs.h"
 #include "parameter_property_sheet.h"
 #include "converter_dialog.h"
+#include "string_table.h"
 
 #include "mainstay/entry_dialog.h"
 #include "mainstay/multiple_convert_dialog.h"
@@ -79,7 +80,7 @@ Mainstay::MainFrame::Created( void )
 
   // Show しないと表示されないので注意
   squirrel_standard_output_dialog_.ShowDialog( *this );
-  squirrel_standard_output_dialog_.SetText( "スクリプト標準出力" );
+  squirrel_standard_output_dialog_.SetText( StrT::Main::SquirrelStandardOutputDialogTitle.Get() );
 
   this->SetAccelerator();
 
@@ -92,7 +93,7 @@ Mainstay::MainFrame::Created( void )
     common_parameter_.ReadFromFile( TtPath::GetExecutingFilePathCustomExtension( "ini" ) );
 
     last_sort_parameter_ = MainFrame::NoSorted;
-    this->SetSortMethodToStatusBar( "なし" );
+    this->SetSortMethodToStatusBar( StrT::Main::DefaultSortMethodName.Get() );
   }
 
   this->InitializeSquirrelVM();
@@ -163,9 +164,9 @@ Mainstay::MainFrame::RegisterHandlers( void )
 
   this->AddCommandHandler( CommandID::AddEntry, [this] ( int, HWND ) -> WMResult {
     TtOpenFileDialog dialog;
-    dialog.GetFilters().push_back( {"BMS BME ファイル(*.bms;*.bme)", "*.bms"} );
+    dialog.GetFilters().push_back( {StrT::Main::AddEntryFileDialogBmsBmeFile.Get(), "*.bms"} );
     dialog.GetFilters().back().GetExtensions().push_back( "*.bme" );
-    dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+    dialog.GetFilters().push_back( {StrT::Main::AddEntryFileDialogAllFile.Get(), "*.*"} );
     dialog.SetMultiselect( true );
     if ( dialog.ShowDialog( *this ) ) {
       for ( auto& path : dialog.GetFileNames() ) {
@@ -194,8 +195,8 @@ Mainstay::MainFrame::RegisterHandlers( void )
   this->AddCommandHandler( CommandID::DeleteAllEntry, [this] ( int, HWND ) -> WMResult {
     if ( list_.GetItemCount() > 0 ) {
       TtMessageBoxOkCancel box;
-      box.SetMessage( "全てのBMSを削除します。よろしいですか？" );
-      box.SetCaption( "全BMS削除の確認" );
+      box.SetMessage( StrT::Main::MBDeleteAllEntryCautionMessage.Get() );
+      box.SetCaption( StrT::Main::MBDeleteAllEntryCautionCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::QUESTION );
       if ( box.ShowDialog( *this ) == TtMessageBox::Result::OK ) {
         this->ClearEntries();
@@ -215,8 +216,8 @@ Mainstay::MainFrame::RegisterHandlers( void )
       Entry* entry = item.GetParameter();
       if ( NOT( entry->parameter_ ) ) {
         TtMessageBoxYesNoCancel box;
-        box.SetMessage( "共通設定をコピーして個別設定を使用しますか？（使用しない場合はデフォルト設定になります）" );
-        box.SetCaption( "確認" );
+        box.SetMessage( StrT::Main::MBEditIndividualParameterCopyCautionMessage.Get() );
+        box.SetCaption( StrT::Main::MBEditIndividualParameterCopyCautionCaption.Get() );
         box.SetIcon( TtMessageBox::Icon::QUESTION );
         auto ret = box.ShowDialog( *this );
         if ( ret == TtMessageBox::Result::CANCEL ) {
@@ -277,13 +278,8 @@ Mainstay::MainFrame::RegisterHandlers( void )
     if ( ret <= 32 ) {
       DWORD error_code = ::GetLastError();
       TtMessageBoxOk box;
-      {
-        std::string tmp = "ファイルを開くのに失敗しました。\r\n\r\n";
-        tmp.append( "ファイル名 : " + searcher_path + "\r\n" );
-        tmp.append( "メッセージ : " + TtUtility::GetWindowsSystemErrorMessage( error_code ) );
-        box.SetMessage( tmp );
-      }
-      box.SetCaption( "ファイルオープンエラー" );
+      box.SetMessage( Utility::Format( StrT::Main::MBStartSearcherErrorMessage.Get(), searcher_path.c_str(), TtUtility::GetWindowsSystemErrorMessage( error_code ).c_str() ) );
+      box.SetCaption( StrT::Main::MBStartSearcherErrorCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::ERROR );
       box.ShowDialog( *this );
     }
@@ -479,7 +475,7 @@ Mainstay::MainFrame::SetEntryProcessorMenu( void )
   } );
   if ( entry_processor_menu_maker_.GetRoot().empty() ) {
     TtSubMenuCommand menu = TtSubMenuCommand::Create();
-    TtMenuItem item = menu.AppendNewItem( 0, "(なし)" );
+    TtMenuItem item = menu.AppendNewItem( 0, StrT::Main::EntryProcessorMenuEmpty.Get() );
     item.SetEnabled( false );
     item.SetParameterAs<void*>( nullptr );
     entry_menu_.SetEntryProcessorMenu( menu );
@@ -490,7 +486,7 @@ Mainstay::MainFrame::SetEntryProcessorMenu( void )
 void
 Mainstay::MainFrame::SetSortMethodToStatusBar( const std::string& str )
 {
-  status_bar_.SetTextAt( 0, "並び順 : " + str );
+  status_bar_.SetTextAt( 0, StrT::Main::StatusBarSortMethodTitle.Get() + str );
 }
 
 
@@ -529,7 +525,7 @@ void
 Mainstay::MainFrame::DisplayColumn( void )
 {
   this->SquirrelErrorHandling( [&] ( void ) {
-    std::string first = vm_->FirstColumnIsNotNull() ? vm_->GetFirstColumnName() : "ファイルパス";
+    std::string first = vm_->FirstColumnIsNotNull() ? vm_->GetFirstColumnName() : StrT::Main::DefaultFirstColumnName.Get();
     list_.ResetColumnsBy( first, vm_->GetColumnNamesFromColumnGroupIndex( tool_bar_.select_column_group_box_.GetSelectedIndex() ) );
   } );
 }
@@ -616,7 +612,7 @@ Mainstay::MainFrame::SortEntries( unsigned int group_index, unsigned int column_
   bool ascending = (last_sort_parameter_ != sort_parameter);
   last_sort_parameter_ = ascending ? sort_parameter : MainFrame::NoSorted;
 
-  this->SetSortMethodToStatusBar( list_.GetColumn( column_index ).GetText() + (ascending ? "" : "（逆順）") );
+  this->SetSortMethodToStatusBar( list_.GetColumn( column_index ).GetText() + (ascending ? "" : StrT::Main::StatusBarSortMethodDescending.Get()) );
 
   if ( column_index == 0 ) {
     this->SquirrelErrorHandling( [&] ( void ) {
@@ -733,7 +729,7 @@ Mainstay::MainFrame::SquirrelErrorHandlingReturnErrorNotOccurred( std::function<
     return function();
   }
   catch ( TtSquirrel::Exception& ex ) {
-    std::string tmp = "拡張スクリプトでエラーがありました。";
+    std::string tmp = StrT::Main::MBScriptErrorMessage.Get();
     std::string message = ex.GetStandardMessage();
     if ( NOT( message.empty() ) ) {
       tmp.append( "\r\n\r\n" );
@@ -744,7 +740,7 @@ Mainstay::MainFrame::SquirrelErrorHandlingReturnErrorNotOccurred( std::function<
 
     TtMessageBoxOk box;
     box.SetMessage( tmp );
-    box.SetCaption( "拡張スクリプトのエラー" );
+    box.SetCaption( StrT::Main::MBScriptErrorCaption.Get() );
     box.SetIcon( TtMessageBox::Icon::ERROR );
     box.ShowDialog( *this );
     return false;

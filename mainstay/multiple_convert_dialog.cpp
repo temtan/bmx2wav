@@ -2,6 +2,7 @@
 
 #include "converter_dialog.h"
 
+#include "string_table.h"
 #include "mainstay/main_frame.h"
 
 #include "mainstay/multiple_convert_dialog.h"
@@ -42,7 +43,7 @@ bool
 Mainstay::MultipleConvertDialog::Created( void )
 {
   this->SetIconAsLarge( Image::ICONS[Image::Index::ConvertAllBms] );
-  this->SetText( "変換BMS一覧" );
+  this->SetText( StrT::Multiple::Title.Get() );
 
   struct CommandID {
     enum ID : int {
@@ -58,7 +59,7 @@ Mainstay::MultipleConvertDialog::Created( void )
   list_.SetFullRowSelect( true );
   list_.SetHasGridLines( true );
 
-  show_log_menu_.AppendNewItem( CommandID::MenuShowLog, "ログを表示する(&L)" );
+  show_log_menu_.AppendNewItem( CommandID::MenuShowLog, StrT::Multiple::MenuShowLog.Get() );
 
   this->RegisterWMSize( [this] ( int, int w, int h ) -> WMResult {
     status_label_.SetPositionSize( 8,  4, w - 8,     18 );
@@ -71,22 +72,22 @@ Mainstay::MultipleConvertDialog::Created( void )
   this->SetClientSize( 420, 400, false );
   this->SetPosition( parent_.GetPoint().x, parent_.GetPoint().y );
 
-  abort_button_.SetText( "変換を中止する" );
+  abort_button_.SetText( StrT::Multiple::AbortButton.Get() );
   {
     auto make_column = [&] ( const std::string& title, unsigned int width ) {
       auto tmp = list_.MakeNewColumn();
       tmp.SetText( title );
       tmp.SetWidth( width );
     };
-    make_column( "BMS",        240 );
-    make_column( "経過",        80 );
-    make_column( "最重エラー",  80 );
+    make_column( StrT::Multiple::ColumnBms.Get(),              240 );
+    make_column( StrT::Multiple::ColumnResult.Get(),            80 );
+    make_column( StrT::Multiple::ColumnMostSeriousError.Get(),  80 );
   }
 
   for ( auto& entry : entries_ ) {
     auto item = list_.MakeNewItem();
     item.SetText( entry->path_ );
-    item.SetSubItemText( 1, "未変換" );
+    item.SetSubItemText( 1, StrT::Multiple::ColumnDefaultTextUnconverted.Get() );
   }
 
   this->AddCommandHandler( CommandID::AbortButton, [&] ( int, HWND ) -> WMResult {
@@ -155,7 +156,7 @@ Mainstay::MultipleConvertDialog::Created( void )
 
   // Show しないと表示されないので注意
   log_dialog_.ShowDialog( *this );
-  log_dialog_.SetText( "BMS変換ログ" );
+  log_dialog_.SetText( StrT::Multiple::LogDioalogTitle.Get() );
 
   return {true};
 }
@@ -183,7 +184,7 @@ Mainstay::MultipleConvertDialog::ConvertStart( void )
     is_converting_.store( false );
     lock_.Leave();
   } );
-  status_label_.SetText( "変換中" );
+  status_label_.SetText( StrT::Multiple::StatusTextConverting.Get() );
 
   unsigned int i = 0;
   for ( auto& entry : entries_ ) {
@@ -221,10 +222,10 @@ Mainstay::MultipleConvertDialog::ConvertStart( void )
 
   abort_button_.SetEnabled( false );
   if ( need_to_abort_.load() ) {
-    status_label_.SetText( "変換は中断されました。" );
+    status_label_.SetText( StrT::Multiple::StatusTextAborted.Get() );
   }
   else {
-    status_label_.SetText( "変換は終了しました。" );
+    status_label_.SetText( StrT::Multiple::StatusTextCompleted.Get() );
   }
 }
 
