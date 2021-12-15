@@ -21,6 +21,7 @@ namespace BMX2WAV::Searcher {
 
   public:
     TtSubMenu file_menu_;
+    TtSubMenu export_menu_;
     TtSubMenu tool_menu_;
     TtSubMenu prototype_menu_;
   };
@@ -96,6 +97,8 @@ namespace BMX2WAV::Searcher {
     void ResetColumnsBy( const std::vector<std::string>& columns );
 
     void MoveItem( unsigned int from, unsigned int to );
+
+    std::string GetDataAsCSV( const std::string& delimiter );
 
     void MakeNewItemFromEntry( Entry* entry );
 

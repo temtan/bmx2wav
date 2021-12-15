@@ -4,6 +4,8 @@
 
 #include "tt_path.h"
 #include "tt_message_box.h"
+#include "tt_file_dialog.h"
+#include "tt_clipboard.h"
 
 #include "exception.h"
 #include "utility.h"
@@ -150,6 +152,40 @@ Searcher::MainFrame::RegisterHandlers( void )
     return {WMResult::Done};
   } );
 
+  // CSV 出力
+  this->AddCommandHandler( CommandID::ExportCSVToFile, [this] ( int, HWND ) -> WMResult {
+    TtSaveFileDialog dialog;
+    dialog.GetFilters().push_back( {"CSVファイル(*.csv)", "*.csv"} );
+    dialog.GetFilters().push_back( {"すべてのファイル(*.*)", "*.*"} );
+    if( dialog.ShowDialog( *this ) ) {
+      FILE* file;
+      errno_t error_number = ::fopen_s( &file, dialog.GetFileName().c_str(), "wb" );
+      if ( error_number != 0 ) {
+        TtMessageBoxOk box;
+        box.SetMessage( "ファイルを開くのに失敗しました。\r\nファイル名 ： " + dialog.GetFileName() );
+        box.SetCaption( "ファイルオープンエラー" );
+        box.SetIcon( TtMessageBox::Icon::ERROR );
+        box.ShowDialog( *this );
+        return {WMResult::Done};
+      }
+      int ret = ::fputs( list_.GetDataAsCSV( "," ).c_str(), file );
+      ::fclose( file );
+      if ( ret == EOF ) {
+        TtMessageBoxOk box;
+        box.SetMessage( "ファイルの書き込みに失敗しました。\r\nファイル名 ： " + dialog.GetFileName() );
+        box.SetCaption( "ファイル書き込みエラー" );
+        box.SetIcon( TtMessageBox::Icon::ERROR );
+        box.ShowDialog( *this );
+      }
+    }
+    return {WMResult::Done};
+  } );
+  this->AddCommandHandler( CommandID::ExportTSVToClipboard, [this] ( int, HWND ) -> WMResult {
+    TtClipboard::SetString( list_.GetDataAsCSV( "\t" ) );
+    // エラー処理はよくわからん
+    return {WMResult::Done};
+  } );
+
   // ツール
   this->AddCommandHandler( CommandID::Settings, [this] ( int, HWND ) -> WMResult {
     SettingsPropertySheet sheet( settings_ );
@@ -160,6 +196,25 @@ Searcher::MainFrame::RegisterHandlers( void )
   } );
 
   // -- ツールバー -----
+  this->AddNotifyHandler( CommandID::Control::MainToolBar, [this] ( NMHDR* nmhdr ) -> WMResult {
+    if ( nmhdr->code == TBN_DROPDOWN ) {
+      NMTOOLBAR* nm = reinterpret_cast<NMTOOLBAR*>( nmhdr );
+      RECT rect = tool_bar_.GetButton( nm->iItem ).GetRectangle();
+      POINT point = tool_bar_.ConvertToScreenPoint( {rect.left, rect.bottom} );
+      switch ( nm->iItem ) {
+        // エクスポート
+      case CommandID::Export:
+        main_menu_.export_menu_.PopupAbsolute( *this, point.x, point.y );
+        break;
+
+      default:
+        ;
+      }
+      return {WMResult::Done};
+    }
+    return {WMResult::Incomplete};
+  } );
+
   this->AddCommandHandler( CommandID::ReloadSquirrelScript, [this] ( int, HWND ) -> WMResult {
     this->WaitEntryPoolThread();
     this->InitializeSquirrelVM();

@@ -358,10 +358,13 @@ namespace BMX2WAV::StringTable {
       // ----------------
       // searcher main menu
       namespace Menu {
-        static const ID File         = RSID_STR_SRC_MAIN_FILE;
-        static const ID FileClose    = RSID_STR_SRC_MAIN_FILE_CLOSE;
-        static const ID Tool         = RSID_STR_SRC_MAIN_TOOL;
-        static const ID ToolSettings = RSID_STR_SRC_MAIN_TOOL_SETTINGS;
+        static const ID File                     = RSID_STR_SRC_MAIN_FILE;
+        static const ID FileClose                = RSID_STR_SRC_MAIN_FILE_CLOSE;
+        static const ID FileExport               = RSID_STR_SRC_MAIN_FILE_EXPORT;
+        static const ID FileExportCSVToFile      = RSID_STR_SRC_MAIN_FILE_EXPORT_CSV_TO_FILE;
+        static const ID FileExportTSVToClipboard = RSID_STR_SRC_MAIN_FILE_EXPORT_TSV_TO_CLIPBOARD;
+        static const ID Tool                     = RSID_STR_SRC_MAIN_TOOL;
+        static const ID ToolSettings             = RSID_STR_SRC_MAIN_TOOL_SETTINGS;
       }
 
       // ----------------
@@ -388,6 +391,7 @@ namespace BMX2WAV::StringTable {
       namespace Toolbar {
         static const ID ReloadSquirrelScript     = RSID_STR_SRC_MAIN_TB_RELOAD_SQUIRREL_SCRIPT;
         static const ID ShowSquirrelOutputDialog = RSID_STR_SRC_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG;
+        static const ID Export                   = RSID_STR_SRC_MAIN_TB_EXPORT;
         static const ID FilterLabel              = RSID_STR_SRC_MAIN_TB_FILTER_LABEL;
         static const ID AutoDisplayCells         = RSID_STR_SRC_MAIN_TB_AUTO_DISPLAY_CELLS;
         static const ID SelectColumnLabel        = RSID_STR_SRC_MAIN_TB_SELECT_COLUMN_LABEL;

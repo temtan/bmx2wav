@@ -432,6 +432,9 @@ SquirrelVMBase::InitializeStringTable( void )
   // searcher main menu
   REGISTER_ID( StringTable::Searcher::Main::Menu::File );
   REGISTER_ID( StringTable::Searcher::Main::Menu::FileClose );
+  REGISTER_ID( StringTable::Searcher::Main::Menu::FileExport );
+  REGISTER_ID( StringTable::Searcher::Main::Menu::FileExportCSVToFile );
+  REGISTER_ID( StringTable::Searcher::Main::Menu::FileExportTSVToClipboard );
   REGISTER_ID( StringTable::Searcher::Main::Menu::Tool );
   REGISTER_ID( StringTable::Searcher::Main::Menu::ToolSettings );
 
@@ -454,6 +457,7 @@ SquirrelVMBase::InitializeStringTable( void )
   // searcher tool bar
   REGISTER_ID( StringTable::Searcher::Main::Toolbar::ReloadSquirrelScript );
   REGISTER_ID( StringTable::Searcher::Main::Toolbar::ShowSquirrelOutputDialog );
+  REGISTER_ID( StringTable::Searcher::Main::Toolbar::Export );
   REGISTER_ID( StringTable::Searcher::Main::Toolbar::FilterLabel );
   REGISTER_ID( StringTable::Searcher::Main::Toolbar::AutoDisplayCells );
   REGISTER_ID( StringTable::Searcher::Main::Toolbar::SelectColumnLabel );

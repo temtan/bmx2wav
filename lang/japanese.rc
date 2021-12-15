@@ -313,7 +313,11 @@ STRINGTABLE
   // searcher main frame
   // ----------------
   // searcher menu
-  RSID_STR_SRC_MAIN_FILE          "ファイル(&F)"
+  RSID_STR_SRC_MAIN_FILE                         "ファイル(&F)"
+  RSID_STR_SRC_MAIN_FILE_EXPORT                  "エクスポート(&E)"
+  RSID_STR_SRC_MAIN_FILE_EXPORT_CSV_TO_FILE      "CSV形式でファイルへエクスポート(&F)..."
+  RSID_STR_SRC_MAIN_FILE_EXPORT_TSV_TO_CLIPBOARD "TSV形式でクリップボードへエクスポート(&C)"
+
   RSID_STR_SRC_MAIN_FILE_CLOSE    "終了(&X)"
   RSID_STR_SRC_MAIN_TOOL          "ツール(&T)"
   RSID_STR_SRC_MAIN_TOOL_SETTINGS "環境設定(&S)"
@@ -331,6 +335,7 @@ STRINGTABLE
   // searcher tool bar
   RSID_STR_SRC_MAIN_TB_RELOAD_SQUIRREL_SCRIPT      "スクリプトの再読み込み"
   RSID_STR_SRC_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG "スクリプトの標準出力ダイアログの表示"
+  RSID_STR_SRC_MAIN_TB_EXPORT                      "エクスポート"
   RSID_STR_SRC_MAIN_TB_FILTER_LABEL                "フィルタ"
   RSID_STR_SRC_MAIN_TB_AUTO_DISPLAY_CELLS          "カラムの自動表示"
   RSID_STR_SRC_MAIN_TB_SELECT_COLUMN_LABEL         "カラム表示"

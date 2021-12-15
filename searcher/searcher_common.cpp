@@ -112,6 +112,7 @@ Searcher::Image::Initialize( void )
 
   add( RSID_ICON_MAIN );
   add( RSID_ICON_MAIN_SMALL );
+  add( RSID_ICON_EXPORT );
   add( RSID_ICON_RELOAD_SQUIRREL_SCRIPT );
   add( RSID_ICON_SHOW_SQUIRREL_OUTPUT_DIALOG );
   add( RSID_ICON_AUTO_DISPLAY_CELLS );

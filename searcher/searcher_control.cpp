@@ -18,6 +18,7 @@ using namespace BMX2WAV;
 Searcher::MainMenu::MainMenu( void ) :
 TtMenuBar( false ),
 file_menu_( TtSubMenu::Create() ),
+export_menu_( TtSubMenu::Create() ),
 tool_menu_( TtSubMenu::Create() ),
 prototype_menu_( TtSubMenu::Create() )
 {
@@ -29,12 +30,22 @@ prototype_menu_( TtSubMenu::Create() )
   };
   using Index = Image::Index;
 
+  // -- ファイル
   this->AppendMenu( file_menu_, StrT::Searcher::Main::Menu::File.Get() );
+  file_menu_.AppendMenu( export_menu_, StrT::Searcher::Main::Menu::FileExport.Get() );
+  file_menu_.GetLastItem().SetBmpImage( Image::BMPS[Index::Export] );
+  {
+    add_menu( export_menu_, CommandID::ExportCSVToFile,      Index::None, StrT::Searcher::Main::Menu::FileExportCSVToFile.Get() );
+    add_menu( export_menu_, CommandID::ExportTSVToClipboard, Index::None, StrT::Searcher::Main::Menu::FileExportTSVToClipboard.Get() );
+  }
+  file_menu_.AppendSeparator();
   add_menu( file_menu_, CommandID::Close, Index::None, StrT::Searcher::Main::Menu::FileClose.Get() );
 
+  // -- ツール
   this->AppendMenu( tool_menu_, StrT::Searcher::Main::Menu::Tool.Get() );
   add_menu( tool_menu_, CommandID::Settings, Index::None, StrT::Searcher::Main::Menu::ToolSettings.Get() );
 
+  // -- テスト
   if ( IniFileOperation::LoadTestMode() ) {
     this->AppendMenu( prototype_menu_, "開発中" );
     add_menu( prototype_menu_, CommandID::Test1, Index::None, "Test1" );
@@ -124,6 +135,9 @@ Searcher::MainToolBar::CreatedInternal( void )
 
   add_standard_button( ID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     StrT::Searcher::Main::Toolbar::ReloadSquirrelScript.Get() );
   add_standard_button( ID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Searcher::Main::Toolbar::ShowSquirrelOutputDialog.Get() );
+  this->AddSeparator();
+
+  add_drop_down_button( ID::Export, Index::Export, StrT::Searcher::Main::Toolbar::Export.Get(), true );
   this->AddSeparator();
 
   add_label( ID::FilterLabel, filter_label_, StrT::Searcher::Main::Toolbar::FilterLabel.Get(), 48 );
@@ -295,6 +309,35 @@ Searcher::MainList::MoveItem( unsigned int from, unsigned int to )
     item.SetSubItemText( i, tmp[i] );
   }
   this->GetItem( from + (from > to ? 1 : 0) ).Remove();
+}
+
+
+std::string
+Searcher::MainList::GetDataAsCSV( const std::string& delimiter )
+{
+  std::string tmp;
+  auto dq_add = [&tmp] ( const std::string& str ) {
+    tmp.append( "\"" );
+    tmp.append( TtString::Replace( str, "\"", "\"\"" ) );
+    tmp.append( "\"" );
+  };
+  for ( unsigned int k = 0; k < this->GetColumnCount(); ++k ) {
+    dq_add( this->GetColumn( k ).GetText() );
+    if ( k != this->GetColumnCount() - 1 ) {
+      tmp.append( delimiter );
+    }
+  }
+  tmp.append( "\r\n" );
+  for ( unsigned int i = 0; i < this->GetItemCount(); ++i ) {
+    for ( unsigned int k = 0; k < this->GetColumnCount(); ++k ) {
+      dq_add( this->GetItem( i ).GetSubItemText( k ) );
+      if ( k != this->GetColumnCount() - 1 ) {
+        tmp.append( delimiter );
+      }
+    }
+    tmp.append( "\r\n" );
+  }
+  return tmp;
 }
 
 
