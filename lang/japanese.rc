@@ -336,6 +336,7 @@ STRINGTABLE
   RSID_STR_SRC_MAIN_TB_RELOAD_SQUIRREL_SCRIPT      "スクリプトの再読み込み"
   RSID_STR_SRC_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG "スクリプトの標準出力ダイアログの表示"
   RSID_STR_SRC_MAIN_TB_EXPORT                      "エクスポート"
+  RSID_STR_SRC_MAIN_TB_HOME_FOLDER                 "ホームフォルダへ移動する"
   RSID_STR_SRC_MAIN_TB_FILTER_LABEL                "フィルタ"
   RSID_STR_SRC_MAIN_TB_AUTO_DISPLAY_CELLS          "カラムの自動表示"
   RSID_STR_SRC_MAIN_TB_SELECT_COLUMN_LABEL         "カラム表示"

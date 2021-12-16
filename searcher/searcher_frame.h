@@ -41,7 +41,7 @@ namespace BMX2WAV::Searcher {
     void SetAutoDisplayCellButtonFromSettings( void );
 
     void SetSelectTargetFolder( const std::string& target );
-    void SetSelectTargetFolderFromSettings( void );
+    void SetSelectTargetFolderFromSettingsHomeFolder( void );
 
     void SetEntryProcessorMenu( void );
 
@@ -56,6 +56,7 @@ namespace BMX2WAV::Searcher {
     void DisplayCell( unsigned int column_group_index );
     void IfToggleButtonIsPressedDisplayCell( unsigned int column_group_index );
     void SortEntries( unsigned int group_index, unsigned int column_index );
+    bool IfSearchedFlagIsTrueThenShowConfirmMessageBox( void );
 
     void InitializeSquirrelVM( void );
     void SquirrelErrorHandling( std::function<void ( void )> function );

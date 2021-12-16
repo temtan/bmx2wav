@@ -23,6 +23,8 @@ namespace BMX2WAV::Searcher {
       ExportCSVToFile,
       ExportTSVToClipboard,
 
+      HomeFolder,
+
       Settings,
 
       ReloadSquirrelScript,
@@ -56,10 +58,11 @@ namespace BMX2WAV::Searcher {
 
     namespace MainToolBar {
       enum ID : int {
-        Export = CommandID::Export,
-
         ReloadSquirrelScript     = CommandID::ReloadSquirrelScript,
         ShowSquirrelOutputDialog = CommandID::ShowSquirrelOutputDialog,
+
+        Export     = CommandID::Export,
+        HomeFolder = CommandID::HomeFolder,
 
         SelectFilter  = CommandID::SelectFilter,
 
@@ -100,6 +103,7 @@ namespace BMX2WAV::Searcher {
         Main,
         MainSmall,
         Export,
+        HomeFolder,
         ReloadSquirrelScript,
         ShowSquirrelOutputDialog,
         AutoDisplayCells,

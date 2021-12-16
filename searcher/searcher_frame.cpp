@@ -227,6 +227,15 @@ Searcher::MainFrame::RegisterHandlers( void )
     return {WMResult::Done};
   } );
 
+  this->AddCommandHandler( CommandID::HomeFolder, [this] ( int, HWND ) -> WMResult {
+    this->WaitEntryPoolThread();
+    if ( this->IfSearchedFlagIsTrueThenShowConfirmMessageBox() == false ){
+      return {WMResult::Done};
+    }
+    this->SetSelectTargetFolderFromSettingsHomeFolder();
+    return {WMResult::Done};
+  } );
+
   this->AddCommandHandler( CommandID::SelectFilter, [this] ( int code, HWND ) -> WMResult {
     if ( code == CBN_SELCHANGE ) {
       this->WaitEntryPoolThread();
@@ -351,15 +360,8 @@ Searcher::MainFrame::RegisterHandlers( void )
 
     case TVN_SELCHANGED: {
       this->WaitEntryPoolThread();
-      if ( searched_flag_ ) {
-        TtMessageBoxYesNo box;
-        box.SetMessage( StrT::Searcher::Main::MBSearchResultDestructionConfirmMessage.Get() );
-        box.SetCaption( StrT::Searcher::Main::MBSearchResultDestructionConfirmCaption.Get() );
-        box.SetIcon( TtMessageBox::Icon::QUESTION );
-        if ( box.ShowDialog( *this ) == TtMessageBox::Result::NO ) {
-          return {WMResult::Done};
-        }
-        searched_flag_ = false;
+      if ( this->IfSearchedFlagIsTrueThenShowConfirmMessageBox() == false ){
+        return {WMResult::Done};
       }
       NMTREEVIEW* nm = reinterpret_cast<NMTREEVIEW*>( nmhdr );
       MainTree::Item item = MainTree::Item( &tree_, nm->itemNew.hItem );
@@ -557,6 +559,8 @@ Searcher::MainFrame::SetAutoDisplayCellButtonFromSettings( void )
 void
 Searcher::MainFrame::SetSelectTargetFolder( const std::string& target )
 {
+
+  
   auto root = tree_.GetOrigin().GetFirstChild();
   root.Expand();
   MainTree::Item item = root.GetFirstChild();
@@ -579,7 +583,7 @@ Searcher::MainFrame::SetSelectTargetFolder( const std::string& target )
 }
 
 void
-Searcher::MainFrame::SetSelectTargetFolderFromSettings( void )
+Searcher::MainFrame::SetSelectTargetFolderFromSettingsHomeFolder( void )
 {
   this->SetSelectTargetFolder( settings_.home_folder_ );
 }
@@ -812,6 +816,23 @@ Searcher::MainFrame::SortEntries( unsigned int group_index, unsigned int column_
     } );
     return tmp;
   }, ascending );
+}
+
+
+bool
+Searcher::MainFrame::IfSearchedFlagIsTrueThenShowConfirmMessageBox( void )
+{
+  if ( searched_flag_ ) {
+    TtMessageBoxYesNo box;
+    box.SetMessage( StrT::Searcher::Main::MBSearchResultDestructionConfirmMessage.Get() );
+    box.SetCaption( StrT::Searcher::Main::MBSearchResultDestructionConfirmCaption.Get() );
+    box.SetIcon( TtMessageBox::Icon::QUESTION );
+    if ( box.ShowDialog( *this ) == TtMessageBox::Result::NO ) {
+      return false;
+    }
+    searched_flag_ = false;
+  }
+  return true;
 }
 
 

@@ -6,6 +6,7 @@
 RSID_ICON_MAIN                        ICON "icons/searcher_main.ico"
 RSID_ICON_MAIN_SMALL                  ICON "icons/searcher_main_small.ico"
 RSID_ICON_EXPORT                      ICON "icons/searcher_export.ico"
+RSID_ICON_HOME_FOLDER                 ICON "icons/home.ico"
 RSID_ICON_RELOAD_SQUIRREL_SCRIPT      ICON "icons/reload_squirrel_script.ico"
 RSID_ICON_SHOW_SQUIRREL_OUTPUT_DIALOG ICON "icons/show_squirrel_output_dialog.ico"
 RSID_ICON_AUTO_DISPLAY_CELLS          ICON "icons/auto_display_cells.ico"

@@ -137,7 +137,8 @@ Searcher::MainToolBar::CreatedInternal( void )
   add_standard_button( ID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Searcher::Main::Toolbar::ShowSquirrelOutputDialog.Get() );
   this->AddSeparator();
 
-  add_drop_down_button( ID::Export, Index::Export, StrT::Searcher::Main::Toolbar::Export.Get(), true );
+  add_drop_down_button( ID::Export,     Index::Export,     StrT::Searcher::Main::Toolbar::Export.Get(), true );
+  add_standard_button(  ID::HomeFolder, Index::HomeFolder, StrT::Searcher::Main::Toolbar::HomeFolder.Get() );
   this->AddSeparator();
 
   add_label( ID::FilterLabel, filter_label_, StrT::Searcher::Main::Toolbar::FilterLabel.Get(), 48 );

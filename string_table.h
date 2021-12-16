@@ -392,6 +392,7 @@ namespace BMX2WAV::StringTable {
         static const ID ReloadSquirrelScript     = RSID_STR_SRC_MAIN_TB_RELOAD_SQUIRREL_SCRIPT;
         static const ID ShowSquirrelOutputDialog = RSID_STR_SRC_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG;
         static const ID Export                   = RSID_STR_SRC_MAIN_TB_EXPORT;
+        static const ID HomeFolder               = RSID_STR_SRC_MAIN_TB_HOME_FOLDER;
         static const ID FilterLabel              = RSID_STR_SRC_MAIN_TB_FILTER_LABEL;
         static const ID AutoDisplayCells         = RSID_STR_SRC_MAIN_TB_AUTO_DISPLAY_CELLS;
         static const ID SelectColumnLabel        = RSID_STR_SRC_MAIN_TB_SELECT_COLUMN_LABEL;

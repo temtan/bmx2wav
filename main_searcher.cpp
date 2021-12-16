@@ -35,7 +35,7 @@ WinMain( HINSTANCE h_instance,
 
     frame.LoadSettingsFromFile();
     frame.SetAutoDisplayCellButtonFromSettings();
-    frame.SetSelectTargetFolderFromSettings();
+    frame.SetSelectTargetFolderFromSettingsHomeFolder();
 
     frame.LoadPlacementFromIniFile();
     if ( frame.IsMinimized() ) {
