@@ -1,29 +1,6 @@
 // bmx2wav.class.nut
 
-// -- ParameterColumn
-class ParameterColumn extends Column {
-  constructor() {
-    base.constructor( StrT.Main.ColumnName.Parameter.get() );
-  }
-
-  function display_cell( entry ) {
-    local parameter = entry.get_individual_parameter();
-
-    if ( parameter ) {
-      return parameter.name + StrT.Main.ColumnName.ParameterIndividual.get();
-    }
-    else {
-      return Main.get_common_parameter().name + StrT.Main.ColumnName.ParameterCommon.get();
-    }
-  }
-
-  function compare( x, y ) {
-    return ( x.get_individual_parameter() == null ) <=> ( y.get_individual_parameter() == null );
-  }
-}
-
-
-// -- 出力テンプレート関係 -----
+// -- 出力テンプレート関係 -----------------------------------------------
 Main.translate_template_path_by_parameter <- function ( parameter, bms_data ) {
   return Main.translate_template_path( parameter.output_file_template,
                                        parameter.input_file_path,
@@ -35,7 +12,7 @@ Main.Converter.get_translated_template_path <- function () {
   return Main.translate_template_path_by_parameter( this.parameter, this.bms_data );
 }
 
-// -- callback -----
+// ----- 変換中コールバック関数群 ----------------------------------------
 // -- tools
 Main.callback_current_end_string <- null;
 Main.puts_with_end_string <- function ( str ) {
@@ -203,3 +180,118 @@ Main.callback_table.after_process = function ( converter ) {
 
 Main.callback_table.before_finalize = function ( converter ) {}
 Main.callback_table.after_finalize = function ( converter ) {}
+
+
+// ----- ColumnGroup 関連 ------------------------------------------------
+// -- ParameterColumn
+class ParameterColumn extends Column {
+  constructor() {
+    base.constructor( StrT.Main.ColumnName.Parameter.get() );
+  }
+
+  function display_cell( entry ) {
+    local parameter = entry.get_individual_parameter();
+
+    if ( parameter ) {
+      return parameter.name + StrT.Main.ColumnName.ParameterIndividual.get();
+    }
+    else {
+      return Main.get_common_parameter().name + StrT.Main.ColumnName.ParameterCommon.get();
+    }
+  }
+
+  function compare( x, y ) {
+    return ( x.get_individual_parameter() == null ) <=> ( y.get_individual_parameter() == null );
+  }
+}
+
+// null の場合はフルパスを表示する
+Main.first_column = null;
+// 以下と同じ
+// Main.first_column = FullPathColumn();
+
+// カラムグループ設定
+{
+  local group = ColumnGroup( StrT.Main.ColumnGroupName.Simple.get() );
+  group.columns.append( ParameterColumn() );
+  group.columns.append( HeaderColumn( "TITLE", HeaderColumn.compare_as_string ) );
+  group.columns.append( HeaderColumn( "ARTIST", HeaderColumn.compare_as_string ) );
+  group.columns.append( PlayerColumn() );
+  group.columns.append( HeaderColumn( "PLAYLEVEL", HeaderColumn.compare_as_integer_desc ) );
+  Main.column_groups.append( group );
+}
+
+{
+  local group = ColumnGroup( StrT.Main.ColumnGroupName.Details.get() );
+  group.columns.append( ParameterColumn() );
+  group.columns.append( HeaderColumn( "TITLE", HeaderColumn.compare_as_string ) );
+  group.columns.append( HeaderColumn( "ARTIST", HeaderColumn.compare_as_string ) );
+  group.columns.append( HeaderColumn( "GENRE", HeaderColumn.compare_as_string ) );
+  group.columns.append( PlayerColumn() );
+  group.columns.append( HeaderColumn( "PLAYLEVEL", HeaderColumn.compare_as_integer_desc ) );
+  group.columns.append( HeaderColumn( "BPM", HeaderColumn.compare_as_integer_asc ) );
+  group.columns.append( MostSeriousErrorColumn() );
+  group.columns.append( PlayingTimeColumn() );
+  Main.column_groups.append( group );
+}
+
+{
+  local group = ColumnGroup( StrT.Main.ColumnGroupName.Various.get() );
+  group.columns.append( ParameterColumn() );
+  group.columns.append( PlayerColumn() );
+  group.columns.append( HeaderColumn( "TITLE", HeaderColumn.compare_as_string ) );
+  group.columns.append( HeaderColumn( "ARTIST", HeaderColumn.compare_as_string ) );
+  group.columns.append( ObjectCountColumn() );
+  group.columns.append( ObjectOf1PCountColumn() );
+  group.columns.append( ObjectOf2PCountColumn() );
+  group.columns.append( ContainsRandomStatementColumn() );
+  group.columns.append( ParentDirectoryColumn() );
+  group.columns.append( ParentsParentDirectoryColumn() );
+  group.columns.append( FullPathColumn() );
+  Main.column_groups.append( group );
+}
+
+// -- エントリー詳細ダイアログリスト表記設定 -----------------------------
+Main.entry_dialog_list_items.append( HeaderColumn( "TITLE" ) );
+Main.entry_dialog_list_items.append( HeaderColumn( "ARTIST" ) );
+Main.entry_dialog_list_items.append( HeaderColumn( "GENRE" ) );
+Main.entry_dialog_list_items.append( PlayerColumn() );
+Main.entry_dialog_list_items.append( HeaderColumn( "PLAYLEVEL" ) );
+Main.entry_dialog_list_items.append( HeaderColumn( "BPM" ) );
+Main.entry_dialog_list_items.append( MostSeriousErrorColumn() );
+Main.entry_dialog_list_items.append( PlayingTimeColumn() );
+Main.entry_dialog_list_items.append( ContainsRandomStatementColumn() );
+
+
+// -- EntryProcessors 関連 -----------------------------------------------
+{
+  local preview = {
+    name = StrT.Main.PopupEntry.ProcessorMenuPlayPreview.get(),
+    function execute( entry ) {
+      entry.parse_as_bms_data_once();
+      local key = "PREVIEW";
+      if ( key in entry.bms_data.headers ) {
+        local path = Path.dirname( entry.path ) + "\\" + entry.bms_data.headers[key];
+        BMX2WAV.play_wav_or_ogg_file_async( path, 50 );
+      }
+    }
+  };
+
+  local shell_execute = {
+    name = StrT.Main.PopupEntry.ProcessorMenuOpen.get(),
+    function execute( entry ) {
+      BMX2WAV.shell_execute( "open", entry.path, null, Path.dirname( entry.path ) );
+    }
+  };
+
+  local notepad = {
+    name = StrT.Main.PopupEntry.ProcessorMenuOpenByNotepad.get(),
+    function execute( entry ) {
+      BMX2WAV.create_process( "notepad.exe", entry.path, null, BMX2WAV.ShowState.SHOW, false );
+    }
+  };
+
+  Main.entry_processors.items.append( preview );
+  local sub = SubMenu( StrT.Main.PopupEntry.ProcessorMenuFileOperations.get(), [shell_execute, notepad] );
+  Main.entry_processors.items.append( sub );
+}

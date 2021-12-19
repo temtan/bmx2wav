@@ -96,11 +96,10 @@ Element90=main.rc	1	85
 Element91=script	0	0
 Element92=bmx2wav.base.nut	1	91
 Element93=bmx2wav.class.nut	1	91
-Element94=bmx2wav.nut	1	91
-Element95=other	0	0
-Element96=bmx2wav.tdp.nut	1	95
-Element97=for_upload.rb	1	95
-Element98=zip_release.rb	1	95
+Element94=other	0	0
+Element95=bmx2wav.tdp.nut	1	94
+Element96=for_upload.rb	1	94
+Element97=zip_release.rb	1	94
 [Structure0]
 Name=Debug_32
 Platform=X86

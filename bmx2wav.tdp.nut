@@ -23,7 +23,7 @@
   Developer.current_structure.additional_make_commands.append( tmp );
 }
 
-
+/*
 {
   local tmp = MakeCommandEntry( Developer.current_structure.output_directory_name + "\\bmx2wav.nut" );
   if ( Developer.current_structure.name == "Debug_32" ) {
@@ -34,6 +34,7 @@
   tmp.commands.append( "copy /Y $? $@" );
   Developer.current_structure.additional_make_commands.append( tmp );
 }
+*/
 {
   local tmp = MakeCommandEntry( Developer.current_structure.output_directory_name + "\\bmx2wav.base.nut" );
   tmp.included_in_build = true;
@@ -48,3 +49,4 @@
   tmp.commands.append( "copy /Y $? $@" );
   Developer.current_structure.additional_make_commands.append( tmp );
 }
+

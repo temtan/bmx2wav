@@ -855,7 +855,9 @@ Searcher::MainFrame::InitializeSquirrelVM( void )
     entry_pool_.SetEntryCallback( [&] ( Entry* entry ) { vm_->CallEntryConstructor( entry ); } );
 
     vm_->DoFile( TtPath::GetExecutingDirectoryPath() + "\\" + SquirrelVM::CLASS_FILENAME );
-    vm_->DoFile( TtPath::GetExecutingFilePathCustomExtension( "nut" ) );
+    if ( auto tmp = TtPath::GetExecutingFilePathCustomExtension( "nut" ); TtPath::FileExists( tmp ) ) {
+      vm_->DoFile( tmp );
+    }
 
     // -- Entry Menu
     this->SetEntryProcessorMenu();

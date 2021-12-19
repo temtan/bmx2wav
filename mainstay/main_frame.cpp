@@ -683,8 +683,11 @@ Mainstay::MainFrame::InitializeSquirrelVM( void )
   this->SquirrelErrorHandling( [&] ( void ) {
     vm_->DoFile( TtPath::GetExecutingDirectoryPath() + "\\" + SquirrelVMBase::BASE_FILENAME );
     vm_->InitializeForMainstay();
+
     vm_->DoFile( TtPath::GetExecutingDirectoryPath() + "\\" + SquirrelVM::CLASS_FILENAME );
-    vm_->DoFile( TtPath::GetExecutingFilePathCustomExtension( "nut" ) );
+    if ( auto tmp = TtPath::GetExecutingFilePathCustomExtension( "nut" ); TtPath::FileExists( tmp ) ) {
+      vm_->DoFile( tmp );
+    }
 
     // -- Entry Menu
     this->SetEntryProcessorMenu();
