@@ -108,7 +108,9 @@ namespace BMX2WAV::Core {
 
   private:
     using HelpList = TtWindowWithStyle<TtListViewReport, LVS_SINGLESEL | LVS_NOSORTHEADER | LVS_SHOWSELALWAYS>;
-    HelpList list_;
+    HelpList    list_;
+    TtFont      font_for_list_;
+    TtImageList image_list_for_list_;
 
     TtSubMenu menu_;
   };

@@ -331,21 +331,21 @@ namespace BMX2WAV::StringTable {
   // ---------------------------------------------------------------------
   // template path translate help dialog
   namespace TemplatePath {
-    static const ID Title                                   = RSID_STR_TEMPLATE_PATH_TITLE;
-    static const ID MenuCopy                                = RSID_STR_TEMPLATE_PATH_MENU_COPY;
-    static const ID ColumnName                              = RSID_STR_TEMPLATE_PATH_COLUMN_NAME;
-    static const ID ColumnDescription                       = RSID_STR_TEMPLATE_PATH_COLUMN_DESCRIPTION;
-    static const ID TextInputBmsPath                        = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH;
-    static const ID TextInputBmsPathWithoutExtension        = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH_WITHOUT_EXTENSION;
-    static const ID TextInputBmsDirectory                   = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_DIRECTORY;
-    static const ID TextInputBmsParentDirectory             = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PARENT_DIRECTORY;
-    static const ID TextInputBmsBasename                    = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_BASENAME;
-    static const ID TextInputBmsBasenameWithoutExtension    = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_BASENAME_WITHOUT_EXTENSION;
-    static const ID TextInputBmsAutoExtensionChange         = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_AUTO_EXTENSION_CHANGE;
-    static const ID TextInputBmsBasenameAutoExtensionChange = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_BASENAME_AUTO_EXTENSION_CHANGE;
-    static const ID TextAutoExtension                       = RSID_STR_TEMPLATE_PATH_TEXT_AUTO_EXTENSION;
-    static const ID TextBMX2WAVDirectory                    = RSID_STR_TEMPLATE_PATH_TEXT_BMX2WAV_DIRECTORY;
-    static const ID TextHeaderXXXXX                         = RSID_STR_TEMPLATE_PATH_TEXT_HEADER_XXXXX;
+    static const ID Title             = RSID_STR_TEMPLATE_PATH_TITLE;
+    static const ID MenuCopy          = RSID_STR_TEMPLATE_PATH_MENU_COPY;
+    static const ID ColumnName        = RSID_STR_TEMPLATE_PATH_COLUMN_NAME;
+    static const ID ColumnDescription = RSID_STR_TEMPLATE_PATH_COLUMN_DESCRIPTION;
+    static const ID Variable          = RSID_STR_TEMPLATE_PATH_VARIABLE;
+    static const ID Function          = RSID_STR_TEMPLATE_PATH_FUNCTION;
+
+    static const ID TextInputBmsPath        = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH;
+    static const ID TextAutoExtension       = RSID_STR_TEMPLATE_PATH_TEXT_AUTO_EXTENSION;
+    static const ID TextBMX2WAVDirectory    = RSID_STR_TEMPLATE_PATH_TEXT_BMX2WAV_DIRECTORY;
+    static const ID TextHeaderXXXXX         = RSID_STR_TEMPLATE_PATH_TEXT_HEADER_XXXXX;
+    static const ID TextBaseName            = RSID_STR_TEMPLATE_PATH_TEXT_BASENAME;
+    static const ID TextDirName             = RSID_STR_TEMPLATE_PATH_TEXT_DIRNAME;
+    static const ID TextRemoveExtension     = RSID_STR_TEMPLATE_PATH_TEXT_REMOVE_EXTENSION;
+    static const ID TextChangeAutoExtension = RSID_STR_TEMPLATE_PATH_TEXT_CHANGE_AUTO_EXTENSION;
   }
 
 

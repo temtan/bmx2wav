@@ -262,45 +262,71 @@ Core::TranslateTemplatePath( const std::string& template_path,
                              bool               output_as_ogg,
                              BL::BmsData*       bms_data )
 {
-  TtTextTemplate::Document document;
-  document.ParseText( template_path );
-  auto if_documente_has_kay_register_string = [&] ( const std::string& key, const std::string& value ) {
-    if ( document.HasKey( key ) ) {
-      document[key] = value;
+  TtTextTemplate::Document root_document;
+  root_document.ParseText( template_path );
+
+  std::function<void ( TtTextTemplate::Document& )> fff = [&] ( TtTextTemplate::Document& doc ) {
+    const std::string auto_ext = output_as_ogg ? "ogg" : "wav";
+
+    // ïœêîìoò^
+    auto if_document_has_replace_key_register_string = [&doc] ( const std::string& key, const std::string& value ) {
+      if ( doc.HasReplaceKey( key ) ) {
+        doc[key] = value;
+      }
+    };
+    {
+      auto& Q = if_document_has_replace_key_register_string;
+      Q( "input_bms_path",    input_path );
+      Q( "auto_extension",    auto_ext );
+      Q( "bmx2wav_directory", TtPath::GetExecutingDirectoryPath() );
+    }
+
+    // ÉwÉbÉ_ïœêîìoò^
+    std::string prefix = "header_";
+    for ( auto& key : doc.GetReplaceKeys() ) {
+      if ( TtString::StartWith( key, prefix ) ) {
+        std::string header = TtString::ToUpper( key.substr( prefix.size() ) );
+        if ( bms_data->headers_.contains( header ) ) {
+          doc[key] = bms_data->headers_[header];
+        }
+        else {
+          doc[key] = "";
+        }
+      }
+    }
+
+    // ä÷êîìoò^
+    auto if_document_has_document_key_register_post_processing = [&fff, &doc] ( const std::string& key, auto post_processing ) {
+      if ( doc.HasDocumentKey( key ) ) {
+        doc[key] = [&fff, &post_processing] ( TtTextTemplate::InternalDocument& internal_document ) {
+          fff( internal_document );
+          internal_document.RegisterPostProcessing( post_processing );
+        };
+      }
+    };
+    {
+      auto& Q = if_document_has_document_key_register_post_processing;
+      Q( "basename",              []  ( std::string& str ) { str = TtPath::BaseName( str ); } );
+      Q( "dirname",               []  ( std::string& str ) { str = TtPath::DirName( str ); } );
+      Q( "remove_extension",      []  ( std::string& str ) { str = TtPath::RemoveExtension( str ); } );
+      Q( "change_auto_extension", [&] ( std::string& str ) { str = TtPath::ChangeExtension( str, auto_ext ); } );
     }
   };
-  auto& Q = if_documente_has_kay_register_string;
 
-  const std::string auto_ext = output_as_ogg ? "ogg" : "wav";
-  Q( "input_bms_path",                           input_path );
-  Q( "input_bms_path_without_extension",         TtPath::RemoveExtension( input_path ) );
-  Q( "input_bms_directory",                      TtPath::DirName( input_path ) );
-  Q( "input_bms_parent_directory",               TtPath::DirName( TtPath::DirName( input_path ) ) );
-  Q( "input_bms_basename",                       TtPath::BaseName( input_path ) );
-  Q( "input_bms_basename_without_extension",     TtPath::RemoveExtension( TtPath::BaseName( input_path ) ) );
-  Q( "input_bms_auto_extension_change",          TtPath::ChangeExtension( input_path, auto_ext ) );
-  Q( "input_bms_basename_auto_extension_change", TtPath::BaseName( TtPath::ChangeExtension( input_path, auto_ext ) ) );
-  Q( "auto_extension",                           auto_ext );
-  Q( "bmx2wav_directory",                        TtPath::GetExecutingDirectoryPath() );
-
-  for ( auto& key : document.GetKeys() ) {
-    if ( TtString::StartWith( key, "header_" ) ) {
-      std::string header = TtString::ToUpper( key.substr( 7 ) );
-      if ( bms_data->headers_.contains( header ) ) {
-        document[key] = bms_data->headers_[header];
-      }
-      else {
-        document[key] = "";
-      }
-    }
-  }
-
-  return document.MakeText();
+  fff( root_document );
+  return root_document.MakeText();
 }
 
 
 // -- TemplatePathTranslateHelpDialog ------------------------------------
 Core::TemplatePathTranslateHelpDialog::TemplatePathTranslateHelpDialog( void ) :
+list_(),
+font_for_list_( ::CreateFont( 12, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+                              SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
+                              CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+                              DEFAULT_PITCH | FF_MODERN, nullptr ), true ),
+image_list_for_list_( 1, 16 ),
+
 menu_( TtSubMenu::Create() )
 {
 }
@@ -331,12 +357,15 @@ Core::TemplatePathTranslateHelpDialog::Created( void )
   this->SetText( StrT::TemplatePath::Title.Get() );
 
   list_.Create( {this, CommandID::List} );
+  list_.SetHasGridLines( true );
+  list_.SetFont( font_for_list_ );
+  list_.SetSmallImageList( image_list_for_list_ );
 
   this->RegisterWMSize( [this] ( int, int w, int h ) -> WMResult {
     list_.SetPositionSize( 2, 2, w - 4, h - 4 );
     return {WMResult::Done};
   } );
-  this->SetClientSize( 670, 200, false );
+  this->SetClientSize( 670, 220, false );
 
   menu_.AppendNewItem( CommandID::MenuCopy, StrT::TemplatePath::MenuCopy.Get() );
   this->AddNotifyHandler( CommandID::List, [this] ( NMHDR* nmhdr ) -> WMResult {
@@ -376,23 +405,34 @@ Core::TemplatePathTranslateHelpDialog::Created( void )
     TtListViewColumn column_description = list_.MakeNewColumn();
     column_description.SetText( StrT::TemplatePath::ColumnDescription.Get() );
 
-    auto add = [this] ( const std::string& var, const std::string& description ) {
+    auto add_s = [this] ( const std::string& name ) {
+      auto item = list_.MakeNewItem();
+      item.SetSubItemText( 0, "--- " + name +  " ---" );
+    };
+
+    // ïœêî
+    add_s( StrT::TemplatePath::Variable.Get() );
+    auto add_r = [this] ( const std::string& var, const std::string& description ) {
       auto item = list_.MakeNewItem();
       item.SetSubItemText( 0, "@@" + var + "@@" );
       item.SetSubItemText( 1, description );
     };
+    add_r( "input_bms_path",    StrT::TemplatePath::TextInputBmsPath.Get() );
+    add_r( "auto_extension",    StrT::TemplatePath::TextAutoExtension.Get() );
+    add_r( "bmx2wav_directory", StrT::TemplatePath::TextBMX2WAVDirectory.Get() );
+    add_r( "header_XXXXX",      StrT::TemplatePath::TextHeaderXXXXX.Get() );
 
-    add( "input_bms_path",                           StrT::TemplatePath::TextInputBmsPath.Get() );
-    add( "input_bms_path_without_extension",         StrT::TemplatePath::TextInputBmsPathWithoutExtension.Get() );
-    add( "input_bms_directory",                      StrT::TemplatePath::TextInputBmsDirectory.Get() );
-    add( "input_bms_parent_directory",               StrT::TemplatePath::TextInputBmsParentDirectory.Get() );
-    add( "input_bms_basename",                       StrT::TemplatePath::TextInputBmsBasename.Get() );
-    add( "input_bms_basename_without_extension",     StrT::TemplatePath::TextInputBmsBasenameWithoutExtension.Get() );
-    add( "input_bms_auto_extension_change",          StrT::TemplatePath::TextInputBmsAutoExtensionChange.Get() );
-    add( "input_bms_basename_auto_extension_change", StrT::TemplatePath::TextInputBmsBasenameAutoExtensionChange.Get() );
-    add( "auto_extension",                           StrT::TemplatePath::TextAutoExtension.Get() );
-    add( "bmx2wav_directory",                        StrT::TemplatePath::TextBMX2WAVDirectory.Get() );
-    add( "header_XXXXX",                             StrT::TemplatePath::TextHeaderXXXXX.Get() );
+    // ä÷êî
+    add_s( StrT::TemplatePath::Function.Get() );
+    auto add_d = [this] ( const std::string& var, const std::string& description ) {
+      auto item = list_.MakeNewItem();
+      item.SetSubItemText( 0, "%%" + var + "%%{...}%%" );
+      item.SetSubItemText( 1, description );
+    };
+    add_d( "basename",              StrT::TemplatePath::TextBaseName.Get() );
+    add_d( "dirname",               StrT::TemplatePath::TextDirName.Get() );
+    add_d( "remove_extension",      StrT::TemplatePath::TextRemoveExtension.Get() );
+    add_d( "change_auto_extension", StrT::TemplatePath::TextChangeAutoExtension.Get() );
 
     column_name.SetWidthAuto();
     column_description.SetWidthAuto();

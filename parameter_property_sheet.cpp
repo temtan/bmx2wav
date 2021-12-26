@@ -168,7 +168,12 @@ ParameterPropertySheet::GeneralPage::SetParameterToControlsBody( void )
 // -- OutputPage ---------------------------------------------------------
 ParameterPropertySheet::OutputPage::OutputPage( Core::ConvertParameter& parameter ) :
 Page( StrT::PPS::Output.Get() ),
-parameter_( parameter )
+parameter_( parameter ),
+
+font_for_output_template_edit_( ::CreateFont( 12, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
+                                              SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
+                                              CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY,
+                                              DEFAULT_PITCH | FF_MODERN, nullptr ), true )
 {
 }
 
@@ -191,8 +196,10 @@ ParameterPropertySheet::OutputPage::Created( void )
   never_overwrite_check_.SetPositionSize(        4,  60, 360,  16 );
   remove_char_check_.SetPositionSize(            4,  88, 360,  16 );
   output_file_template_label_.SetPositionSize(   4, 120, 300,  16 );
-  output_file_template_edit_.SetPositionSize(   12, 144, 400,  20 );
+  output_file_template_edit_.SetPositionSize(   12, 144, 440,  20 );
   output_file_help_button_.SetPositionSize(     12, 174, 220,  24 );
+
+  output_file_template_edit_.SetFont( font_for_output_template_edit_ );
 
   output_as_ogg_check_.SetText(        StrT::PPS::OutputOutputAsOggCheck.Get() );
   ogg_base_quality_label_.SetText(     StrT::PPS::OutputOggBaseQualityLabel.Get());

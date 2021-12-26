@@ -142,7 +142,7 @@ STRINGTABLE
   RSID_STR_PPS_OUTPUT_NEVER_OVERWRITE_CHECK      "出力ファイルが既に存在する場合は別名で出力する(&N)"
   RSID_STR_PPS_OUTPUT_REMOVE_CHAR_CHECK          "ファイルパスとして使用できない文字があった場合削除する(&R)"
   RSID_STR_PPS_OUTPUT_OUTPUT_FILE_TEMPLATE_LABEL "出力ファイル指定テンプレート(&O)"
-  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_HELP_BUTTON    "使用できる変数一覧を表示する(&H)"
+  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_HELP_BUTTON    "使用できる変数・関数一覧を表示する(&H)"
   RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_CAP    "エラー"
   RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_MSG    "出力 ogg ファイルの品質を正しく入力してください。"
 
@@ -291,21 +291,21 @@ STRINGTABLE
 
   // ---------------------------------------------------------------------
   // template path translate help dialog
-  RSID_STR_TEMPLATE_PATH_TITLE                                         "使用可能変数一覧"
-  RSID_STR_TEMPLATE_PATH_MENU_COPY                                     "変数名をコピー(&C)"
-  RSID_STR_TEMPLATE_PATH_COLUMN_NAME                                   "変数名"
-  RSID_STR_TEMPLATE_PATH_COLUMN_DESCRIPTION                            "説明"
-  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH                           "入力 BMS ファイルのパス"
-  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH_WITHOUT_EXTENSION         "入力 BMS ファイルのパスから拡張子部分を除いたもの"
-  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_DIRECTORY                      "入力 BMS ファイルがあるフォルダのパス"
-  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PARENT_DIRECTORY               "入力 BMS ファイルがあるフォルダの親フォルダのパス"
-  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_BASENAME                       "入力 BMS ファイルのパスのファイル名部分"
-  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_BASENAME_WITHOUT_EXTENSION     "入力 BMS ファイルのパスのファイル名部分から拡張子部分を除いたもの"
-  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_AUTO_EXTENSION_CHANGE          "入力 BMS ファイルのパスから拡張子を出力設定に合わせて wav または ogg に変えたもの"
-  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_BASENAME_AUTO_EXTENSION_CHANGE "入力 BMS ファイルのパスのファイル名部分からその拡張子を出力設定に合わせて wav または ogg に変えたもの"
-  RSID_STR_TEMPLATE_PATH_TEXT_AUTO_EXTENSION                           "出力設定に合わせて wav または ogg"
-  RSID_STR_TEMPLATE_PATH_TEXT_BMX2WAV_DIRECTORY                        "BMX2WAV 実行ファイルの置かれているフォルダのパス"
-  RSID_STR_TEMPLATE_PATH_TEXT_HEADER_XXXXX                             "入力 BMS ファイル内データのヘッダ XXXXX の値"
+  RSID_STR_TEMPLATE_PATH_TITLE              "使用可能変数・関数一覧"
+  RSID_STR_TEMPLATE_PATH_MENU_COPY          "変数名・関数名をコピー(&C)"
+  RSID_STR_TEMPLATE_PATH_COLUMN_NAME        "変数名・関数名"
+  RSID_STR_TEMPLATE_PATH_COLUMN_DESCRIPTION "説明"
+  RSID_STR_TEMPLATE_PATH_VARIABLE           "変数"
+  RSID_STR_TEMPLATE_PATH_FUNCTION           "関数"
+
+  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH        "入力 BMS ファイルのパス"
+  RSID_STR_TEMPLATE_PATH_TEXT_AUTO_EXTENSION        "出力設定に合わせて wav または ogg"
+  RSID_STR_TEMPLATE_PATH_TEXT_BMX2WAV_DIRECTORY     "BMX2WAV 実行ファイルの置かれているフォルダのパス"
+  RSID_STR_TEMPLATE_PATH_TEXT_HEADER_XXXXX          "入力 BMS ファイル内データのヘッダ XXXXX の値"
+  RSID_STR_TEMPLATE_PATH_TEXT_BASENAME              "... 部分からファイル名のみ取り出す"
+  RSID_STR_TEMPLATE_PATH_TEXT_DIRNAME               "... 部分から親ディレクトリのパスを取り出す"
+  RSID_STR_TEMPLATE_PATH_TEXT_REMOVE_EXTENSION      "... 部分から拡張子部分のみを除く"
+  RSID_STR_TEMPLATE_PATH_TEXT_CHANGE_AUTO_EXTENSION "... 部分の拡張子部分を出力設定に合わせて wav または ogg に置き換える"
 
   // ---------------------------------------------------------------------
   // ===== searcher =====

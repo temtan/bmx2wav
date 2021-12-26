@@ -101,6 +101,8 @@ namespace BMX2WAV {
       TtStatic   output_file_template_label_;
       TtEdit     output_file_template_edit_;
       TtButton   output_file_help_button_;
+
+      TtFont     font_for_output_template_edit_;
     };
 
     // -- ParserPage -----------------------------------------------------

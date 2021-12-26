@@ -411,17 +411,17 @@ SquirrelVMBase::InitializeStringTable( void )
   REGISTER_ID( StringTable::TemplatePath::MenuCopy );
   REGISTER_ID( StringTable::TemplatePath::ColumnName );
   REGISTER_ID( StringTable::TemplatePath::ColumnDescription );
+  REGISTER_ID( StringTable::TemplatePath::Variable );
+  REGISTER_ID( StringTable::TemplatePath::Function );
+
   REGISTER_ID( StringTable::TemplatePath::TextInputBmsPath );
-  REGISTER_ID( StringTable::TemplatePath::TextInputBmsPathWithoutExtension );
-  REGISTER_ID( StringTable::TemplatePath::TextInputBmsDirectory );
-  REGISTER_ID( StringTable::TemplatePath::TextInputBmsParentDirectory );
-  REGISTER_ID( StringTable::TemplatePath::TextInputBmsBasename );
-  REGISTER_ID( StringTable::TemplatePath::TextInputBmsBasenameWithoutExtension );
-  REGISTER_ID( StringTable::TemplatePath::TextInputBmsAutoExtensionChange );
-  REGISTER_ID( StringTable::TemplatePath::TextInputBmsBasenameAutoExtensionChange );
   REGISTER_ID( StringTable::TemplatePath::TextAutoExtension );
   REGISTER_ID( StringTable::TemplatePath::TextBMX2WAVDirectory );
   REGISTER_ID( StringTable::TemplatePath::TextHeaderXXXXX );
+  REGISTER_ID( StringTable::TemplatePath::TextBaseName );
+  REGISTER_ID( StringTable::TemplatePath::TextDirName );
+  REGISTER_ID( StringTable::TemplatePath::TextRemoveExtension );
+  REGISTER_ID( StringTable::TemplatePath::TextChangeAutoExtension );
 
 
   // ---------------------------------------------------------------------
