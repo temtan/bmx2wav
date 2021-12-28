@@ -88,6 +88,7 @@ namespace BMX2WAV::Searcher {
 
     void SaveSplitterPosition( unsigned int width );
     unsigned int LoadSplitterPosition( void );
+    std::string LoadLanguage( void );
 
     void SaveErrorLogDump( TtException& e );
 

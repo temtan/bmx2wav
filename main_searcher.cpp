@@ -27,7 +27,7 @@ WinMain( HINSTANCE h_instance,
 
   try {
     // Œ¾Œê‘I‘ð
-    BMX2WAV::StringTable::Initialize( BMX2WAV::IniFileOperation::LoadLanguage() );
+    BMX2WAV::StringTable::Initialize( BMX2WAV::Searcher::IniFileOperation::LoadLanguage() );
 
     BMX2WAV::Searcher::Image::Initialize();
     BMX2WAV::Searcher::MainFrame frame;

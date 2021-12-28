@@ -24,10 +24,8 @@ releaser.additional_string = "-#{version}"
 "Release/bmx2wav.exe",
 "bmx2wav.base.nut",
 "bmx2wav.class.nut",
-"bmx2wav.nut",
 "Release_searcher/bmx2wav_searcher.exe",
 "bmx2wav_searcher.class.nut",
-"bmx2wav_searcher.nut",
 "bmx2wav.txt",
 ].each {|file| releaser.add_file( file ) }
 
@@ -37,6 +35,9 @@ releaser.additional_string = "-#{version}"
 releaser.add_pre_copy {|file_utils, to_base|
   [
   ].each {|one| file_utils.mkdir( "#{to_base}/#{one}" ) }
+
+  file_utils.mkdir( "#{to_base}/lang" )
+  file_utils.cp( "./Release/lang/japanese.dll", "#{to_base}/lang" )
 
   file_utils.mkdir( "#{to_base}/manual" )
   Dir.glob( "./man/html/*" ) {|file|
