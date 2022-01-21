@@ -150,7 +150,7 @@ WithObjectNumberException( object_number )
 std::string
 EntriedAudioFileNotFoundException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::EntriedAudioFileNotFound.Get(), this->GetObjectNumber().ToCharPointer(), this->GetFilePath().c_str() );
+  return Utility::Format( StrT::Message::EntriedAudioFileNotFound.Get(), this->GetObjectNumber().ToCharPointer(), this->GetFilePath() );
 }
 
 
@@ -165,7 +165,7 @@ WithErrorNumberException( error_number )
 std::string
 AudioFileOpenException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::AudioFileOpenError.Get(), this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
+  return Utility::Format( StrT::Message::AudioFileOpenError.Get(), this->GetFilePath(), this->GetSystemErrorMessage() );
 }
 
 
@@ -179,7 +179,7 @@ WithErrorNumberException( error_number )
 std::string
 WavFileReadException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::WavFileReadError.Get(), this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
+  return Utility::Format( StrT::Message::WavFileReadError.Get(), this->GetFilePath(), this->GetSystemErrorMessage() );
 }
 
 
@@ -193,7 +193,7 @@ WithErrorNumberException( error_number )
 std::string
 WavFileWriteException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::WavFileWriteError.Get(), this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
+  return Utility::Format( StrT::Message::WavFileWriteError.Get(), this->GetFilePath(), this->GetSystemErrorMessage() );
 }
 
 
@@ -209,7 +209,7 @@ WithErrorNumberException( error_number )
 std::string
 OggFileOpenException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::OggFileOpenError.Get(), this->GetFilePath().c_str(), error_number_ );
+  return Utility::Format( StrT::Message::OggFileOpenError.Get(), this->GetFilePath(), error_number_ );
 }
 
 
@@ -222,7 +222,7 @@ AudioFileErrorWith( path )
 std::string
 OggFileReadException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::OggFileReadError.Get(), this->GetFilePath().c_str() );
+  return Utility::Format( StrT::Message::OggFileReadError.Get(), this->GetFilePath() );
 }
 
 
@@ -236,7 +236,7 @@ reason_( reason )
 std::string
 InvalidWavFileFormatException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::InvalidWavFileFormat.Get(), this->GetFilePath().c_str(), reason_.c_str() );
+  return Utility::Format( StrT::Message::InvalidWavFileFormat.Get(), this->GetFilePath(), reason_ );
 }
 
 const std::string&
@@ -255,7 +255,7 @@ reason_( reason )
 std::string
 UnsupportedWavFileFormatException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::UnsupportedWavFileFormat.Get(), this->GetFilePath().c_str(), reason_.c_str() );
+  return Utility::Format( StrT::Message::UnsupportedWavFileFormat.Get(), this->GetFilePath(), reason_ );
 }
 
 const std::string&
@@ -295,7 +295,7 @@ std::string
 BmsFileAccessException::GetMessage( void )
 {
   auto tmp = TtUtility::GetANSIErrorMessage( error_number_ );
-  return Utility::Format( StrT::Message::BmsFileAccessError.Get(), this->GetFilePath().c_str(), tmp.c_str() );
+  return Utility::Format( StrT::Message::BmsFileAccessError.Get(), this->GetFilePath(), tmp );
 }
 
 
@@ -309,7 +309,7 @@ WithFilePathException( path )
 std::string
 OutputFileIsInputFilePathException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::OutputFileIsInputFilePath.Get(), this->GetObjectNumber().ToCharPointer(), this->GetFilePath().c_str() );
+  return Utility::Format( StrT::Message::OutputFileIsInputFilePath.Get(), this->GetObjectNumber().ToCharPointer(), this->GetFilePath() );
 }
 
 
@@ -374,7 +374,7 @@ LongNoteObjectInvalidEncloseException::GetMessage( void )
 {
   auto tmp1 = Utility::Format( StrT::Message::LNObjectInvalidEncloseAdd.Get(), start_.bar_number_, start_.channel_number_.ToCharPointer(), start_.object_number_.ToCharPointer() );
   auto tmp2 = Utility::Format( StrT::Message::LNObjectInvalidEncloseAdd.Get(), end_.bar_number_,   end_.channel_number_.ToCharPointer(),   end_.object_number_.ToCharPointer() );
-  return Utility::Format( StrT::Message::LNObjectInvalidEnclose.Get(), tmp1.c_str(), tmp2.c_str() );
+  return Utility::Format( StrT::Message::LNObjectInvalidEnclose.Get(), tmp1, tmp2 );
 }
 
 BL::ObjectWithLocation
@@ -466,5 +466,5 @@ WithErrorNumberException( parent.GetErrorNumber() )
 std::string
 OutputFileAccessException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::OutputFileAccessError.Get(), this->GetFilePath().c_str(), this->GetSystemErrorMessage().c_str() );
+  return Utility::Format( StrT::Message::OutputFileAccessError.Get(), this->GetFilePath(), this->GetSystemErrorMessage() );
 }

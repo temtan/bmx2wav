@@ -287,7 +287,7 @@ ConverterDialog::Created( void )
       if ( ret <= 32 ) {
         DWORD error_code = ::GetLastError();
         TtMessageBoxOk box;
-        box.SetMessage( Utility::Format( StrT::Convert::MBOpenWavMessage.Get(), converter_.info_.output_file_path_.c_str(), TtUtility::GetWindowsSystemErrorMessage( error_code ).c_str() ) );
+        box.SetMessage( Utility::Format( StrT::Convert::MBOpenWavMessage.Get(), converter_.info_.output_file_path_, TtUtility::GetWindowsSystemErrorMessage( error_code ) ) );
         box.SetCaption( StrT::Convert::MBOpenWavCaption.Get() );
         box.SetIcon( TtMessageBox::Icon::ERROR );
         box.ShowDialog( *this );
@@ -343,8 +343,8 @@ ConverterDialog::Created( void )
     }
     else {
       output_dialog_.PutsText( Utility::Format( StrT::Convert::OpenLogErrorMessage.Get(),
-                                                converter_.GetConvertParameter().log_file_path_.c_str(),
-                                                TtUtility::GetANSIErrorMessage( error_number ).c_str() ) );
+                                                converter_.GetConvertParameter().log_file_path_,
+                                                TtUtility::GetANSIErrorMessage( error_number ) ) );
     }
   }
 

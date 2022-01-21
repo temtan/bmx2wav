@@ -44,7 +44,7 @@ WinMain( HINSTANCE h_instance,
     }
     catch ( TtCommandLine::Exception& e ) {
       TtMessageBoxOk box;
-      box.SetMessage( BMX2WAV::Utility::Format( BMX2WAV::StrT::Message::CommandLineError.Get(), e.Dump().c_str() ) );
+      box.SetMessage( BMX2WAV::Utility::Format( BMX2WAV::StrT::Message::CommandLineError.Get(), e.Dump() ) );
       box.SetCaption( BMX2WAV::StrT::Message::CommandLineErrorCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::ERROR );
       box.ShowDialog();

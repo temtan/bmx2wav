@@ -32,7 +32,7 @@ std::string
 BL::Parser::FileAccessException::GetMessage( void )
 {
   auto tmp = TtUtility::GetANSIErrorMessage( error_number_ );
-  return Utility::Format( StrT::Message::Parser::FileAccessError.Get(), path_.c_str(), tmp.c_str() );
+  return Utility::Format( StrT::Message::Parser::FileAccessError.Get(), path_, tmp );
 }
 
 
@@ -105,7 +105,7 @@ WithHeader( header )
 std::string
 BL::Parser::HeaderCollisionException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::Parser::HeaderCollision.Get(), line_.key_.c_str() );
+  return Utility::Format( StrT::Message::Parser::HeaderCollision.Get(), line_.key_ );
 }
 
 // -- InvalidBpmException ------------------------------------------------
@@ -219,7 +219,7 @@ BmsDescriptionExceptionWith( raw_line )
 std::string
 BL::Parser::InvalidRandomStatementValueException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::Parser::InvalidRandomStatementValue.Get(), line_.key_.c_str() );
+  return Utility::Format( StrT::Message::Parser::InvalidRandomStatementValue.Get(), line_.key_ );
 }
 
 // -- CorrespondingIfIsNotingException -----------------------------------
@@ -314,7 +314,7 @@ WithHeader( header )
 std::string
 BL::Parser::DefinedObjectNotUsedException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::Parser::DefinedObjectNotUsed.Get(), line_.key_.c_str() );
+  return Utility::Format( StrT::Message::Parser::DefinedObjectNotUsed.Get(), line_.key_ );
 }
 
 // -- ResolutionExceededLimitException ---------------------------------

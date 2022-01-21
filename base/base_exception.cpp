@@ -49,7 +49,7 @@ BL::InvalidCharUsedAsWordException::GetAsString( void ) const
 std::string
 BL::InvalidCharUsedAsWordException::GetMessage( void )
 {
-  return Utility::Format( StrT::Message::InvalidCharUsedAsWord.Get(), this->GetAsString().c_str() );
+  return Utility::Format( StrT::Message::InvalidCharUsedAsWord.Get(), this->GetAsString() );
 }
 
 std::string

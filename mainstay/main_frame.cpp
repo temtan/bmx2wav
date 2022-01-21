@@ -278,7 +278,7 @@ Mainstay::MainFrame::RegisterHandlers( void )
     if ( ret <= 32 ) {
       DWORD error_code = ::GetLastError();
       TtMessageBoxOk box;
-      box.SetMessage( Utility::Format( StrT::Main::MBStartSearcherErrorMessage.Get(), searcher_path.c_str(), TtUtility::GetWindowsSystemErrorMessage( error_code ).c_str() ) );
+      box.SetMessage( Utility::Format( StrT::Main::MBStartSearcherErrorMessage.Get(), searcher_path, TtUtility::GetWindowsSystemErrorMessage( error_code ) ) );
       box.SetCaption( StrT::Main::MBStartSearcherErrorCaption.Get() );
       box.SetIcon( TtMessageBox::Icon::ERROR );
       box.ShowDialog( *this );
