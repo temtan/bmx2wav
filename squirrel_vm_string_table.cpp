@@ -259,6 +259,8 @@ SquirrelVMBase::InitializeStringTable( void )
   REGISTER_ID( StringTable::ParameterPropertySheet::OutputRemoveCharCheck );
   REGISTER_ID( StringTable::ParameterPropertySheet::OutputOutputFileTemplateLabel );
   REGISTER_ID( StringTable::ParameterPropertySheet::OutputOutputFileHelpButton );
+  REGISTER_ID( StringTable::ParameterPropertySheet::OutputOutputFileExampleBms );
+  REGISTER_ID( StringTable::ParameterPropertySheet::OutputOutputFileExampleResult );
   REGISTER_ID( StringTable::ParameterPropertySheet::OutputMBOggBaseQualityCaption );
   REGISTER_ID( StringTable::ParameterPropertySheet::OutputMBOggBaseQualityMessage );
 
@@ -411,9 +413,9 @@ SquirrelVMBase::InitializeStringTable( void )
   REGISTER_ID( StringTable::TemplatePath::MenuCopy );
   REGISTER_ID( StringTable::TemplatePath::ColumnName );
   REGISTER_ID( StringTable::TemplatePath::ColumnDescription );
-  REGISTER_ID( StringTable::TemplatePath::Variable );
   REGISTER_ID( StringTable::TemplatePath::Function );
 
+  REGISTER_ID( StringTable::TemplatePath::TextOmitted );
   REGISTER_ID( StringTable::TemplatePath::TextInputBmsPath );
   REGISTER_ID( StringTable::TemplatePath::TextAutoExtension );
   REGISTER_ID( StringTable::TemplatePath::TextBMX2WAVDirectory );

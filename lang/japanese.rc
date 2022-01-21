@@ -142,7 +142,9 @@ STRINGTABLE
   RSID_STR_PPS_OUTPUT_NEVER_OVERWRITE_CHECK      "出力ファイルが既に存在する場合は別名で出力する(&N)"
   RSID_STR_PPS_OUTPUT_REMOVE_CHAR_CHECK          "ファイルパスとして使用できない文字があった場合削除する(&R)"
   RSID_STR_PPS_OUTPUT_OUTPUT_FILE_TEMPLATE_LABEL "出力ファイル指定テンプレート(&O)"
-  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_HELP_BUTTON    "使用できる変数・関数一覧を表示する(&H)"
+  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_HELP_BUTTON    "使用できる関数一覧を表示する(&H)"
+  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_EXAMPLE_BMS    "仮入力BMSのパス :"
+  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_EXAMPLE_RESULT "仮出力結果"
   RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_CAP    "エラー"
   RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_MSG    "出力 ogg ファイルの品質を正しく入力してください。"
 
@@ -291,13 +293,13 @@ STRINGTABLE
 
   // ---------------------------------------------------------------------
   // template path translate help dialog
-  RSID_STR_TEMPLATE_PATH_TITLE              "使用可能変数・関数一覧"
-  RSID_STR_TEMPLATE_PATH_MENU_COPY          "変数名・関数名をコピー(&C)"
-  RSID_STR_TEMPLATE_PATH_COLUMN_NAME        "変数名・関数名"
+  RSID_STR_TEMPLATE_PATH_TITLE              "使用可能関数一覧"
+  RSID_STR_TEMPLATE_PATH_MENU_COPY          "関数名をコピー(&C)"
+  RSID_STR_TEMPLATE_PATH_COLUMN_NAME        "関数名"
   RSID_STR_TEMPLATE_PATH_COLUMN_DESCRIPTION "説明"
-  RSID_STR_TEMPLATE_PATH_VARIABLE           "変数"
   RSID_STR_TEMPLATE_PATH_FUNCTION           "関数"
 
+  RSID_STR_TEMPLATE_PATH_TEXT_OMITTED               "上記の省略形"
   RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH        "入力 BMS ファイルのパス"
   RSID_STR_TEMPLATE_PATH_TEXT_AUTO_EXTENSION        "出力設定に合わせて wav または ogg"
   RSID_STR_TEMPLATE_PATH_TEXT_BMX2WAV_DIRECTORY     "BMX2WAV 実行ファイルの置かれているフォルダのパス"

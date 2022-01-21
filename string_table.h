@@ -172,6 +172,8 @@ namespace BMX2WAV::StringTable {
     static const ID OutputRemoveCharCheck         = RSID_STR_PPS_OUTPUT_REMOVE_CHAR_CHECK;
     static const ID OutputOutputFileTemplateLabel = RSID_STR_PPS_OUTPUT_OUTPUT_FILE_TEMPLATE_LABEL;
     static const ID OutputOutputFileHelpButton    = RSID_STR_PPS_OUTPUT_OUTPUT_FILE_HELP_BUTTON;
+    static const ID OutputOutputFileExampleBms    = RSID_STR_PPS_OUTPUT_OUTPUT_FILE_EXAMPLE_BMS;
+    static const ID OutputOutputFileExampleResult = RSID_STR_PPS_OUTPUT_OUTPUT_FILE_EXAMPLE_RESULT;
     static const ID OutputMBOggBaseQualityCaption = RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_CAP;
     static const ID OutputMBOggBaseQualityMessage = RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_MSG;
 
@@ -335,9 +337,9 @@ namespace BMX2WAV::StringTable {
     static const ID MenuCopy          = RSID_STR_TEMPLATE_PATH_MENU_COPY;
     static const ID ColumnName        = RSID_STR_TEMPLATE_PATH_COLUMN_NAME;
     static const ID ColumnDescription = RSID_STR_TEMPLATE_PATH_COLUMN_DESCRIPTION;
-    static const ID Variable          = RSID_STR_TEMPLATE_PATH_VARIABLE;
     static const ID Function          = RSID_STR_TEMPLATE_PATH_FUNCTION;
 
+    static const ID TextOmitted             = RSID_STR_TEMPLATE_PATH_TEXT_OMITTED;
     static const ID TextInputBmsPath        = RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH;
     static const ID TextAutoExtension       = RSID_STR_TEMPLATE_PATH_TEXT_AUTO_EXTENSION;
     static const ID TextBMX2WAVDirectory    = RSID_STR_TEMPLATE_PATH_TEXT_BMX2WAV_DIRECTORY;

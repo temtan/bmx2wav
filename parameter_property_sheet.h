@@ -6,6 +6,8 @@
 #include "tt_window_controls.h"
 #include "tt_dialog.h"
 
+#include "base/bms_data.h"
+
 #include "core/convert_parameter.h"
 #include "mainstay/entry.h"
 
@@ -23,6 +25,7 @@ namespace BMX2WAV {
         OutputLogCheck,
         LogReferenceButton,
         OutputAsOggCheck,
+        OutputTemplateEdit,
         OutputTemplateHelpButton,
         DoTrimingCheck,
         InsertFrontSilenceCheck,
@@ -83,15 +86,18 @@ namespace BMX2WAV {
     class OutputPage : public Page,
                        public WithCreatedFlag {
     public:
-      explicit OutputPage( Core::ConvertParameter& parameter );
+      explicit OutputPage( Core::ConvertParameter& parameter, ParameterPropertySheet& parent );
 
       virtual bool Created( void ) override;
       virtual void SetParameterToControlsBody( void ) override;
 
     private:
       Core::ConvertParameter& parameter_;
+      ParameterPropertySheet& parent_;
 
       Core::TemplatePathTranslateHelpDialog output_file_help_dialog_;
+
+      using ResultEdit = TtEditWithStyle<TtEdit::Style::READONLY>;
 
       TtCheckBox output_as_ogg_check_;
       TtStatic   ogg_base_quality_label_;
@@ -99,8 +105,12 @@ namespace BMX2WAV {
       TtCheckBox never_overwrite_check_;
       TtCheckBox remove_char_check_;
       TtStatic   output_file_template_label_;
-      TtEdit     output_file_template_edit_;
       TtButton   output_file_help_button_;
+      TtEdit     output_file_template_edit_;
+      TtStatic   output_file_template_input_bms_label_;
+      ResultEdit output_file_template_input_bms_edit_;
+      TtStatic   output_file_template_result_label_;
+      ResultEdit output_file_template_result_edit_;
 
       TtFont     font_for_output_template_edit_;
     };
@@ -197,15 +207,18 @@ namespace BMX2WAV {
 
     // -- ParameterPropertySheet
   public:
-    explicit ParameterPropertySheet( Core::ConvertParameter& parameter, bool is_common );
+    explicit ParameterPropertySheet( Core::ConvertParameter& parameter, std::optional<std::string> individual_bms_path );
 
     virtual bool Created( void ) override;
     void SetParameterToPagesControl( void );
     void CallAtApplyOfPages( void );
 
-  private:
-    bool is_common_;
+  public:
+    // if nullopt then common parameter
+    std::optional<std::string>   individual_bms_path_;
+    std::shared_ptr<BL::BmsData> bms_data_;
 
+  private:
     GeneralPage      general_page_;
     OutputPage       output_page_;
     ParserPage       parser_page_;

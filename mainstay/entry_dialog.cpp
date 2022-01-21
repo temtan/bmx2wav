@@ -124,7 +124,7 @@ Mainstay::EntryDialog::Created( void )
         entry_->parameter_.emplace();
       }
     }
-    ParameterPropertySheet sheet( *entry_->parameter_, false );
+    ParameterPropertySheet sheet( *entry_->parameter_, entry_->path_ );
     sheet.ShowDialog( *this );
 
     this->SetUsingParameterLabelFromParameter();

@@ -156,7 +156,7 @@ Mainstay::MainFrame::RegisterHandlers( void )
 
   // -- •ÒW
   this->AddCommandHandler( CommandID::EditCommonParameter, [this] ( int, HWND ) -> WMResult {
-    ParameterPropertySheet sheet( common_parameter_, true );
+    ParameterPropertySheet sheet( common_parameter_, std::nullopt );
     sheet.ShowDialog( *this );
     this->IfToggleButtonIsPressedDisplayCell();
     return {WMResult::Done};
@@ -230,7 +230,7 @@ Mainstay::MainFrame::RegisterHandlers( void )
           entry->parameter_.emplace();
         }
       }
-      ParameterPropertySheet sheet( *entry->parameter_, false );
+      ParameterPropertySheet sheet( *entry->parameter_, entry->path_ );
       sheet.ShowDialog( *this );
       this->IfToggleButtonIsPressedDisplayCell();
     }

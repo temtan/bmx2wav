@@ -6,6 +6,8 @@
 
 #include "string_table.h"
 
+#include "core/output_file_template.h"
+
 #include "core/convert_parameter.h"
 
 using namespace BMX2WAV;
@@ -262,59 +264,51 @@ Core::TranslateTemplatePath( const std::string& template_path,
                              bool               output_as_ogg,
                              BL::BmsData*       bms_data )
 {
-  TtTextTemplate::Document root_document;
-  root_document.ParseText( template_path );
+  OutputFileTemplate::Maker maker;
+  using Function = OutputFileTemplate::Function;
 
-  std::function<void ( TtTextTemplate::Document& )> fff = [&] ( TtTextTemplate::Document& doc ) {
-    const std::string auto_ext = output_as_ogg ? "ogg" : "wav";
+  maker["input_bms_path"] = [&input_path] ( Function& ) -> std::string {
+    return input_path;
+  };
+  maker["input"] = maker["input_bms_path"];
 
-    // ïœêîìoò^
-    auto if_document_has_replace_key_register_string = [&doc] ( const std::string& key, const std::string& value ) {
-      if ( doc.HasReplaceKey( key ) ) {
-        doc[key] = value;
-      }
-    };
-    {
-      auto& Q = if_document_has_replace_key_register_string;
-      Q( "input_bms_path",    input_path );
-      Q( "auto_extension",    auto_ext );
-      Q( "bmx2wav_directory", TtPath::GetExecutingDirectoryPath() );
-    }
-
-    // ÉwÉbÉ_ïœêîìoò^
-    std::string prefix = "header_";
-    for ( auto& key : doc.GetReplaceKeys() ) {
-      if ( TtString::StartWith( key, prefix ) ) {
-        std::string header = TtString::ToUpper( key.substr( prefix.size() ) );
-        if ( bms_data->headers_.contains( header ) ) {
-          doc[key] = bms_data->headers_[header];
-        }
-        else {
-          doc[key] = "";
-        }
-      }
-    }
-
-    // ä÷êîìoò^
-    auto if_document_has_document_key_register_post_processing = [&fff, &doc] ( const std::string& key, auto post_processing ) {
-      if ( doc.HasDocumentKey( key ) ) {
-        doc[key] = [&fff, &post_processing] ( TtTextTemplate::InternalDocument& internal_document ) {
-          fff( internal_document );
-          internal_document.RegisterPostProcessing( post_processing );
-        };
-      }
-    };
-    {
-      auto& Q = if_document_has_document_key_register_post_processing;
-      Q( "basename",              []  ( std::string& str ) { str = TtPath::BaseName( str ); } );
-      Q( "dirname",               []  ( std::string& str ) { str = TtPath::DirName( str ); } );
-      Q( "remove_extension",      []  ( std::string& str ) { str = TtPath::RemoveExtension( str ); } );
-      Q( "change_auto_extension", [&] ( std::string& str ) { str = TtPath::ChangeExtension( str, auto_ext ); } );
-    }
+  maker["auto_extension"] = [&output_as_ogg] ( Function& ) -> std::string {
+    return output_as_ogg ? "ogg" : "wav";
   };
 
-  fff( root_document );
-  return root_document.MakeText();
+  maker["bmx2wav_directory"] = [] ( Function& ) -> std::string {
+    return TtPath::GetExecutingDirectoryPath();
+  };
+
+  maker["header"] = [&bms_data] ( Function& func ) -> std::string {
+    if ( NOT( func.argument_string_ ) ) {
+      return func.text_ + func.block_string_ + (func.BlockExist() ? "}%" : "");
+    }
+
+    const std::string key = TtString::ToUpper( func.argument_string_.value() );
+    if ( bms_data == nullptr ) {
+      return "VALUE_" + key;
+    }
+    if ( bms_data->headers_.contains( key ) ) {
+      return bms_data->headers_[key];
+    }
+    return "";
+  };
+
+  maker["basename"] = [] ( Function& func ) -> std::string {
+    return TtPath::BaseName( func.block_string_ );
+  };
+  maker["dirname"] = [] ( Function& func ) -> std::string {
+    return TtPath::DirName( func.block_string_ );
+  };
+  maker["remove_extension"] = [] ( Function& func ) -> std::string {
+    return TtPath::RemoveExtension( func.block_string_ );
+  };
+  maker["change_auto_extension"] = [&output_as_ogg] ( Function& func ) -> std::string {
+    return TtPath::ChangeExtension( func.block_string_, output_as_ogg ? "ogg" : "wav" );
+  };
+
+  return maker.MakeText( template_path );
 }
 
 
@@ -405,34 +399,22 @@ Core::TemplatePathTranslateHelpDialog::Created( void )
     TtListViewColumn column_description = list_.MakeNewColumn();
     column_description.SetText( StrT::TemplatePath::ColumnDescription.Get() );
 
-    auto add_s = [this] ( const std::string& name ) {
+    auto add = [this] ( const std::string& str, const std::string& description ) {
       auto item = list_.MakeNewItem();
-      item.SetSubItemText( 0, "--- " + name +  " ---" );
-    };
-
-    // ïœêî
-    add_s( StrT::TemplatePath::Variable.Get() );
-    auto add_r = [this] ( const std::string& var, const std::string& description ) {
-      auto item = list_.MakeNewItem();
-      item.SetSubItemText( 0, "@@" + var + "@@" );
+      item.SetSubItemText( 0, str );
       item.SetSubItemText( 1, description );
     };
-    add_r( "input_bms_path",    StrT::TemplatePath::TextInputBmsPath.Get() );
-    add_r( "auto_extension",    StrT::TemplatePath::TextAutoExtension.Get() );
-    add_r( "bmx2wav_directory", StrT::TemplatePath::TextBMX2WAVDirectory.Get() );
-    add_r( "header_XXXXX",      StrT::TemplatePath::TextHeaderXXXXX.Get() );
 
-    // ä÷êî
-    add_s( StrT::TemplatePath::Function.Get() );
-    auto add_d = [this] ( const std::string& var, const std::string& description ) {
-      auto item = list_.MakeNewItem();
-      item.SetSubItemText( 0, "%%" + var + "%%{...}%%" );
-      item.SetSubItemText( 1, description );
-    };
-    add_d( "basename",              StrT::TemplatePath::TextBaseName.Get() );
-    add_d( "dirname",               StrT::TemplatePath::TextDirName.Get() );
-    add_d( "remove_extension",      StrT::TemplatePath::TextRemoveExtension.Get() );
-    add_d( "change_auto_extension", StrT::TemplatePath::TextChangeAutoExtension.Get() );
+    add( "%input_bms_path%",    StrT::TemplatePath::TextInputBmsPath.Get() );
+    add( "%input%",             StrT::TemplatePath::TextOmitted.Get() );
+    add( "%auto_extension%",    StrT::TemplatePath::TextAutoExtension.Get() );
+    add( "%bmx2wav_directory%", StrT::TemplatePath::TextBMX2WAVDirectory.Get() );
+    add( "%header%(\"XXXXX\")", StrT::TemplatePath::TextHeaderXXXXX.Get() );
+    add( "-----", "-----" );
+    add( "%basename%{...}%",              StrT::TemplatePath::TextBaseName.Get() );
+    add( "%dirname%{...}%",               StrT::TemplatePath::TextDirName.Get() );
+    add( "%remove_extension%{...}%",      StrT::TemplatePath::TextRemoveExtension.Get() );
+    add( "%change_auto_extension%{...}%", StrT::TemplatePath::TextChangeAutoExtension.Get() );
 
     column_name.SetWidthAuto();
     column_description.SetWidthAuto();

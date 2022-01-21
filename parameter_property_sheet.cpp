@@ -4,6 +4,7 @@
 #include "tt_window_utility.h"
 #include "tt_file_dialog.h"
 
+#include "base/parser.h"
 #include "string_table.h"
 
 #include "parameter_property_sheet.h"
@@ -161,14 +162,15 @@ ParameterPropertySheet::GeneralPage::SetParameterToControlsBody( void )
   output_log_check_.SetCheck( parameter_.output_log_ );
   log_edit_.SetText( parameter_.log_file_path_ );
 
-  this->CallCommandHandler( CommandID::UseScriptCheck, BN_CLICKED, 0 );
-  this->CallCommandHandler( CommandID::OutputLogCheck, BN_CLICKED, 0 );
+  this->CallCommandHandler( CommandID::UseScriptCheck, BN_CLICKED, use_script_check_.GetHandle() );
+  this->CallCommandHandler( CommandID::OutputLogCheck, BN_CLICKED, output_log_check_.GetHandle() );
 }
 
 // -- OutputPage ---------------------------------------------------------
-ParameterPropertySheet::OutputPage::OutputPage( Core::ConvertParameter& parameter ) :
+ParameterPropertySheet::OutputPage::OutputPage( Core::ConvertParameter& parameter, ParameterPropertySheet& parent ) :
 Page( StrT::PPS::Output.Get() ),
 parameter_( parameter ),
+parent_( parent ),
 
 font_for_output_template_edit_( ::CreateFont( 12, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE,
                                               SHIFTJIS_CHARSET, OUT_DEFAULT_PRECIS,
@@ -186,27 +188,39 @@ ParameterPropertySheet::OutputPage::Created( void )
   never_overwrite_check_.Create( {this} );
   remove_char_check_.Create( {this} );
   output_file_template_label_.Create( {this} );
-  output_file_template_edit_.Create( {this} );
   output_file_help_button_.Create( {this, CommandID::OutputTemplateHelpButton} );
+  output_file_template_edit_.Create( {this, CommandID::OutputTemplateEdit} );
+  output_file_template_input_bms_label_.Create( {this} );
+  output_file_template_input_bms_edit_.Create( {this} );
+  output_file_template_result_label_.Create( {this} );
+  output_file_template_result_edit_.Create( {this} );
   control_created_ = true;
 
-  output_as_ogg_check_.SetPositionSize(          4,  12, 300,  16 );
-  ogg_base_quality_label_.SetPositionSize(      12,  32, 220,  16 );
-  ogg_base_quality_edit_.SetPositionSize(      240,  28,  50,  20 );
-  never_overwrite_check_.SetPositionSize(        4,  60, 360,  16 );
-  remove_char_check_.SetPositionSize(            4,  88, 360,  16 );
-  output_file_template_label_.SetPositionSize(   4, 120, 300,  16 );
-  output_file_template_edit_.SetPositionSize(   12, 144, 440,  20 );
-  output_file_help_button_.SetPositionSize(     12, 174, 220,  24 );
+  output_as_ogg_check_.SetPositionSize(                    4,  12, 300,  16 );
+  ogg_base_quality_label_.SetPositionSize(                12,  32, 220,  16 );
+  ogg_base_quality_edit_.SetPositionSize(                240,  28,  50,  20 );
+  never_overwrite_check_.SetPositionSize(                  4,  60, 360,  16 );
+  remove_char_check_.SetPositionSize(                      4,  88, 360,  16 );
+  output_file_template_label_.SetPositionSize(             4, 130, 300,  16 );
+  output_file_help_button_.SetPositionSize(              200, 124, 230,  24 );
+  output_file_template_edit_.SetPositionSize(             12, 156, 440,  20 );
+  output_file_template_input_bms_label_.SetPositionSize(  12, 196, 300,  16 );
+  output_file_template_input_bms_edit_.SetPositionSize(  120, 192, 332,  20 );
+  output_file_template_result_label_.SetPositionSize(     12, 220, 300,  16 );
+  output_file_template_result_edit_.SetPositionSize(      12, 240, 440,  20 );
 
   output_file_template_edit_.SetFont( font_for_output_template_edit_ );
+  output_file_template_input_bms_edit_.SetFont( font_for_output_template_edit_ );
+  output_file_template_result_edit_.SetFont( font_for_output_template_edit_ );
 
-  output_as_ogg_check_.SetText(        StrT::PPS::OutputOutputAsOggCheck.Get() );
-  ogg_base_quality_label_.SetText(     StrT::PPS::OutputOggBaseQualityLabel.Get());
-  never_overwrite_check_.SetText(      StrT::PPS::OutputNeverOverwriteCheck.Get() );
-  remove_char_check_.SetText(          StrT::PPS::OutputRemoveCharCheck.Get() );
-  output_file_template_label_.SetText( StrT::PPS::OutputOutputFileTemplateLabel.Get() );
-  output_file_help_button_.SetText(    StrT::PPS::OutputOutputFileHelpButton.Get() );
+  output_as_ogg_check_.SetText(                  StrT::PPS::OutputOutputAsOggCheck.Get() );
+  ogg_base_quality_label_.SetText(               StrT::PPS::OutputOggBaseQualityLabel.Get());
+  never_overwrite_check_.SetText(                StrT::PPS::OutputNeverOverwriteCheck.Get() );
+  remove_char_check_.SetText(                    StrT::PPS::OutputRemoveCharCheck.Get() );
+  output_file_template_label_.SetText(           StrT::PPS::OutputOutputFileTemplateLabel.Get() );
+  output_file_help_button_.SetText(              StrT::PPS::OutputOutputFileHelpButton.Get() );
+  output_file_template_input_bms_label_.SetText( StrT::PPS::OutputOutputFileExampleBms.Get() );
+  output_file_template_result_label_.SetText(    StrT::PPS::OutputOutputFileExampleResult.Get() );
 
   this->GetHandlers().at_kill_active = [this] ( void ) -> bool {
     TtMessageBoxOk box;
@@ -238,12 +252,27 @@ ParameterPropertySheet::OutputPage::Created( void )
     if ( code == BN_CLICKED ) {
       ogg_base_quality_label_.SetEnabled( output_as_ogg_check_.GetCheck() );
       ogg_base_quality_edit_.SetEnabled( output_as_ogg_check_.GetCheck() );
+      this->CallCommandHandler( CommandID::OutputTemplateEdit, EN_CHANGE, output_file_template_edit_.GetHandle() );
     }
     return {WMResult::Done};
   } );
 
   this->AddCommandHandler( CommandID::OutputTemplateHelpButton, [this] ( int, HWND ) -> WMResult {
     output_file_help_dialog_.Show();
+    return {WMResult::Done};
+  } );
+
+  this->AddCommandHandler( CommandID::OutputTemplateEdit, [this] ( int code, HWND ) -> WMResult {
+    if ( code == EN_CHANGE ) {
+      std::string path = output_file_template_input_bms_edit_.GetText();
+      BL::BmsData* bms_data = nullptr;
+      if ( parent_.individual_bms_path_ ) {
+        path     = parent_.individual_bms_path_.value();
+        bms_data = parent_.bms_data_.get();
+      }
+      auto result = Core::TranslateTemplatePath( output_file_template_edit_.GetText(), path, output_as_ogg_check_.GetCheck(), bms_data );
+      output_file_template_result_edit_.SetText( result );
+    }
     return {WMResult::Done};
   } );
 
@@ -257,6 +286,10 @@ ParameterPropertySheet::OutputPage::Created( void )
   output_file_template_label_.Show();
   output_file_template_edit_.Show();
   output_file_help_button_.Show();
+  output_file_template_input_bms_label_.Show();
+  output_file_template_input_bms_edit_.Show();
+  output_file_template_result_label_.Show();
+  output_file_template_result_edit_.Show();
 
   // Show ‚µ‚È‚¢‚Æ•\Ž¦‚³‚ê‚È‚¢‚Ì‚Å’ˆÓ
   output_file_help_dialog_.ShowDialog( this->GetParentSheet() );
@@ -267,13 +300,15 @@ ParameterPropertySheet::OutputPage::Created( void )
 void
 ParameterPropertySheet::OutputPage::SetParameterToControlsBody( void )
 {
+  output_file_template_input_bms_edit_.SetText( parent_.individual_bms_path_ ? parent_.individual_bms_path_.value() : "C:\\hoge\\fuga\\piyo.bms" );
+
   output_as_ogg_check_.SetCheck( parameter_.output_as_ogg_ );
   ogg_base_quality_edit_.SetText( TtUtility::ToStringFrom( parameter_.ogg_base_quality_ ) );
   never_overwrite_check_.SetCheck( parameter_.never_overwrite_output_file_ );
   remove_char_check_.SetCheck( parameter_.remove_can_not_use_character_as_file_path_ );
   output_file_template_edit_.SetText( parameter_.output_file_template_ );
 
-  this->CallCommandHandler( CommandID::OutputAsOggCheck, BN_CLICKED, 0 );
+  this->CallCommandHandler( CommandID::OutputAsOggCheck, BN_CLICKED, output_as_ogg_check_.GetHandle() );
 }
 
 
@@ -482,8 +517,8 @@ ParameterPropertySheet::MixinPage::SetParameterToControlsBody( void )
   insert_front_silence_check_.SetCheck( parameter_.insert_front_silence_ );
   insert_front_silence_second_edit_.SetText( TtUtility::ToStringFrom( parameter_.insert_front_silence_second_ ) );
 
-  this->CallCommandHandler( CommandID::DoTrimingCheck,          BN_CLICKED, 0 );
-  this->CallCommandHandler( CommandID::InsertFrontSilenceCheck, BN_CLICKED, 0 );
+  this->CallCommandHandler( CommandID::DoTrimingCheck,          BN_CLICKED, do_triming_check_.GetHandle() );
+  this->CallCommandHandler( CommandID::InsertFrontSilenceCheck, BN_CLICKED, insert_front_silence_check_.GetHandle() );
 }
 
 
@@ -614,8 +649,7 @@ ParameterPropertySheet::AudioPage::SetParameterToControlsBody( void )
   normalize_over_ppm_edit_.SetText( TtUtility::ToStringFrom( parameter_.normalize_over_ppm_ ) );
   volume_edit_.SetText( TtUtility::ToStringFrom( parameter_.volume_ ) );
 
-  this->CallCommandHandler( CommandID::OutputAsOggCheck,       BN_CLICKED, 0 );
-  this->CallCommandHandler( CommandID::NormalizeKindNoneRadio, BN_CLICKED, 0 );
+  this->CallCommandHandler( CommandID::NormalizeKindNoneRadio, BN_CLICKED, normalize_kind_none_radio_.GetHandle() );
 }
 
 
@@ -722,18 +756,18 @@ ParameterPropertySheet::AfterProcessPage::SetParameterToControlsBody( void )
   wait_for_process_exit_check_.SetCheck( parameter_.after_process_wait_for_process_exit_ );
   delete_output_file_check_.SetCheck( parameter_.after_process_delete_output_file_ );
 
-  this->CallCommandHandler( CommandID::ExecuteAfterProcessCheck, BN_CLICKED, 0 );
+  this->CallCommandHandler( CommandID::ExecuteAfterProcessCheck, BN_CLICKED, execute_after_process_check_.GetHandle() );
 }
 
 
 // -- ParameterPropertySheet ---------------------------------------------
-ParameterPropertySheet::ParameterPropertySheet( Core::ConvertParameter& parameter, bool is_common ) :
+ParameterPropertySheet::ParameterPropertySheet( Core::ConvertParameter& parameter, std::optional<std::string> individual_bms_path ) :
 TtPropertySheet( false ),
 
-is_common_( is_common ),
+individual_bms_path_( individual_bms_path ),
 
 general_page_( parameter, *this ),
-output_page_( parameter ),
+output_page_( parameter, *this ),
 parser_page_( parameter ),
 mixin_page_( parameter ),
 audio_page_( parameter ),
@@ -745,12 +779,25 @@ after_process_page_( parameter )
   this->AddPage( mixin_page_ );
   this->AddPage( audio_page_ );
   this->AddPage( after_process_page_ );
+
+  if ( individual_bms_path_ ) {
+    BL::Parser::Parser parser;
+    parser.not_nesting_if_statement_ = true;
+    try {
+      bms_data_ = parser.Parse( individual_bms_path_.value() );
+    }
+    catch ( ... ) {
+      bms_data_ = std::make_shared<BL::BmsData>();
+      bms_data_->path_ = individual_bms_path_.value();
+      bms_data_->most_serious_error_level_ = ErrorLevel::Internal;
+    }
+  }
 }
 
 bool
 ParameterPropertySheet::Created( void )
 {
-  this->SetIconAsLarge( Image::ICONS[is_common_ ? Image::Index::EditCommonParameter : Image::Index::EditIndividualParameter] );
+  this->SetIconAsLarge( Image::ICONS[individual_bms_path_ ? Image::Index::EditIndividualParameter : Image::Index::EditCommonParameter] );
   this->SetText( StrT::PPS::Title.Get() );
 
   return true;
