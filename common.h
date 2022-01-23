@@ -10,7 +10,7 @@
 
 
 namespace BMX2WAV {
-  const char* const VERSION = "2.1.0";
+  const char* const VERSION = "2.1.1";
   const char* const APPLICATION_NAME = "BMX2WAV";
 
   namespace Const {
