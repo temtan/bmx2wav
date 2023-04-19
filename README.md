@@ -1,6 +1,6 @@
 ﻿# BMX2WAV
 
-BMX2WAV is a program that converts BMS files to WAV or OGG files.
+BMX2WAV is a Windows program that converts BMS files to WAV or OGG files.
 
 ## Features
 
