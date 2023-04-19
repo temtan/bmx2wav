@@ -16,7 +16,7 @@ BMX2WAV is a Windows program that converts BMS files to WAV or OGG files.
 - Batch conversion functionality
 - Allows collaboration with other programs (e.g., MP3 conversion) after conversion
 - Equipped with extension features using Squirrel scripting
-- Localization support, including English and Japanese language options
+- Localization support, currently only supporting Japanese, more language options will be implemented in the future.
 
 ## Directory Structure
 
