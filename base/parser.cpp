@@ -662,7 +662,10 @@ template <auto BL::Parser::Parser::Callbacks::* callback, class... Args>
 void
 BL::Parser::Parser::SafeErrorCallback( Args... args )
 {
-  auto exception = std::make_shared<ExceptionOf<decltype( callback )>::Type>( args... );
+  // VS 2022 ÉoÉOÅHëŒâû
+  // auto exception = std::make_shared<ExceptionOf<decltype( callback )>::Type>( args... );
+  using ExceptionType = ExceptionOf<decltype( callback )>::Type;
+  auto exception = std::make_shared<ExceptionType>( args... );
   this->SafeErrorCallbackOf( exception, callbacks_.*callback );
 }
 
