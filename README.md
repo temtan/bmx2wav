@@ -25,9 +25,9 @@ BMX2WAV is a Windows program that converts BMS files to WAV or OGG files.
 ├─tt_squirrel
 │ └─squirrel3 (http://www.squirrel-lang.org/)
 └─bmx2wav
-└─ogg
-├─libogg(https://xiph.org/)
-└─libvorbis(https://xiph.org/)
+   └─ogg
+      ├─libogg(https://xiph.org/)
+      └─libvorbis(https://xiph.org/)
 ```
 
 ## Usage
