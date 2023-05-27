@@ -204,8 +204,8 @@ ParameterPropertySheet::OutputPage::Created( void )
   output_file_template_label_.SetPositionSize(             4, 130, 300,  16 );
   output_file_help_button_.SetPositionSize(              200, 124, 230,  24 );
   output_file_template_edit_.SetPositionSize(             12, 156, 440,  20 );
-  output_file_template_input_bms_label_.SetPositionSize(  12, 196, 300,  16 );
-  output_file_template_input_bms_edit_.SetPositionSize(  120, 192, 332,  20 );
+  output_file_template_input_bms_label_.SetPositionSize(  12, 196, 200,  16 );
+  output_file_template_input_bms_edit_.SetPositionSize(  152, 192, 300,  20 );
   output_file_template_result_label_.SetPositionSize(     12, 220, 300,  16 );
   output_file_template_result_edit_.SetPositionSize(      12, 240, 440,  20 );
 
@@ -380,14 +380,14 @@ ParameterPropertySheet::MixinPage::Created( void )
   control_created_ = true;
 
   cancel_at_resounding_check_.SetPositionSize(           4,  12, 450, 16 );
-  start_label_.SetPositionSize(                        228,  44,  80, 16 );
-  end_label_.SetPositionSize(                          308,  44,  80, 16 );
+  start_label_.SetPositionSize(                        224,  44, 100, 16 );
+  end_label_.SetPositionSize(                          328,  44, 100, 16 );
   convert_start_end_bar_number_label_.SetPositionSize(  88,  74, 150, 16 );
   convert_start_bar_number_edit_.SetPositionSize(      240,  70,  40, 20 );
-  convert_end_bar_number_edit_.SetPositionSize(        320,  70,  40, 20 );
+  convert_end_bar_number_edit_.SetPositionSize(        340,  70,  40, 20 );
   do_triming_check_.SetPositionSize(                     8, 114, 220, 16 );
   triming_start_bar_number_edit_.SetPositionSize(      240, 110,  40, 20 );
-  triming_end_bar_number_edit_.SetPositionSize(        320, 110,  40, 20 );
+  triming_end_bar_number_edit_.SetPositionSize(        340, 110,  40, 20 );
   remove_front_silence_check_.SetPositionSize(           4, 160, 240, 16 );
   insert_front_silence_check_.SetPositionSize(           4, 180, 240, 16 );
   insert_front_silence_second_label_.SetPositionSize(    4, 204, 120, 16 );
@@ -551,10 +551,10 @@ ParameterPropertySheet::AudioPage::Created( void )
   normalize_kind_none_radio_.SetPositionSize(     16,  30, 200,  16 );
   normalize_kind_peak_radio_.SetPositionSize(     16,  54, 200,  16 );
   normalize_kind_average_radio_.SetPositionSize(  16,  78, 200,  16 );
-  normalize_kind_over_radio_.SetPositionSize(     16, 102, 120,  16 );
+  normalize_kind_over_radio_.SetPositionSize(     16, 102, 200,  16 );
   normalize_kind_group_.SetPositionSize(           8,  10, 300, 140 );
-  normalize_over_ppm_label_.SetPositionSize(      50, 126, 120,  16 );
-  normalize_over_ppm_edit_.SetPositionSize(      180, 122,  60,  20 );
+  normalize_over_ppm_label_.SetPositionSize(      50, 126, 150,  16 );
+  normalize_over_ppm_edit_.SetPositionSize(      208, 122,  60,  20 );
   volume_label_.SetPositionSize(                   8, 164, 100,  16 );
   volume_edit_.SetPositionSize(                  100, 160,  60,  20 );
 

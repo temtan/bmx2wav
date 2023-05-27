@@ -7,6 +7,7 @@
 #include "utility_dialogs.h"
 #include "mainstay/custom_control.h"
 #include "mainstay/entry.h"
+#include "mainstay/settings.h"
 #include "mainstay/main_squirrel_vm.h"
 #include "mainstay/multiple_convert_dialog.h"
 
@@ -30,6 +31,8 @@ namespace BMX2WAV::Mainstay {
     void RegisterHandlers( void );
 
     void LoadPlacementFromIniFile( void );
+    void LoadSettingsFromFile( void );
+    void SaveSettingsToFile( void );
 
     void SetAccelerator( void );
 
@@ -72,6 +75,8 @@ namespace BMX2WAV::Mainstay {
     std::pair<unsigned int, unsigned int>        last_sort_parameter_;
 
     std::optional<MultipleConvertDialog>         multiple_convert_dialog_;
+
+    Settings settings_;
 
     // -- control member -------------------------------------------------
     // -- ‘S‘Ì -----

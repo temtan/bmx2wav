@@ -1,4 +1,4 @@
-// searcher_entry.cpp
+// searcher/searcher_entry.cpp
 
 #include "tt_path.h"
 #include "tt_message_box.h"

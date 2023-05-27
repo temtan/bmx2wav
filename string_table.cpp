@@ -31,7 +31,12 @@ namespace {
 void
 StringTable::Initialize( const std::string& language )
 {
-  std::string path = TtPath::GetExecutingDirectoryPath() + "\\lang\\" + language + ".dll";
+  std::string dll_name = language;
+  if ( language.empty() ) {
+    dll_name = BMX2WAV::Utility::UserDefaultLocaleIsJapanese() ? "japanese.dll" : "english.dll";
+  }
+  std::string path = Utility::GetLanguageDirectoryPath() + "\\" + dll_name;
+
   try {
     lib = TtDynamicLinkLibrary::LoadLibrary( path );
   }

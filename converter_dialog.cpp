@@ -27,7 +27,7 @@ TtEnumTable<ConverterDialog::Result>::TtEnumTable( void )
   REGISTER( UserAborted );
 #undef REGISTER
 }
-template <>
+
 TtEnumTable<ConverterDialog::Result>
 TtEnumBase<ConverterDialog::Result>::TABLE;
 

@@ -14,6 +14,7 @@
 
 #include "mainstay/entry_dialog.h"
 #include "mainstay/multiple_convert_dialog.h"
+#include "mainstay/settings_property_sheet.h"
 
 #include "mainstay/main_frame.h"
 
@@ -258,7 +259,9 @@ Mainstay::MainFrame::RegisterHandlers( void )
 
   // -- ƒc[ƒ‹
   this->AddCommandHandler( CommandID::Settings, [this] ( int, HWND ) -> WMResult {
-    // TODO Settings
+    SettingsPropertySheet sheet( settings_ );
+    sheet.ShowDialog( *this );
+    this->SaveSettingsToFile();
     return {WMResult::Done};
   } );
 
@@ -435,6 +438,18 @@ Mainstay::MainFrame::LoadPlacementFromIniFile( void )
   if ( IniFileOperation::LoadPlacement( placement ) ) {
     this->SetWindowPlacement( placement );
   }
+}
+
+void
+Mainstay::MainFrame::LoadSettingsFromFile( void )
+{
+  settings_.ReadFromFile( TtPath::GetExecutingFilePathCustomExtension( "ini" ) );
+}
+
+void
+Mainstay::MainFrame::SaveSettingsToFile( void )
+{
+  settings_.WriteToFile( TtPath::GetExecutingFilePathCustomExtension( "ini" ) );
 }
 
 

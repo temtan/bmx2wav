@@ -19,7 +19,6 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( Time );
   DEFINE_PARAMETER_NAME_STRING( Dump );
   DEFINE_PARAMETER_NAME_STRING( TestMode );
-  DEFINE_PARAMETER_NAME_STRING( Language );
 }
 
 void
@@ -56,14 +55,6 @@ Searcher::IniFileOperation::LoadSplitterPosition( void )
   TtIniFile ini;
   TtIniSection section = ini[Tag::BMX2WAVSeacher];
   return section.GetInteger( Tag::SplitterPosition, Const::DefaultSplitterPosition );
-}
-
-std::string
-Searcher::IniFileOperation::LoadLanguage( void )
-{
-  TtIniFile ini;
-  TtIniSection section = ini[Tag::BMX2WAVSeacher];
-  return section.GetString( Tag::Language, "japanese" );
 }
 
 

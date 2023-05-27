@@ -25,7 +25,6 @@ TtEnumTable<Core::Parameter::Normalize>::TtEnumTable( void ) {
 #undef  REGIST
 };
 
-template <>
 TtEnumTable<Core::Parameter::Normalize>
 TtEnumBase<Core::Parameter::Normalize>::TABLE;
 

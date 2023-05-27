@@ -1,4 +1,4 @@
-// searcher_resource.h
+// searcher/searcher_resource.h
 
 #pragma once
 

@@ -56,11 +56,8 @@ column_group_menu_( TtSubMenuCommand::Create() )
   add_menu( convert_menu_, CommandID::ConvertAllBms, Index::ConvertAllBms, StrT::Main::Menu::ConvertConvertAllBms.Get() );
 
   this->AppendMenu( tool_menu_, StrT::Main::Menu::Tool.Get() );
-  /*
-  // TODO Ç¢ÇÈÅH
-  add_menu( tool_menu_, CommandID::Settings,              Index::None, StrT::Main::Menu::ToolSettings.Get() );
+  add_menu( tool_menu_, CommandID::Settings,                 Index::None,                     StrT::Main::Menu::ToolSettings.Get() );
   tool_menu_.AppendSeparator();
-   */
   add_menu( tool_menu_, CommandID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     StrT::Main::Menu::ToolReloadSquirrelScript.Get() );
   add_menu( tool_menu_, CommandID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Main::Menu::ToolShowSquirrelOutputDialog.Get() );
   tool_menu_.AppendSeparator();
@@ -163,7 +160,7 @@ Mainstay::MainToolBar::CreatedInternal( void )
   };
 
   add_button( ID::AutoDisplayCells, Index::AutoDisplayCells, StrT::Main::Toolbar::AutoDisplayCells.Get(), TtToolBar::Button::Style::Standard | TtToolBar::Button::Style::Check );
-  add_label( ID::SelectColumnLabel, select_column_label_, StrT::Main::Toolbar::SelectColumnLael.Get(), 60 );
+  add_label( ID::SelectColumnLabel, select_column_label_, StrT::Main::Toolbar::SelectColumnLael.Get(), 80 );
   add_drop_down_box( ID::SelectColumnGroup, select_column_group_box_, 120, 120 );
   add_standard_button( ID::DisplayCells, Index::DisplayCells, StrT::Main::Toolbar::DisplayCells.Get() );
   add_standard_button( ID::Reload,       Index::Reload,       StrT::Main::Toolbar::Reload.Get() );

@@ -1,4 +1,4 @@
-// searcher_entry.h
+// searcher/searcher_entry.h
 
 #pragma once
 

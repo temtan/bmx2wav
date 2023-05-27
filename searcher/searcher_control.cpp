@@ -153,8 +153,8 @@ Searcher::MainToolBar::CreatedInternal( void )
   add_standard_button( ID::DisplayCells, Index::DisplayCells, StrT::Searcher::Main::Toolbar::DisplayCells.Get() );
   this->AddSeparator();
 
-  add_label( ID::ExecuteSearchLabel, execute_search_label_, StrT::Searcher::Main::Toolbar::ExecuteSearchLabel.Get(), 48 );
-  add_drop_down_box( ID::SelectSearch, select_search_box_, 220, 120 );
+  add_label( ID::ExecuteSearchLabel, execute_search_label_, StrT::Searcher::Main::Toolbar::ExecuteSearchLabel.Get(), 80 );
+  add_drop_down_box( ID::SelectSearch, select_search_box_, 260, 120 );
   add_standard_button( ID::ExecuteSearch, Index::ExecuteSearch, StrT::Searcher::Main::Toolbar::ExecuteSearch.Get() );
 
   return true;

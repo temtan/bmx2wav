@@ -63,7 +63,7 @@ namespace BMX2WAV::BL {
 
 // hash
 namespace std {
-  template<>
+  template <>
   class hash<BMX2WAV::BL::Word> {
   public:
     std::size_t operator ()( const BMX2WAV::BL::Word &word ) const { return static_cast<std::size_t>( word.ToInteger() ); }

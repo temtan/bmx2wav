@@ -115,8 +115,14 @@
 #define RSID_STR_MAIN_ENTRY_PROCESSOR_MENU_EMPTY                    40716
 
 // -----------------------------------------------------------------------
-// settings
-// reserve 41000
+// settings property sheet
+#define RSID_STR_SPS_TITLE 41001
+
+#define RSID_STR_SPS_LANGUAGE                41021
+#define RSID_STR_SPS_LANGUAGE_LANGUAGE_GROUP 41022
+#define RSID_STR_SPS_LANGUAGE_NOTICE_LABEL   41023
+#define RSID_STR_SPS_LANGUAGE_SELECT_BUTTON  41024
+#define RSID_STR_SPS_LANGUAGE_AUTO           41025
 
 // -----------------------------------------------------------------------
 // parameter property sheet
@@ -384,6 +390,12 @@
 #define RSID_STR_SRC_SPS_SETTINGS_AUTO_DISPLAY_CHECK                 46454
 #define RSID_STR_SRC_SPS_SETTINGS_ASYNCHRONOUS_CHECK                 46455
 #define RSID_STR_SRC_SPS_SETTINGS_HOME_REF_FOLDER_DIALOG_DESCRIPTION 46456
+
+#define RSID_STR_SRC_SPS_LANGUAGE                46501
+#define RSID_STR_SRC_SPS_LANGUAGE_LANGUAGE_GROUP 46502
+#define RSID_STR_SRC_SPS_LANGUAGE_NOTICE_LABEL   46503
+#define RSID_STR_SRC_SPS_LANGUAGE_SELECT_BUTTON  46504
+#define RSID_STR_SRC_SPS_LANGUAGE_AUTO           46505
 
 // -----------------------------------------------------------------------
 // searcher entry wait dialog

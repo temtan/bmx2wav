@@ -141,10 +141,17 @@ namespace BMX2WAV::StringTable {
   }
 
   // ---------------------------------------------------------------------
-  // settings
-  // reserve
-  namespace Settings {
+  // settings property sheet
+  namespace SettingsPropertySheet {
+    static const ID Title = RSID_STR_SPS_TITLE;
+    
+    static const ID Language              = RSID_STR_SPS_LANGUAGE;
+    static const ID LanguageLanguageGroup = RSID_STR_SPS_LANGUAGE_LANGUAGE_GROUP;
+    static const ID LanguageNoticeLabel   = RSID_STR_SPS_LANGUAGE_NOTICE_LABEL;
+    static const ID LanguageSelectButton  = RSID_STR_SPS_LANGUAGE_SELECT_BUTTON;
+    static const ID LanguageAuto          = RSID_STR_SPS_LANGUAGE_AUTO;
   }
+  namespace SPS = SettingsPropertySheet;
 
   // ---------------------------------------------------------------------
   // parameter property sheet
@@ -454,6 +461,12 @@ namespace BMX2WAV::StringTable {
       static const ID SettingsAutoDisplayCheck               = RSID_STR_SRC_SPS_SETTINGS_AUTO_DISPLAY_CHECK;
       static const ID SettingsAsynchronousCheck              = RSID_STR_SRC_SPS_SETTINGS_ASYNCHRONOUS_CHECK;
       static const ID SettingsHomeRefFolderDialogDescription = RSID_STR_SRC_SPS_SETTINGS_HOME_REF_FOLDER_DIALOG_DESCRIPTION;
+
+      static const ID Language              = RSID_STR_SRC_SPS_LANGUAGE;
+      static const ID LanguageLanguageGroup = RSID_STR_SRC_SPS_LANGUAGE_LANGUAGE_GROUP;
+      static const ID LanguageNoticeLabel   = RSID_STR_SRC_SPS_LANGUAGE_NOTICE_LABEL;
+      static const ID LanguageSelectButton  = RSID_STR_SRC_SPS_LANGUAGE_SELECT_BUTTON;
+      static const ID LanguageAuto          = RSID_STR_SRC_SPS_LANGUAGE_AUTO;
     }
     namespace SPS = SettingsPropertySheet;
 

@@ -116,8 +116,14 @@ STRINGTABLE
   RSID_STR_MAIN_MB_START_SEARCHER_ERROR_MSG                   "ファイルを開くのに失敗しました。\r\n\r\nファイル名 : %s\r\nメッセージ : %s"
 
   // ---------------------------------------------------------------------
-  // settings
-  // reserve
+  // settings property sheet
+  RSID_STR_SPS_TITLE "環境設定"
+
+  RSID_STR_SPS_LANGUAGE                "言語"
+  RSID_STR_SPS_LANGUAGE_LANGUAGE_GROUP "使用する言語"
+  RSID_STR_SPS_LANGUAGE_NOTICE_LABEL   "※設定反映は再起動後"
+  RSID_STR_SPS_LANGUAGE_SELECT_BUTTON  "選択中のDLLを使用する"
+  RSID_STR_SPS_LANGUAGE_AUTO           "自動"
 
   // ---------------------------------------------------------------------
   // parameter property sheet
@@ -154,8 +160,8 @@ STRINGTABLE
 
   RSID_STR_PPS_MIXIN                                    "変換"
   RSID_STR_PPS_MIXIN_CANCEL_AT_RESOUNDING_CHECK         "WAV が鳴り終わる前に同じ WAV が鳴った場合、前の WAV を消す(&D)"
-  RSID_STR_PPS_MIXIN_START_LABEL                        "開始小説番号"
-  RSID_STR_PPS_MIXIN_END_LABEL                          "終了小説番号"
+  RSID_STR_PPS_MIXIN_START_LABEL                        "開始小節番号"
+  RSID_STR_PPS_MIXIN_END_LABEL                          "終了小節番号"
   RSID_STR_PPS_MIXIN_CONVERT_START_END_BAR_NUMBER_LABEL "WAV を演奏する範囲(&P)"
   RSID_STR_PPS_MIXIN_DO_TRIMING_CHECK                   "出力する WAV の一部を切り出す(&C)"
   RSID_STR_PPS_MIXIN_REMOVE_FRONT_SILENCE_CHECK         "先頭の無音部分を除去する(&R)"
@@ -164,10 +170,10 @@ STRINGTABLE
   RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_CAP                 "エラー"
   RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_START           "変換開始小節番号の値を正しく入力してください。"
   RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_END             "変換終了小節番号の値を正しく入力してください。"
-  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_ORDER           "変換終了小節番号が変換終了小節番号よりも後になっています。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_ORDER           "変換開始小節番号が変換終了小節番号よりも後になっています。"
   RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_TRIM_START      "切り出し開始小節番号の値を正しく入力してください。"
   RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_TRIM_END        "切り出し終了小節番号の値を正しく入力してください。"
-  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_TRIM_ORDER      "切り出し終了小節番号が切り出し終了小節番号よりも後になっています。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_TRIM_ORDER      "切り出し開始小節番号が切り出し終了小節番号よりも後になっています。"
   RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_FRONT_SILENCE   "先頭に挿入する無音時間を正しく入力してください。"
 
   RSID_STR_PPS_AUDIO                               "音声"
@@ -216,7 +222,7 @@ STRINGTABLE
   RSID_STR_CONVERT_OPEN_WAV_BUTTON         "出力ファイルを開く"
   RSID_STR_CONVERT_SHOW_OUTPUT_BOX_BUTTON  "詳細ログを表示"
 
-  RSID_STR_CONVERT_FILE_DIALOG_WAV_FILE    "ogg ファイル(*.ogg)"
+  RSID_STR_CONVERT_FILE_DIALOG_WAV_FILE    "wav ファイル(*.wav)"
   RSID_STR_CONVERT_FILE_DIALOG_OGG_FILE    "ogg ファイル(*.ogg)"
   RSID_STR_CONVERT_FILE_DIALOG_ALL_FILE    "すべてのファイル(*.*)"
   RSID_STR_CONVERT_MB_OPEN_WAV_CAP         "ファイルオープンエラー"
@@ -319,8 +325,8 @@ STRINGTABLE
   RSID_STR_SRC_MAIN_FILE_EXPORT                  "エクスポート(&E)"
   RSID_STR_SRC_MAIN_FILE_EXPORT_CSV_TO_FILE      "CSV形式でファイルへエクスポート(&F)..."
   RSID_STR_SRC_MAIN_FILE_EXPORT_TSV_TO_CLIPBOARD "TSV形式でクリップボードへエクスポート(&C)"
+  RSID_STR_SRC_MAIN_FILE_CLOSE                   "終了(&X)"
 
-  RSID_STR_SRC_MAIN_FILE_CLOSE    "終了(&X)"
   RSID_STR_SRC_MAIN_TOOL          "ツール(&T)"
   RSID_STR_SRC_MAIN_TOOL_SETTINGS "環境設定(&S)"
 
@@ -369,7 +375,7 @@ STRINGTABLE
   RSID_STR_SRC_MAIN_DEFAULT_FIRST_COLUMN_NAME                     "ファイル名"
   RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_IMPOSSIBLE_DIRECTORY_CAP    "検索実行不可"
   RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_IMPOSSIBLE_DIRECTORY_MSG    "この場所では検索できません。"
-  RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_EXECUTE_CONFIRM_CAP         "検索実行の確認" 
+  RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_EXECUTE_CONFIRM_CAP         "検索実行の確認"
   RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_EXECUTE_CONFIRM_MSG         "以下の条件で検索を実行します。よろしいですか？\r\n\r\n元フォルダ ： %s\r\n検索条件 ： %s"
   RSID_STR_SRC_MAIN_MB_SEARCH_RESULT_DESTRUCTION_CONFIRM_CAP      "検索結果の破棄の確認"
   RSID_STR_SRC_MAIN_MB_SEARCH_RESULT_DESTRUCTION_CONFIRM_MSG      "検索結果が破棄されますがよろしいですか？"
@@ -384,6 +390,12 @@ STRINGTABLE
   RSID_STR_SRC_SPS_SETTINGS_AUTO_DISPLAY_CHECK                 "セルの内容を自動で表示する(&A)"
   RSID_STR_SRC_SPS_SETTINGS_ASYNCHRONOUS_CHECK                 "セルの内容を非同期で表示する(&S)"
   RSID_STR_SRC_SPS_SETTINGS_HOME_REF_FOLDER_DIALOG_DESCRIPTION "ホームフォルダの選択"
+
+  RSID_STR_SRC_SPS_LANGUAGE                "言語"
+  RSID_STR_SRC_SPS_LANGUAGE_LANGUAGE_GROUP "使用する言語"
+  RSID_STR_SRC_SPS_LANGUAGE_NOTICE_LABEL   "※設定反映は再起動後"
+  RSID_STR_SRC_SPS_LANGUAGE_SELECT_BUTTON  "選択中のDLLを使用する"
+  RSID_STR_SRC_SPS_LANGUAGE_AUTO           "自動"
 
   // ---------------------------------------------------------------------
   // searcher entry wait dialog
@@ -404,29 +416,29 @@ STRINGTABLE
 
   // ----------------
   // convert
-  RSID_STR_MSG_ENTRIED_AUDIO_FILE_NOT_FOUND     "指定された音声ファイルが存在しません。ヘッダ : WAV%s ; ファイル : %s"
-  RSID_STR_MSG_AUDIO_FILE_OPEN_ERROR            "音声ファイルを開くのに失敗しました。ファイル : %s ; メッセージ : %s"
-  RSID_STR_MSG_WAV_FILE_READ_ERROR              "WAV ファイルの読み込みに失敗しました。ファイル : %s ; メッセージ : %s"
-  RSID_STR_MSG_WAV_FILE_WRITE_ERROR             "WAV ファイルの書き込みに失敗しました。ファイル : %s ; メッセージ : %s"
-  RSID_STR_MSG_OGG_FILE_OPEN_ERROR              "ogg ファイルを開くのに失敗しました。ファイル : %s ; エラー番号 : %d"
-  RSID_STR_MSG_OGG_FILE_READ_ERROR              "ogg ファイルの読み込みに失敗しました。ファイル : %s"
-  RSID_STR_MSG_INVALID_WAV_FILE_FORMAT          "WAV ファイルの形式が不正です。ファイル : %s ; 理由 : %s"
-  RSID_STR_MSG_UNSUPPORTED_WAV_FILE_FORMAT      "サポートしていない WAV ファイルの形式です。ファイル : %s ; 理由 : %s"
+  RSID_STR_MSG_ENTRIED_AUDIO_FILE_NOT_FOUND     "指定された音声ファイルが存在しません。 ヘッダ : WAV%s ; ファイル : %s"
+  RSID_STR_MSG_AUDIO_FILE_OPEN_ERROR            "音声ファイルを開くのに失敗しました。 ファイル : %s ; メッセージ : %s"
+  RSID_STR_MSG_WAV_FILE_READ_ERROR              "WAV ファイルの読み込みに失敗しました。 ファイル : %s ; メッセージ : %s"
+  RSID_STR_MSG_WAV_FILE_WRITE_ERROR             "WAV ファイルの書き込みに失敗しました。 ファイル : %s ; メッセージ : %s"
+  RSID_STR_MSG_OGG_FILE_OPEN_ERROR              "ogg ファイルを開くのに失敗しました。 ファイル : %s ; エラー番号 : %d"
+  RSID_STR_MSG_OGG_FILE_READ_ERROR              "ogg ファイルの読み込みに失敗しました。 ファイル : %s"
+  RSID_STR_MSG_INVALID_WAV_FILE_FORMAT          "WAV ファイルの形式が不正です。 ファイル : %s ; 理由 : %s"
+  RSID_STR_MSG_UNSUPPORTED_WAV_FILE_FORMAT      "サポートしていない WAV ファイルの形式です。 ファイル : %s ; 理由 : %s"
   RSID_STR_MSG_BAD_ALLOCATION                   "メモリ確保に失敗しました。 メッセージ : %s"
-  RSID_STR_MSG_BMS_FILE_ACCESS_ERROR            "BMS ファイルのアクセスでエラーがありました。ファイル : %s ; メッセージ : %s"
-  RSID_STR_MSG_OUTPUT_FILE_IS_INPUT_FILE_PATH   "出力ファイルのパスが BMS ファイルの WAV で指定されている入力ファイルになっています。ヘッダ名 : WAV%s ; ファイルパス : %s"
+  RSID_STR_MSG_BMS_FILE_ACCESS_ERROR            "BMS ファイルのアクセスでエラーがありました。 ファイル : %s ; メッセージ : %s"
+  RSID_STR_MSG_OUTPUT_FILE_IS_INPUT_FILE_PATH   "出力ファイルのパスが BMS ファイルの WAV で指定されている入力ファイルになっています。 ヘッダ名 : WAV%s ; ファイルパス : %s"
   RSID_STR_MSG_INVALID_FORMAT_AS_BPM_HEADER     "指定された BPM の表記が不正です。"
-  RSID_STR_MSG_INVALID_FORMAT_AS_EXTENDED_BPM   "指定された拡張 BPM の表記が不正です。ヘッダ名 BPM%s"
-  RSID_STR_MSG_INVALID_FORMAT_AS_STOP_SEQUENCE  "指定されたストップシーケンスの表記が不正です。ヘッダ名 STOP%s"
+  RSID_STR_MSG_INVALID_FORMAT_AS_EXTENDED_BPM   "指定された拡張 BPM の表記が不正です。ヘッダ名 : BPM%s"
+  RSID_STR_MSG_INVALID_FORMAT_AS_STOP_SEQUENCE  "指定されたストップシーケンスの表記が不正です。ヘッダ名 : STOP%s"
   RSID_STR_MSG_INVALID_FORMAT_AS_LNOBJ_HEADER   "LNOBJ で指定された表記が不正です。"
   RSID_STR_MSG_LN_OBJECT_INVALID_ENCLOSE        "ロングノートの終端のオブジェクトが始端と異なっています。 始端 : %s ; 終端 : %s"
   RSID_STR_MSG_LN_OBJECT_INVALID_ENCLOSE_ADD    "( 小節:%d - ch:%s - object:%s )"
-  RSID_STR_MSG_LN_OBJECT_NOT_ENCLOSED           "ロングノートの終端がありません。始端小節番号 : %d ; チャンネル : %s ; オブジェクト : %s"
+  RSID_STR_MSG_LN_OBJECT_NOT_ENCLOSED           "ロングノートの終端がありません。 始端小節番号 : %d ; チャンネル : %s ; オブジェクト : %s"
   RSID_STR_MSG_NOT_ENTRIED_WAV_WAS_USED         "WAV として登録されていないオブジェクトが使用されました。 小節番号 : %d ; チャンネル : %s ; オブジェクト : %s"
   RSID_STR_MSG_INVALID_FORMAT_AS_BPM_CHANGE     "通常の BPM 変更に使用されたオブジェクトが不正です。 小節番号 : %d ; オブジェクト : %s"
   RSID_STR_MSG_EX_BPM_CHANGE_ENTRY_NOT_EXIST    "拡張 BPM 変更でヘッダに未設定のオブジェクトが使用されました。 小節番号 : %d ; オブジェクト : %s"
   RSID_STR_MSG_STOP_SEQUENCE_ENTRY_NOT_EXIST    "ストップシーケンスでヘッダに未設定のオブジェクトが使用されました。 小節番号 : %d ; オブジェクト : %s"
-  RSID_STR_MSG_OUTPUT_FILE_ACCESS_ERROR         "出力用の音声ファイルを開くのに失敗しました。ファイル : %s ; メッセージ : %s"
+  RSID_STR_MSG_OUTPUT_FILE_ACCESS_ERROR         "出力用の音声ファイルを開くのに失敗しました。 ファイル : %s ; メッセージ : %s"
 
   // ----------------
   // base
@@ -435,17 +447,17 @@ STRINGTABLE
   RSID_STR_MSG_BUFFER_OUT_OF_RANGE_ACCESS     "Buffer の範囲外にアクセスしようとしました。\r\n位置 : %d"
   RSID_STR_MSG_REQIORED_RESOLUTION_IS_TOO_BIG "限界を超える分解能が要求されました。\r\n要求分解能 : %d"
   // parser
-  RSID_STR_MSG_P_FILE_ACCESS_ERROR                "ファイルアクセスにエラーがありました。ファイル : %s  メッセージ : %s"
-  RSID_STR_MSG_P_NO_BEGINNING_END_RAMDOM          "RANDOM が使用されずに ENDRANDOM が使用されました。"
+  RSID_STR_MSG_P_FILE_ACCESS_ERROR                "ファイルアクセスにエラーがありました。ファイル : %s ; メッセージ : %s"
+  RSID_STR_MSG_P_NO_BEGINNING_END_RAMDOM          "#RANDOM が使用されずに #ENDRANDOM が使用されました。"
   RSID_STR_MSG_P_HEADER_COLLISION                 "ヘッダ %s が重複しました。"
   RSID_STR_MSG_P_INVALID_BPM                      "BPM の指定値が不正です。"
   RSID_STR_MSG_P_INVALID_LNOBJ                    "LNOBJ の指定値が不正です。"
   RSID_STR_MSG_P_OBJECT_COLLISION                 "オブジェクトが重複しました。"
   RSID_STR_MSG_P_BAR_LENGTH_CHANGE_COLLISION      "小節長変更が重複しました。"
   RSID_STR_MSG_P_INVALID_CHANNEL_OR_HEADER_SYNTAX "ヘッダまたはチャンネルの指定構文が不正です。"
-  RSID_STR_MSG_P_CORRESPONDING_END_IF_IS_NOTING   "対応する ENDIF が存在しません。"
-  RSID_STR_MSG_P_INVALID_RANDOM_STATEMENT_VALUE   "RANDOM 構文 %s の指定値が不正です。"
-  RSID_STR_MSG_P_CORRESPONDING_IF_IS_NOTIONG      "対応する IF がありません。"
+  RSID_STR_MSG_P_CORRESPONDING_END_IF_IS_NOTING   "対応する #ENDIF が存在しません。"
+  RSID_STR_MSG_P_INVALID_RANDOM_STATEMENT_VALUE   "#RANDOM 構文 %s の指定値が不正です。"
+  RSID_STR_MSG_P_CORRESPONDING_IF_IS_NOTIONG      "対応する #IF がありません。"
   RSID_STR_MSG_P_INVALID_BAR_LENGTH_CHANGE_VALUE  "小節長変更の指定値が不正です。"
   RSID_STR_MSG_P_INVALID_OBJECT_EXPRESSION        "オブジェクト構文が不正です。"
   RSID_STR_MSG_P_INVALID_EXTENDED_BPM             "拡張BPM の指定値が不正です。"
@@ -457,7 +469,7 @@ STRINGTABLE
   // ----------------
   // core
   // converter
-  RSID_STR_MSG_C_USED_MEMORY_EXCEEDED_LIMIT                  "使用メモリが設定された限界を超えました。実使用メモリ : %dMB. 要求分解能 : %d"
+  RSID_STR_MSG_C_USED_MEMORY_EXCEEDED_LIMIT                  "使用メモリが設定された限界を超えました。実使用メモリ : %dMB. ; 要求分解能 : %d"
   RSID_STR_MSG_C_USE_DEFAULT_BPM                             "BPM はデフォルト値の 120 を使用します。"
   RSID_STR_MSG_C_USE_DEFAULT_BPM_NO_SPECIFIED                "BPM が指定されなかった為、デフォルト値の 120 を使用します。"
   RSID_STR_MSG_C_TREAT_EXTENDED_BPM_AS_NOT_SPECIFIED         "BPM%s は指定されなかったとします。"
@@ -467,8 +479,8 @@ STRINGTABLE
   RSID_STR_MSG_C_TREAT_WAV_AS_NOT_SPECIFIED                  "WAV%s は指定されなかったとします。"
   RSID_STR_MSG_C_TREAT_EMPTY_FILE_AS_SPECIFIED_AS_WAV        "WAV%s には空の音声ファイルが指定されたとします。"
   RSID_STR_MSG_C_TREAT_BPM_AS_NOT_CHANGED_WITH_NUMBER        "BPM は変更されなかったとします。 小節番号 : %d"
-  RSID_STR_MSG_C_TREAT_BPM_AS_NOT_CHANGED_WITH_NUMBER_OBJECT "BPM は変更されなかったとします。 小節番号 : %d  オブジェクト : %s"
-  RSID_STR_MSG_C_TREAT_STOP_SEQUENCE_AS_NOTHING              "ストップシーケンスはなかったとします。 小節番号 : %d  オブジェクト : %s"
+  RSID_STR_MSG_C_TREAT_BPM_AS_NOT_CHANGED_WITH_NUMBER_OBJECT "BPM は変更されなかったとします。 小節番号 : %d ; オブジェクト : %s"
+  RSID_STR_MSG_C_TREAT_STOP_SEQUENCE_AS_NOTHING              "ストップシーケンスはなかったとします。 小節番号 : %d ; オブジェクト : %s"
 
   // use at script
   RSID_STR_MSG_C_ABORTED                         "変換は中断されました。"
@@ -479,7 +491,7 @@ STRINGTABLE
   RSID_STR_MSG_C_INITIALIZE_END                  "初期化・前処理: 完了"
   RSID_STR_MSG_C_PARSE_START                     "BMS 構文解析: 開始"
   RSID_STR_MSG_C_PARSE_END                       "BMS 構文解析: 完了"
-  RSID_STR_MSG_C_MAX_RESOLUTION_AND_BAR_NUMBER   "最大分解能 : %d; 当該小節番号 : %d"
+  RSID_STR_MSG_C_MAX_RESOLUTION_AND_BAR_NUMBER   "最大分解能 : %d ; 当該小節番号 : %d"
   RSID_STR_MSG_C_READ_AUDIO_FILES_START          "音声ファイル読み込み: 開始"
   RSID_STR_MSG_C_READ_AUDIO_FILES_END            "音声ファイル読み込み: 完了"
   RSID_STR_MSG_C_MIXIN_WAVES_START               "音声合成: 開始"

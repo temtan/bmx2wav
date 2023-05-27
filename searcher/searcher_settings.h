@@ -6,6 +6,9 @@ namespace BMX2WAV::Searcher {
   // -- Settings ---------------------------------------------------------
   class Settings {
   public:
+    static std::string GetLanguageFromFile( const std::string& path );
+
+  public:
     explicit Settings( void );
 
     void ReadFromFile( const std::string& path );
@@ -15,5 +18,7 @@ namespace BMX2WAV::Searcher {
     std::string home_folder_;
     bool        auto_display_cells_;
     bool        asynchronous_display_;
+
+    std::string language_;
   };
 }

@@ -28,6 +28,7 @@ namespace BMX2WAV::Utility {
   int64_t GetCurrentProcessWorkingSetSize( void );
 
   bool UserDefaultLocaleIsJapanese( void );
+  std::string GetLanguageDirectoryPath( void );
 
   std::string GetNotExistPathFrom( const std::string& path );
   std::string RemoveCanNotUseCharacterAsFilePathFrom( const std::string& path );
@@ -43,14 +44,21 @@ namespace BMX2WAV::Utility {
   };
 
   template <class... Rest>
-  std::string Format( const std::string& format, Rest&&... rest ) {
-    return Format( format.c_str(), rest... );
+  std::string FormatSubstance( const char* format, Rest&&... rest ) {
+    char tmp[1024];
+    ::sprintf_s( tmp, sizeof( tmp ), format, rest... );
+    return tmp;
   };
 
   template <class... Rest>
   std::string Format( const char* format, Rest&&... rest ) {
     return FormatArgumentTurning( format, std::forward<Rest>( rest )..., FormatEndMark() );
   }
+  template <class... Rest>
+  std::string Format( const std::string& format, Rest&&... rest ) {
+    return Format( format.c_str(), rest... );
+  };
+
   template <class Head, class... Args>
   std::string FormatArgumentTurning( const char* format, Head&& head, Args&&... args ) {
     return FormatArgumentTurning( format, std::forward<Args>( args )..., head );
@@ -67,13 +75,6 @@ namespace BMX2WAV::Utility {
   std::string FormatArgumentTurning( const char* format, FormatEndMark&&, Args&&... args ) {
     return FormatSubstance( format, std::forward<Args>( args )... );
   }
-
-  template <class... Rest>
-  std::string FormatSubstance( const char* format, Rest&&... rest ) {
-    char tmp[1024];
-    ::sprintf_s( tmp, sizeof( tmp ), format, rest... );
-    return tmp;
-  };
 
   // -- TextFileReader ---------------------------------------------------
   class TextFileReader {

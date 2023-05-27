@@ -38,6 +38,7 @@ releaser.add_pre_copy {|file_utils, to_base|
 
   file_utils.mkdir( "#{to_base}/lang" )
   file_utils.cp( "./Release/lang/japanese.dll", "#{to_base}/lang" )
+  file_utils.cp( "./Release/lang/english.dll",  "#{to_base}/lang" )
 
   file_utils.mkdir( "#{to_base}/manual" )
   Dir.glob( "./man/html/*" ) {|file|

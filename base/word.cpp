@@ -263,7 +263,7 @@ BL::Word::Validate( void ) const
 
 
 std::ostream&
-BL::operator <<( std::ostream& os, const BL::Word& word )
+operator <<( std::ostream& os, const BL::Word& word )
 {
   os << word.ToCharPointer();
   return os;

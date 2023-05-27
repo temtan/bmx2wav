@@ -3,11 +3,13 @@
 #include "ttl_define.h"
 #include "tt_command_line_analyzer.h"
 #include "tt_message_box.h"
+#include "tt_path.h"
 
 #include "common.h"
 #include "utility.h"
 #include "string_table.h"
 #include "mainstay/main_frame.h"
+#include "mainstay/settings.h"
 
 static void show_unexpected_error_message_box( void );
 
@@ -24,10 +26,12 @@ WinMain( HINSTANCE h_instance,
 
   try {
     // Œ¾Œê‘I‘ð
-    BMX2WAV::StringTable::Initialize( BMX2WAV::IniFileOperation::LoadLanguage() );
+    BMX2WAV::StringTable::Initialize( BMX2WAV::Mainstay::Settings::GetLanguageFromFile( TtPath::GetExecutingFilePathCustomExtension( "ini" ) ) );
 
     BMX2WAV::Image::Initialize();
+
     BMX2WAV::Mainstay::MainFrame frame;
+    frame.LoadSettingsFromFile();
     frame.Create();
     frame.LoadPlacementFromIniFile();
     if ( frame.IsMinimized() ) {

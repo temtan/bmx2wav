@@ -72,7 +72,7 @@ Utility::Hex36ToInteger( char c )
 char
 Utility::IntegerToHex36( int x )
 {
-  char* hex36_table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  const char* hex36_table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   return hex36_table[x % Const::HEX36_MAX_COUNT];
 }
 
@@ -177,6 +177,12 @@ bool
 Utility::UserDefaultLocaleIsJapanese( void )
 {
   return ::GetUserDefaultLCID() == 0x0411;
+}
+
+std::string
+Utility::GetLanguageDirectoryPath( void )
+{
+  return TtPath::GetExecutingDirectoryPath() + "\\lang";
 }
 
 

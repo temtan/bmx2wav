@@ -1,4 +1,4 @@
-// searcher_squirrel_vm.cpp
+// searcher/searcher_squirrel_vm.cpp
 
 #include "item_id_list.h"
 #include "searcher_common.h"

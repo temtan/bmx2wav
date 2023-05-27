@@ -54,7 +54,7 @@ RandomStatementDialog::Created( void )
 
   this->RegisterWMSize( [this] ( int, int w, int h ) -> WMResult {
     tree_.SetPositionSize(           2,     28, w - 4, h - 64 );
-    check_button_.SetPositionSize(   2,      2,   220,     24 );
+    check_button_.SetPositionSize(   2,      2,   250,     24 );
     ok_button_.SetPositionSize( w - 68, h - 32,    48,     24 );
     return {WMResult::Done};
   } );

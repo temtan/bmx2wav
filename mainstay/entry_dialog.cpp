@@ -56,17 +56,17 @@ Mainstay::EntryDialog::Created( void )
 
   this->RegisterWMSize( [this] ( int, int w, int h ) -> WMResult {
     path_label_.SetPositionSize(                               8,   8,     w - 16,      18 );
-    using_parameter_title_label_.SetPositionSize(              8,  30,         80,      18 );
-    using_parameter_label_.SetPositionSize(                   92,  27,        100,      18 );
-    use_common_parameter_button_.SetPositionSize(             24,  52, w / 2 - 36,      24 );
-    use_individual_parameter_button_.SetPositionSize( w / 2 + 12,  52, w / 2 - 36,      24 );
-    convert_button_.SetPositionSize(                          24,  84,     w - 48,      24 );
+    using_parameter_title_label_.SetPositionSize(              8,  30,        100,      18 );
+    using_parameter_label_.SetPositionSize(                  112,  27,        120,      18 );
+    use_common_parameter_button_.SetPositionSize(             16,  52, w / 2 - 24,      24 );
+    use_individual_parameter_button_.SetPositionSize( w / 2 +  8,  52, w / 2 - 24,      24 );
+    convert_button_.SetPositionSize(                          16,  84,     w - 32,      24 );
     list_.SetPositionSize(                                     4, 116,     w -  8, h - 120 );
     path_label_.SetText( path_label_.GetText() );
     return {WMResult::Done};
   } );
-  this->RegisterWMSizing( this->MakeMinimumSizedHandler( 330, 200 ) );
-  this->SetClientSize( 330, 400, false );
+  this->RegisterWMSizing( this->MakeMinimumSizedHandler( 350, 200 ) );
+  this->SetClientSize( 340, 400, false );
   this->SetCenterRelativeToParent();
 
   using_parameter_title_label_.SetText(     StrT::Entry::UsingParameterTitleLabel.Get() );
@@ -80,7 +80,7 @@ Mainstay::EntryDialog::Created( void )
 
     auto column_value = list_.MakeNewColumn();
     column_value.SetText( StrT::Entry::ColumnValue.Get() );
-    column_value.SetWidth( 180 );
+    column_value.SetWidth( 200 );
   }
 
   path_label_.SetText( entry_->path_ );

@@ -1,6 +1,7 @@
 // main_searcher.cpp
 
 #include "ttl_define.h"
+#include "tt_path.h"
 #include "tt_message_box.h"
 
 #include "utility.h"
@@ -8,6 +9,7 @@
 
 #include "searcher/searcher_common.h"
 #include "searcher/searcher_frame.h"
+#include "searcher/searcher_settings.h"
 
 static void show_unexpected_error_message_box( void );
 
@@ -27,7 +29,7 @@ WinMain( HINSTANCE h_instance,
 
   try {
     // Œ¾Œê‘I‘ð
-    BMX2WAV::StringTable::Initialize( BMX2WAV::Searcher::IniFileOperation::LoadLanguage() );
+    BMX2WAV::StringTable::Initialize( BMX2WAV::Searcher::Settings::GetLanguageFromFile( TtPath::GetExecutingFilePathCustomExtension( "ini" ) ) );
 
     BMX2WAV::Searcher::Image::Initialize();
     BMX2WAV::Searcher::MainFrame frame;

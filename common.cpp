@@ -25,7 +25,7 @@ TtEnumTable<ErrorLevel>::TtEnumTable( void )
   REGISTER( None );
 #undef REGISTER
 }
-template <>
+
 TtEnumTable<ErrorLevel>
 TtEnumBase<ErrorLevel>::TABLE;
 
