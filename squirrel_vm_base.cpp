@@ -19,7 +19,6 @@ using namespace BMX2WAV;
 namespace Tag {
 #define DEFINE_PARAMETER_NAME_STRING( name ) static const std::string name( #name )
   // DEFINE_PARAMETER_NAME_STRING(  );
-  DEFINE_PARAMETER_NAME_STRING( puts );
   DEFINE_PARAMETER_NAME_STRING( print );
   DEFINE_PARAMETER_NAME_STRING( system );
   DEFINE_PARAMETER_NAME_STRING( constructor );
@@ -172,25 +171,6 @@ SquirrelVMBase::SetPrintFunction( SquirrelVMBase::PrintFunction print_function )
 void
 SquirrelVMBase::Initialize( void )
 {
-  // -- puts ŽÀ‘• -----
-  this->NewSlotOfRootTableByString(
-    Tag::puts,
-    [&] () {
-      this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-        TtSquirrel::Object obj = vm.GetStackTopObject( false );
-        vm.CallAndNoReturnValue(
-          [&] () { vm.GetByStringFromRootTable( Tag::print ); },
-          [&] () {
-            vm.Native().PushRootTable();
-            vm.PushObject( obj );
-            return 2;
-          } );
-        vm.CallPrint( "\n" );
-        return TtSquirrel::Const::NoneReturnValue;
-      } ) );
-      Native().SetParamsCheck( 2, "t." );
-    } );
-
   // -- MessageBox ŽÀ‘• -----
   this->NewSlotOfRootTableByString(
     Tag::MessageBox,
@@ -834,18 +814,6 @@ SquirrelVMBase::CallBmsDataContructorAndPushIt( BL::BmsData& bms_data )
     [&] () {
       this->Native().PushRootTable();
       this->PushAsUserPointer( &bms_data );
-      return 2;
-    } );
-}
-
-void
-SquirrelVMBase::CallPuts( const std::string& str )
-{
-  this->CallAndNoReturnValue(
-    [&] () { this->GetByStringFromRootTable( Tag::puts ); },
-    [&] () {
-      this->Native().PushRootTable();
-      this->Native().PushString( str );
       return 2;
     } );
 }
