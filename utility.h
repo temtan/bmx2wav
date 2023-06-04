@@ -82,6 +82,8 @@ namespace BMX2WAV::Utility {
     explicit TextFileReader( const std::string& path );
     ~TextFileReader();
 
+    void SetReadAsUTF8( bool flag );
+
     void Close( void );
 
     std::optional<std::string> ReadLine( void );
@@ -89,5 +91,6 @@ namespace BMX2WAV::Utility {
   private:
     const std::string path_;
     FILE* file_;
+    bool  read_as_utf8_;
   };
 }

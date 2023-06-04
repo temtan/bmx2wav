@@ -185,6 +185,7 @@ namespace BMX2WAV::StringTable {
     static const ID OutputMBOggBaseQualityMessage = RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_MSG;
 
     static const ID Parser                           = RSID_STR_PPS_PARSER;
+    static const ID ParserReadAsUTF8Check            = RSID_STR_PPS_PARSER_READ_AS_UTF8_CHECK;
     static const ID ParserIgnoreBGAChannelCheck      = RSID_STR_PPS_PARSER_IGNORE_BGA_CHANNEL_CHECK;
     static const ID ParserNotNestingIfStatementCheck = RSID_STR_PPS_PARSER_NOT_NESTING_IF_STATEMENT_CHECK;
 

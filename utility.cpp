@@ -272,17 +272,34 @@ Utility::RemoveCanNotUseCharacterAsFilePathFrom( const std::string& path )
 // -- TextFileReader -----------------------------------------------------
 Utility::TextFileReader::TextFileReader( const std::string& path ) :
 path_( path ),
-file_( NULL )
+file_( NULL ),
+read_as_utf8_( false )
 {
   errno_t error_number = ::fopen_s( &file_, path.c_str(), "r" );
   if ( file_ == NULL ) {
     throw TtFileAccessException( path, error_number );
+  }
+
+  unsigned char buf[3];
+  size_t ret = std::fread( buf, 1, 3, file_ );
+  if ( ret == 3 ) {
+    read_as_utf8_ = (buf[0] == 0xEF) && (buf[1] == 0xBB) && (buf[2] == 0xBF);
+  }
+  if ( NOT( read_as_utf8_ ) ) {
+    std::fseek( file_, 0, SEEK_SET );
   }
 }
 
 Utility::TextFileReader::~TextFileReader()
 {
   this->Close();
+}
+
+
+void
+Utility::TextFileReader::SetReadAsUTF8( bool flag )
+{
+  read_as_utf8_ = flag;
 }
 
 
@@ -309,6 +326,9 @@ Utility::TextFileReader::ReadLine( void )
     return std::nullopt;
   }
   std::string tmp = buffer;
+  if ( read_as_utf8_ ) {
+    tmp = TtString::UTF8ToCP932( tmp );
+  }
 
   for (;;) {
     if ( tmp.back() == '\n' ) {

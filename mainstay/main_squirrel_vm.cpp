@@ -71,6 +71,7 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( input_file_path );
   DEFINE_PARAMETER_NAME_STRING( output_file_path );
   DEFINE_PARAMETER_NAME_STRING( get_processing_time );
+  DEFINE_PARAMETER_NAME_STRING( read_as_utf8 );
 
   // -- for callback functions -----
   DEFINE_PARAMETER_NAME_STRING( callback_table );
@@ -164,6 +165,7 @@ Mainstay::SquirrelVM::InitializeForMainstay( void )
               vm.SetBooleanToTopByString( Tag::never_overwrite_output_file,               self.never_overwrite_output_file_ );
               vm.SetBooleanToTopByString( Tag::remove_can_not_use_character_as_file_path, self.remove_can_not_use_character_as_file_path_ );
               vm.SetStringToTopByString(  Tag::output_file_template,                      self.output_file_template_ );
+              vm.SetBooleanToTopByString( Tag::read_as_utf8,                              self.read_as_utf8_ );
               vm.SetBooleanToTopByString( Tag::ignore_bga_channel,                        self.ignore_bga_channel_ );
               vm.SetBooleanToTopByString( Tag::not_nesting_if_statement,                  self.not_nesting_if_statement_ );
               vm.SetBooleanToTopByString( Tag::cancel_at_resounding,                      self.cancel_at_resounding_ );
@@ -206,6 +208,7 @@ Mainstay::SquirrelVM::InitializeForMainstay( void )
         this->NewNullSlotOfTopByString( Tag::never_overwrite_output_file );
         this->NewNullSlotOfTopByString( Tag::remove_can_not_use_character_as_file_path );
         this->NewNullSlotOfTopByString( Tag::output_file_template );
+        this->NewNullSlotOfTopByString( Tag::read_as_utf8 );
         this->NewNullSlotOfTopByString( Tag::ignore_bga_channel );
         this->NewNullSlotOfTopByString( Tag::not_nesting_if_statement );
         this->NewNullSlotOfTopByString( Tag::cancel_at_resounding );

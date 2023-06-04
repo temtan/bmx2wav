@@ -162,6 +162,7 @@ void
 Core::Converter::BmsFileParse( void )
 {
   BL::Parser::Parser parser;
+  parser.must_read_as_utf8_        = parameter_.read_as_utf8_;
   parser.not_nesting_if_statement_ = parameter_.not_nesting_if_statement_;
   parser.must_abort_error_level_   = parameter_.immediately_abort_error_level_;
   parser.bar_resolution_max_       = parameter_.bar_resolution_max_;

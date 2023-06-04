@@ -322,17 +322,21 @@ parameter_( parameter )
 bool
 ParameterPropertySheet::ParserPage::Created( void )
 {
+  read_as_utf8_check_.Create( {this} );
   ignore_bga_channel_check_.Create( {this} );
   not_nesting_if_statement_check_.Create( {this} );
   control_created_ = true;
 
-  ignore_bga_channel_check_.SetPositionSize(        4, 12, 400, 16 );
-  not_nesting_if_statement_check_.SetPositionSize(  4, 32, 400, 16 );
+  read_as_utf8_check_.SetPositionSize(              4, 12, 400, 16 );
+  ignore_bga_channel_check_.SetPositionSize(        4, 40, 400, 16 );
+  not_nesting_if_statement_check_.SetPositionSize(  4, 60, 400, 16 );
 
+  read_as_utf8_check_.SetText(             StrT::PPS::ParserReadAsUTF8Check.Get() );
   ignore_bga_channel_check_.SetText(       StrT::PPS::ParserIgnoreBGAChannelCheck.Get() );
   not_nesting_if_statement_check_.SetText( StrT::PPS::ParserNotNestingIfStatementCheck.Get() );
 
   this->GetHandlers().at_apply = [this] ( void ) -> bool {
+    parameter_.read_as_utf8_             = read_as_utf8_check_.GetCheck();
     parameter_.ignore_bga_channel_       = ignore_bga_channel_check_.GetCheck();
     parameter_.not_nesting_if_statement_ = not_nesting_if_statement_check_.GetCheck();
     return true;
@@ -340,6 +344,7 @@ ParameterPropertySheet::ParserPage::Created( void )
 
   this->SetParameterToControls();
 
+  read_as_utf8_check_.Show();
   ignore_bga_channel_check_.Show();
   not_nesting_if_statement_check_.Show();
 
@@ -349,6 +354,7 @@ ParameterPropertySheet::ParserPage::Created( void )
 void
 ParameterPropertySheet::ParserPage::SetParameterToControlsBody( void )
 {
+  read_as_utf8_check_.SetCheck( parameter_.read_as_utf8_ );
   ignore_bga_channel_check_.SetCheck( parameter_.ignore_bga_channel_ );
   not_nesting_if_statement_check_.SetCheck( parameter_.not_nesting_if_statement_ );
 }
@@ -781,6 +787,7 @@ after_process_page_( parameter )
   this->AddPage( after_process_page_ );
 
   if ( individual_bms_path_ ) {
+    // TODO Œ©’¼‚µ
     BL::Parser::Parser parser;
     parser.not_nesting_if_statement_ = true;
     try {

@@ -233,6 +233,7 @@ namespace BMX2WAV::BL::Parser {
 
   public:
     // parse settings
+    bool               must_read_as_utf8_;
     bool               not_nesting_if_statement_;
     TtEnum<ErrorLevel> must_abort_error_level_;
     unsigned int       bar_resolution_max_;

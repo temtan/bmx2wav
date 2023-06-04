@@ -155,6 +155,7 @@ STRINGTABLE
   RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_MSG    "Please enter the quality of the output ogg file correctly."
 
   RSID_STR_PPS_PARSER                                "Parsing"
+  RSID_STR_PPS_PARSER_READ_AS_UTF8_CHECK             "&Read as UTF-8"
   RSID_STR_PPS_PARSER_IGNORE_BGA_CHANNEL_CHECK       "&Ignore loading of BGA channel rows"
   RSID_STR_PPS_PARSER_NOT_NESTING_IF_STATEMENT_CHECK "&Do not nest #IF in random syntax"
 

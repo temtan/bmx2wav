@@ -320,6 +320,7 @@ BL::Parser::BarLengthChange::EvaluateBy( Parser& parser )
 
 // -- Parser -------------------------------------------------------------
 BL::Parser::Parser::Parser( void ) :
+must_read_as_utf8_( false ),
 not_nesting_if_statement_( true ),
 must_abort_error_level_( ErrorLevel::ImmediatelyAbort ),
 bar_resolution_max_( Const::BAR_RESOLUTION_MAX ),
@@ -370,9 +371,11 @@ void
 BL::Parser::Parser::ReadFile( void )
 {
   Utility::TextFileReader reader( frame_->bms_data_.path_ );
+  if ( must_read_as_utf8_ ) {
+    reader.SetReadAsUTF8( true );
+  }
 
   unsigned int line_number = 0;
-
   for (;;) {
     auto line = reader.ReadLine();
     if ( NOT( line ) ) {

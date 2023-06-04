@@ -68,6 +68,7 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( NeverOverwriteOutputFile );
   DEFINE_PARAMETER_NAME_STRING( OutputFileTemplate );
   DEFINE_PARAMETER_NAME_STRING( RemoveCanNotUseCharacterAsFilePath );
+  DEFINE_PARAMETER_NAME_STRING( ReadAsUTF8 );
 }
 
 
@@ -91,6 +92,7 @@ remove_can_not_use_character_as_file_path_( true ),
 output_file_template_( "" ),
 
 // BMS
+read_as_utf8_( false ),
 ignore_bga_channel_( true ),
 not_nesting_if_statement_( true ),
 
@@ -150,6 +152,7 @@ Core::ConvertParameter::ReadFromFile( const std::string& path )
   output_file_template_                      = section.GetString(  Tag::OutputFileTemplate,                 ""    );
 
   // BMS
+  read_as_utf8_             = section.GetBoolean( Tag::ReadAsUTF8,            false );
   ignore_bga_channel_       = section.GetBoolean( Tag::IgnoreBgaChannel,      true );
   not_nesting_if_statement_ = section.GetBoolean( Tag::NotNestingIfStatement, true );
 
@@ -213,6 +216,7 @@ Core::ConvertParameter::WriteToFile( const std::string& path ) const
   section.SetString(  Tag::OutputFileTemplate,                 output_file_template_ );
 
   // BMS
+  section.SetBoolean( Tag::ReadAsUTF8,            read_as_utf8_ );
   section.SetBoolean( Tag::IgnoreBgaChannel,      ignore_bga_channel_ );
   section.SetBoolean( Tag::NotNestingIfStatement, not_nesting_if_statement_ );
 

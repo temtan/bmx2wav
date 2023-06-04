@@ -53,6 +53,7 @@ namespace BMX2WAV::Core {
     std::string output_file_template_;
 
     // BMS
+    bool read_as_utf8_;
     bool ignore_bga_channel_;
     bool not_nesting_if_statement_;
 

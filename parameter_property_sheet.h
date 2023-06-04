@@ -127,6 +127,7 @@ namespace BMX2WAV {
     private:
       Core::ConvertParameter& parameter_;
 
+      TtCheckBox read_as_utf8_check_;
       TtCheckBox ignore_bga_channel_check_;
       TtCheckBox not_nesting_if_statement_check_;
     };
