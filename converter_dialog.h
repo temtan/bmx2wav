@@ -2,10 +2,13 @@
 
 #pragma once
 
+#include <optional>
+
 #include "tt_dialog.h"
 #include "tt_window_controls.h"
 #include "tt_progress.h"
 #include "tt_time.h"
+#include "tt_file_stream.h"
 
 #include "exception.h"
 #include "core/converter.h"
@@ -99,7 +102,7 @@ namespace BMX2WAV {
     std::optional<Mainstay::SquirrelVM> vm_;
 
     std::optional<TtFunctionThread> thread_;
-    std::shared_ptr<FILE>           log_file_;
+    std::optional<TtFileWriter>     log_file_writer_;
 
     bool                       auto_close_;
     std::optional<POINT>       start_position_;

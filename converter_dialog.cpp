@@ -336,15 +336,13 @@ ConverterDialog::Created( void )
 
   // log ‹@”\
   if ( converter_.GetConvertParameter().output_log_ ) {
-    FILE* file;
-    errno_t error_number = ::fopen_s( &file, converter_.GetConvertParameter().log_file_path_.c_str(), "a" );
-    if ( file != NULL ) {
-      log_file_.reset( file, [] ( FILE* f ) { std::fclose( f ); } );
+    try {
+      log_file_writer_.emplace( converter_.GetConvertParameter().log_file_path_, true, false );
     }
-    else {
+    catch ( TtFileAccessException& e ) {
       output_dialog_.PutsText( Utility::Format( StrT::Convert::OpenLogErrorMessage.Get(),
                                                 converter_.GetConvertParameter().log_file_path_,
-                                                TtUtility::GetANSIErrorMessage( error_number ) ) );
+                                                TtUtility::GetANSIErrorMessage( e.GetErrorNumber() ) ) );
     }
   }
 
@@ -710,12 +708,14 @@ ConverterDialog::OutputStringWithoutLF( const std::string& str )
 void
 ConverterDialog::OutputToLog( const std::string& str )
 {
-  if ( log_file_ ) {
-    auto ret = std::fwrite( str.c_str(), 1, str.size(), log_file_.get() );
-    if ( ret == 0 ) {
+  if ( log_file_writer_ ) {
+    try {
+      log_file_writer_->WriteString( str );
+    }
+    catch ( TtFileAccessException ) {
       output_dialog_.PutsText( StrT::Convert::OutputToLogError.Get() );
     }
-    std::fflush( log_file_.get() );
+    log_file_writer_->Flush();
   }
 }
 
