@@ -5,6 +5,7 @@
 #include <string>
 #include <optional>
 
+#include "tt_file_stream.h"
 
 namespace BMX2WAV::Utility {
   int  Hex36ToInteger( char c );
@@ -77,20 +78,21 @@ namespace BMX2WAV::Utility {
   }
 
   // -- TextFileReader ---------------------------------------------------
-  class TextFileReader {
+  class TextFileReader : public TtFileReader {
   public:
     explicit TextFileReader( const std::string& path );
-    ~TextFileReader();
 
-    void SetReadAsUTF8( bool flag );
+    std::optional<std::string> ReadLineAutoEncode( void );
 
-    void Close( void );
-
-    std::optional<std::string> ReadLine( void );
+    std::string ReadAllAutoEncode( void );
 
   private:
-    const std::string path_;
-    FILE* file_;
-    bool  read_as_utf8_;
+    using TtFileReader::ReadLine;
+    using TtFileReader::ReadLineWithChomp;
+    using TtFileReader::ReadLineChompFlag;
+    using TtFileReader::ReadAll;
+
+  public:
+    bool read_as_utf8_;
   };
 }

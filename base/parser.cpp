@@ -372,12 +372,12 @@ BL::Parser::Parser::ReadFile( void )
 {
   Utility::TextFileReader reader( frame_->bms_data_.path_ );
   if ( must_read_as_utf8_ ) {
-    reader.SetReadAsUTF8( true );
+    reader.read_as_utf8_ = true;
   }
 
   unsigned int line_number = 0;
   for (;;) {
-    auto line = reader.ReadLine();
+    auto line = reader.ReadLineAutoEncode();
     if ( NOT( line ) ) {
       break;
     }

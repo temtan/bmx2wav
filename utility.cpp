@@ -271,77 +271,27 @@ Utility::RemoveCanNotUseCharacterAsFilePathFrom( const std::string& path )
 
 // -- TextFileReader -----------------------------------------------------
 Utility::TextFileReader::TextFileReader( const std::string& path ) :
-path_( path ),
-file_( NULL ),
-read_as_utf8_( false )
+TtFileReader( path, false ),
+read_as_utf8_( this->HasUTF8BOM() )
 {
-  errno_t error_number = ::fopen_s( &file_, path.c_str(), "r" );
-  if ( file_ == NULL ) {
-    throw TtFileAccessException( path, error_number );
-  }
-
-  unsigned char buf[3];
-  size_t ret = std::fread( buf, 1, 3, file_ );
-  if ( ret == 3 ) {
-    read_as_utf8_ = (buf[0] == 0xEF) && (buf[1] == 0xBB) && (buf[2] == 0xBF);
-  }
-  if ( NOT( read_as_utf8_ ) ) {
-    std::fseek( file_, 0, SEEK_SET );
-  }
 }
-
-Utility::TextFileReader::~TextFileReader()
-{
-  this->Close();
-}
-
-
-void
-Utility::TextFileReader::SetReadAsUTF8( bool flag )
-{
-  read_as_utf8_ = flag;
-}
-
-
-void
-Utility::TextFileReader::Close( void )
-{
-  if ( file_ ) {
-    std::fclose( file_ );
-    file_ = nullptr;
-  }
-}
-
 
 std::optional<std::string>
-Utility::TextFileReader::ReadLine( void )
+Utility::TextFileReader::ReadLineAutoEncode( void )
 {
-  char buffer[1024];
-
-  char* ret = std::fgets( buffer, sizeof( buffer ), file_ );
-  if ( ret == NULL ) {
-    if ( std::ferror( file_ ) ) {
-      throw TtFileAccessException( path_, errno );
-    }
-    return std::nullopt;
+  auto ret = this->ReadLine();
+  if ( ret && read_as_utf8_ ) {
+    ret = TtString::UTF8ToCP932( ret.value() );
   }
-  std::string tmp = buffer;
+  return ret;
+}
+
+std::string
+Utility::TextFileReader::ReadAllAutoEncode( void )
+{
+  auto ret = this->ReadAll();
   if ( read_as_utf8_ ) {
-    tmp = TtString::UTF8ToCP932( tmp );
+    ret = TtString::UTF8ToCP932( ret );
   }
-
-  for (;;) {
-    if ( tmp.back() == '\n' ) {
-      tmp.pop_back();
-      return tmp;
-    }
-    ret = std::fgets( buffer, sizeof( buffer ), file_ );
-    if ( ret == NULL ) {
-      if ( std::ferror( file_ ) ) {
-        throw TtFileAccessException( path_, errno );
-      }
-      return tmp;
-    }
-    tmp.append( buffer );
-  }
+  return ret;
 }
