@@ -30,6 +30,8 @@ namespace BMX2WAV::BL {
     // channel 01 ‚Íæ“ª‚Ì‚İ
     BL::Channel& GetChannelBy( BL::Word channel_number );
 
+    std::vector<std::shared_ptr<BL::Channel>>& GetBgmChannels( void );
+
     BL::Channel& MakeNewBgmChannel( void );
 
     // -- SimpleIterator -----

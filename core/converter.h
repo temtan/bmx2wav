@@ -14,6 +14,7 @@
 #include "base/word.h"
 #include "base/bms_data.h"
 #include "base/parser.h"
+#include "base/bmson_parser.h"
 #include "core/convert_parameter.h"
 #include "core/wave.h"
 #include "core/wave_maker.h"
@@ -94,6 +95,7 @@ namespace BMX2WAV::Core {
 
       FunctionOf<MessageOnlyException&>                           message_only_exception_;
       FunctionOf<BmsFileAccessException&>                         bms_file_access_error_;
+      FunctionOf<ConvertBmsonException&>                          bmson_error_;
       FunctionOf<BadAllocationException&>                         bad_allocation_error_;
       FunctionOf<EntriedAudioFileNotFoundException&>              entried_audio_file_not_found_;
       FunctionOf<AudioFileError&>                                 wav_file_access_error_;

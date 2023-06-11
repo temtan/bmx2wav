@@ -12,6 +12,8 @@
 #include "exception.h"
 #include "utility.h"
 
+#include "base/bmson_parser.h"
+
 #include "base/parser.h"
 
 using namespace BMX2WAV;
@@ -334,6 +336,15 @@ callbacks_()
 std::shared_ptr<BL::BmsData>
 BL::Parser::Parser::Parse( const std::string& path )
 {
+  if ( TtString::EndWith( TtString::ToUpper( path ), ".BMSON" ) ) {
+    return this->ParseAsBmson( path );
+  }
+  return this->ParseAsBms( path );
+}
+
+std::shared_ptr<BL::BmsData>
+BL::Parser::Parser::ParseAsBms( const std::string& path )
+{
   this->Initialize( path );
 
   try {
@@ -357,6 +368,26 @@ BL::Parser::Parser::Parse( const std::string& path )
 
   this->Finalize();
   return std::make_shared<BmsData>( frame_->bms_data_ );
+}
+
+std::shared_ptr<BL::BmsData>
+BL::Parser::Parser::ParseAsBmson( const std::string& path )
+{
+  Bmson::Parser parser;
+  try {
+    return parser.Parse( path );
+  }
+  catch ( TtFileAccessException& ex ) {
+    throw FileAccessException( ex );
+  }
+  catch ( Bmson::NumberFormatException& e ) {
+    PCI( e.GetLine() );
+    throw;
+  }
+  catch ( TtException& e ) {
+    PCS( e.Dump() );
+    throw;
+  }
 }
 
 
@@ -665,10 +696,7 @@ template <auto BL::Parser::Parser::Callbacks::* callback, class... Args>
 void
 BL::Parser::Parser::SafeErrorCallback( Args... args )
 {
-  // VS 2022 ÉoÉOÅHëŒâû
-  // auto exception = std::make_shared<ExceptionOf<decltype( callback )>::Type>( args... );
-  using ExceptionType = ExceptionOf<decltype( callback )>::Type;
-  auto exception = std::make_shared<ExceptionType>( args... );
+  auto exception = std::make_shared<typename ExceptionOf<decltype( callback )>::Type>( args... );
   this->SafeErrorCallbackOf( exception, callbacks_.*callback );
 }
 

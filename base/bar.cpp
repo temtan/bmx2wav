@@ -121,6 +121,12 @@ BL::Bar::GetChannelBy( BL::Word channel_number )
   return *tmp;
 }
 
+std::vector<std::shared_ptr<BL::Channel>>&
+BL::Bar::GetBgmChannels( void )
+{
+  return bgm_channels_;
+}
+
 
 BL::Channel&
 BL::Bar::MakeNewBgmChannel( void )

@@ -192,6 +192,10 @@ Core::Converter::BmsFileParse( void )
     this->SafeErrorCallback<&Callbacks::bms_file_access_error_>( ex.GetPath(), ex.GetErrorNumber() );
     throw AbortController();
   }
+  catch ( BL::Bmson::BmsonException& ex ) {
+    this->SafeErrorCallback<&Callbacks::bmson_error_>( std::ref( ex ) );
+    throw AbortController();
+  }
   catch ( std::bad_alloc e ) {
     this->SafeErrorCallback<&Callbacks::bad_allocation_error_>( e );
     throw AbortController();
@@ -568,10 +572,7 @@ template <auto Core::Converter::Callbacks::* callback, class... Args>
 void
 Core::Converter::SafeErrorCallback( Args... args )
 {
-  // VS 2022 ÉoÉOÅHëŒâû
-  // auto exception = std::make_shared<ExceptionOf<decltype( callback )>::Type>( args... );
-  using ExceptionType = ExceptionOf<decltype( callback )>::Type;
-  auto exception = std::make_shared<ExceptionType>( args... );
+  auto exception = std::make_shared<typename ExceptionOf<decltype( callback )>::Type>( args... );
   this->SafeErrorCallbackOf( exception, callbacks_.*callback );
 }
 
