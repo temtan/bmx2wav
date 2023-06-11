@@ -380,7 +380,11 @@ ConverterDialog::ThreadInitializeAndStart( void )
 
       if ( result_ == Result::Aborted || result_ == Result::UserAborted ) {
         TtMessageBoxOk box;
-        box.SetMessage( StrT::Convert::MBErrorAbortMessage.Get() );
+        std::string msg = StrT::Convert::MBErrorAbortMessage.Get();
+        if ( converter_.info_.aborted_additional_message_ ) {
+          msg.append( "\n\n" + converter_.info_.aborted_additional_message_.value() );
+        }
+        box.SetMessage( msg );
         box.SetCaption( StrT::Convert::MBErrorAbortCaption.Get() );
         box.SetIcon( TtMessageBox::Icon::ERROR );
         box.ShowDialog( *this );

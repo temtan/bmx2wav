@@ -53,7 +53,9 @@ namespace BMX2WAV::Core {
 
   public:
     // for Error
-    struct AbortController {};
+    struct AbortController {
+      std::optional<std::string> message_;
+    };
 
     struct Callbacks {
       template <class... Args>
@@ -142,6 +144,7 @@ namespace BMX2WAV::Core {
       std::shared_ptr<Core::Wave> wave_;
 
       std::vector<std::shared_ptr<ConvertException>> exceptions_;
+      std::optional<std::string>                     aborted_additional_message_;
       TtEnum<ErrorLevel>                             most_serious_error_level_;
 
       TtTime start_time_;

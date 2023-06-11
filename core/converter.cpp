@@ -123,8 +123,9 @@ Core::Converter::Convert( void )
     this->AfterProcess();
     return true;
   }
-  catch ( AbortController ) {
+  catch ( AbortController c ) {
     info_.is_aborted_ = true;
+    info_.aborted_additional_message_ = c.message_;
     if ( callbacks_.aborted_ ) {
       callbacks_.aborted_( *this );
     }
@@ -190,15 +191,15 @@ Core::Converter::BmsFileParse( void )
   }
   catch ( BL::Parser::FileAccessException& ex ) {
     this->SafeErrorCallback<&Callbacks::bms_file_access_error_>( ex.GetPath(), ex.GetErrorNumber() );
-    throw AbortController();
+    throw AbortController( ex.GetMessage() );
   }
   catch ( BL::Bmson::BmsonException& ex ) {
     this->SafeErrorCallback<&Callbacks::bmson_error_>( std::ref( ex ) );
-    throw AbortController();
+    throw AbortController( ex.GetMessage() );
   }
   catch ( std::bad_alloc e ) {
     this->SafeErrorCallback<&Callbacks::bad_allocation_error_>( e );
-    throw AbortController();
+    throw AbortController( StrT::Convert::MBErrorMemoryCaption.Get() );
   }
   this->SafeCallback<&Callbacks::just_after_parse_>( std::ref( parser ) );
 }
@@ -499,7 +500,7 @@ Core::Converter::OutputToFile( void )
     }
     catch ( AudioFileOpenException& exception ) {
       this->SafeErrorCallback<&Callbacks::output_file_access_error_>( std::ref( exception ) );
-      throw AbortController();
+      throw AbortController( exception.GetMessage() );
     }
   }
 }
@@ -564,7 +565,7 @@ Core::Converter::SafeErrorCallbackOf( std::shared_ptr<Exception> exception, Call
     info_.need_to_abort_delay_.store( true );
   }
   if ( info_.need_to_abort_imediately_.load() ) {
-    throw AbortController();
+    throw AbortController( exception->GetMessage() );
   }
 }
 
