@@ -4,6 +4,7 @@
 
 #include "tt_json.h"
 
+#include "string_table.h"
 #include "utility.h"
 
 #include "base/bmson_parser.h"
@@ -24,8 +25,7 @@ TtJson::UnexpectedTokenException( origin )
 std::string
 BL::Bmson::UnexpectedTokenException::GetMessage( void )
 {
-  // TODO
-  return "";
+  return Utility::Format( StrT::Message::BmsonParser::UnexpectedToken.Get(), this->GetLine(), this->GetToken() );
 }
 
 
@@ -38,8 +38,7 @@ TtJson::NumberFormatException( origin )
 std::string
 BL::Bmson::NumberFormatException::GetMessage( void )
 {
-  // TODO
-  return "";
+  return Utility::Format( StrT::Message::BmsonParser::NumberFormatError.Get(), this->GetLine() );
 }
 
 // -- UnicodeFormatException ---------------------------------------------
@@ -51,8 +50,7 @@ TtJson::UnicodeFormatException( origin )
 std::string
 BL::Bmson::UnicodeFormatException::GetMessage( void )
 {
-  // TODO
-  return "";
+  return Utility::Format( StrT::Message::BmsonParser::UnicodeFormatError.Get(), this->GetLine() );
 }
 
 // -- BadCastException ---------------------------------------------------
@@ -64,43 +62,34 @@ TtJson::BadCastException( origin )
 std::string
 BL::Bmson::BadCastException::GetMessage( void )
 {
-  // TODO
-  return "";
+  return Utility::Format( StrT::Message::BmsonParser::DataTypeError.Get(), this->GetLine(), this->GetExpectedType().name(), this->GetActualType().name() );
 }
 
 // -- OutOfBmsRangeException ---------------------------------------------
-std::string
-BL::Bmson::OutOfBmsRangeException::GetMessage( void )
-{
-  // TODO
-  return "";
-}
 
 // -- BarIsOutOfBmsRangeException ----------------------------------------
 std::string
 BL::Bmson::BarIsOutOfBmsRangeException::GetMessage( void )
 {
-  // TODO
-  return "";
+  return Utility::Format( StrT::Message::BmsonParser::BarIsOutOfBmsRange.Get() );
 }
 
-// -- NumberOfObjectsIsOutOfRangeException -------------------------------
-BL::Bmson::NumberOfObjectsIsOutOfRangeException::NumberOfObjectsIsOutOfRangeException( const std::string& object_kind ) :
+// -- NumberOfObjectsIsOutOfBmsRangeException ----------------------------
+BL::Bmson::NumberOfObjectsIsOutOfBmsRangeException::NumberOfObjectsIsOutOfBmsRangeException( const std::string& object_kind ) :
 object_kind_( object_kind )
 {
 }
 
 const std::string&
-BL::Bmson::NumberOfObjectsIsOutOfRangeException::GetObjectKind( void )
+BL::Bmson::NumberOfObjectsIsOutOfBmsRangeException::GetObjectKind( void )
 {
   return object_kind_;
 }
 
 std::string
-BL::Bmson::NumberOfObjectsIsOutOfRangeException::GetMessage( void )
+BL::Bmson::NumberOfObjectsIsOutOfBmsRangeException::GetMessage( void )
 {
-  // TODO
-  return "";
+  return Utility::Format( StrT::Message::BmsonParser::NumberOfObjectsIsOutOfBmsRange.Get(), this->GetObjectKind() );
 }
 
 // -- RequiredKeyIsNothingException --------------------------------------
@@ -118,18 +107,15 @@ BL::Bmson::RequiredKeyIsNothingException::GetRequiredKey( void )
 std::string
 BL::Bmson::RequiredKeyIsNothingException::GetMessage( void )
 {
-  // TODO
-  return "";
+  return Utility::Format( StrT::Message::BmsonParser::RequiredKeyIsNothing.Get(), this->GetRequiredKey() );
 }
 
 // -- BmsonObjectIsOutOfBmsonLineRangeException --------------------------
 std::string
 BL::Bmson::BmsonObjectIsOutOfBmsonLineRangeException::GetMessage( void )
 {
-  // TODO
-  return "";
+  return Utility::Format( StrT::Message::BmsonParser::BmsonObjectIsOutOfBmsonLineRange.Get() );
 }
-
 
 
 // -- ConvertBmsonException ----------------------------------------------
@@ -533,7 +519,7 @@ BL::Bmson::Parser::BmsonDataToBmsData( BmsonData& bmson )
     for ( unsigned int i = 0; BmsonData::BpmEvent& event : bmson.bpm_events_ ) {
       ++i;
       if ( i > Const::WORD_MAX_VALUE ) {
-        throw NumberOfObjectsIsOutOfRangeException( "BpmEvent" );
+        throw NumberOfObjectsIsOutOfBmsRangeException( "BpmEvent" );
       }
 
       bms->headers_["BPM" + Word( i ).ToString()] = TtUtility::ToStringFrom( event.bpm_ );
@@ -554,7 +540,7 @@ BL::Bmson::Parser::BmsonDataToBmsData( BmsonData& bmson )
     for ( unsigned int i = 0; BmsonData::StopEvent& event : bmson.stop_events_ ) {
       ++i;
       if ( i > Const::WORD_MAX_VALUE ) {
-        throw NumberOfObjectsIsOutOfRangeException( "StopEvent" );
+        throw NumberOfObjectsIsOutOfBmsRangeException( "StopEvent" );
       }
 
       std::string duration_of_bms_string = TtUtility::ToStringFrom( static_cast<double>( event.duration_ ) / ( bmson.info_.resolution_ * 4.0 / 192.0 ) );
@@ -571,7 +557,7 @@ BL::Bmson::Parser::BmsonDataToBmsData( BmsonData& bmson )
   for ( unsigned int i = 0; BmsonData::SoundChannel& channel : bmson.sound_channels_ ) {
     ++i;
     if ( i > Const::WORD_MAX_VALUE ) {
-      throw NumberOfObjectsIsOutOfRangeException( "SoundChannel" );
+      throw NumberOfObjectsIsOutOfBmsRangeException( "SoundChannel" );
     }
 
     bms->headers_["WAV" + Word( i ).ToString()] = channel.name_;

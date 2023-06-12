@@ -467,6 +467,17 @@ STRINGTABLE
   RSID_STR_MSG_P_DEFINED_OBJECT_NOT_USED          "指定されているオブジェクト %s が使用されませんでした。"
   RSID_STR_MSG_P_RESOLUTION_EXCEEDED_LIMIT        "分解能が限界を超えました。要求分解能 : %d"
 
+  // bmson parser
+  // RSID_STR_MSG_BMSON_ ""
+  RSID_STR_MSG_BMSON_UNEXPECTED_TOKEN                        "予期しないトークンがありました。行番号 : %d ; トークン : '%c'"
+  RSID_STR_MSG_BMSON_NUMBER_FORMAT_ERROR                     "数値の形式が不正です。行番号 : %d"
+  RSID_STR_MSG_BMSON_UNICODE_FORMAT_ERROR                    "Unicode エスケープの形式が不正です。行番号 : %d"
+  RSID_STR_MSG_BMSON_DATA_TYPE_ERROR                         "データ型が不正です。行番号 : %d ; 正しい型 : %s ; 実際の型 : %s"
+  RSID_STR_MSG_BMSON_BAR_IS_OUT_OF_BMS_RANGE                 "小節数が BMS の限界を超えました。"
+  RSID_STR_MSG_BMSON_NUMBER_OF_OBJECTS_IS_OUT_OF_BMS_RANGE   "オブジェクトの登録数が BMS の限界を超えました。オブジェクト種類 : %s"
+  RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING                 "必須キーがありません。キー : %s"
+  RSID_STR_MSG_BMSON_BMSON_OBJECT_IS_OUT_OF_BMSON_LINE_RANGE "BMSON のオブジェクトが小節線定義の範囲外にあります。"
+
   // ----------------
   // core
   // converter

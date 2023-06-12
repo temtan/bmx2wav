@@ -544,6 +544,17 @@ namespace BMX2WAV::StringTable {
       static const ID DefinedObjectNotUsed         = RSID_STR_MSG_P_DEFINED_OBJECT_NOT_USED;
       static const ID ResolutionExceededLimit      = RSID_STR_MSG_P_RESOLUTION_EXCEEDED_LIMIT;
     }
+    // bmson parser
+    namespace BmsonParser {
+      static const ID UnexpectedToken                  = RSID_STR_MSG_BMSON_UNEXPECTED_TOKEN;
+      static const ID NumberFormatError                = RSID_STR_MSG_BMSON_NUMBER_FORMAT_ERROR;
+      static const ID UnicodeFormatError               = RSID_STR_MSG_BMSON_UNICODE_FORMAT_ERROR;
+      static const ID DataTypeError                    = RSID_STR_MSG_BMSON_DATA_TYPE_ERROR;
+      static const ID BarIsOutOfBmsRange               = RSID_STR_MSG_BMSON_BAR_IS_OUT_OF_BMS_RANGE;
+      static const ID NumberOfObjectsIsOutOfBmsRange   = RSID_STR_MSG_BMSON_NUMBER_OF_OBJECTS_IS_OUT_OF_BMS_RANGE;
+      static const ID RequiredKeyIsNothing             = RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING;
+      static const ID BmsonObjectIsOutOfBmsonLineRange = RSID_STR_MSG_BMSON_BMSON_OBJECT_IS_OUT_OF_BMSON_LINE_RANGE;
+    }
 
     // ----------------
     // core

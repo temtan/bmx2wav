@@ -467,6 +467,16 @@ STRINGTABLE
   RSID_STR_MSG_P_DEFINED_OBJECT_NOT_USED          "Specified object %s was not used."
   RSID_STR_MSG_P_RESOLUTION_EXCEEDED_LIMIT        "Resolution limit exceeded. Requested resolution: %d"
 
+  // bmson parser
+  RSID_STR_MSG_BMSON_UNEXPECTED_TOKEN                        "Unexpected token detected. Line : %d ; Token : '%c'"
+  RSID_STR_MSG_BMSON_NUMBER_FORMAT_ERROR                     "The number format is invalid. Line : %d"
+  RSID_STR_MSG_BMSON_UNICODE_FORMAT_ERROR                    "Unicode escape is invalid. Line : %d"
+  RSID_STR_MSG_BMSON_DATA_TYPE_ERROR                         "Data Type is invalid. Line : %d ; Require Type : %s ; Actual Type : %s"
+  RSID_STR_MSG_BMSON_BAR_IS_OUT_OF_BMS_RANGE                 "The number of bars has exceeded the limit of BMS."
+  RSID_STR_MSG_BMSON_NUMBER_OF_OBJECTS_IS_OUT_OF_BMS_RANGE   "The number of object registrations has exceeded the BMS limit. Object kind : %s"
+  RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING                 "Required key don't exist. Key : %s"
+  RSID_STR_MSG_BMSON_BMSON_OBJECT_IS_OUT_OF_BMSON_LINE_RANGE "BMSON object is outside the barline definition."
+
   // ----------------
   // core
   // converter

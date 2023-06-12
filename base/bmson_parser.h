@@ -53,8 +53,6 @@ namespace BMX2WAV::BL::Bmson {
   class OutOfBmsRangeException : public BmsonException {
   public:
     explicit OutOfBmsRangeException( void ) = default;
-
-    virtual std::string GetMessage( void ) override;
   };
 
   // -- BarIsOutOfBmsRangeException --------------------------------------
@@ -65,10 +63,10 @@ namespace BMX2WAV::BL::Bmson {
     virtual std::string GetMessage( void ) override;
   };
 
-  // -- NumberOfObjectsIsOutOfRangeException -----------------------------
-  class NumberOfObjectsIsOutOfRangeException : public OutOfBmsRangeException {
+  // -- NumberOfObjectsIsOutOfBmsRangeException --------------------------
+  class NumberOfObjectsIsOutOfBmsRangeException : public OutOfBmsRangeException {
   public:
-    explicit NumberOfObjectsIsOutOfRangeException( const std::string& object_kind );
+    explicit NumberOfObjectsIsOutOfBmsRangeException( const std::string& object_kind );
 
     const std::string& GetObjectKind( void );
 
