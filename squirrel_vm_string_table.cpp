@@ -584,6 +584,15 @@ SquirrelVMBase::InitializeStringTable( void )
   REGISTER_ID( StringTable::Message::Parser::DefinedObjectNotUsed );
   REGISTER_ID( StringTable::Message::Parser::ResolutionExceededLimit );
 
+  REGISTER_ID( StringTable::Message::BmsonParser::UnexpectedToken );
+  REGISTER_ID( StringTable::Message::BmsonParser::NumberFormatError );
+  REGISTER_ID( StringTable::Message::BmsonParser::UnicodeFormatError );
+  REGISTER_ID( StringTable::Message::BmsonParser::DataTypeError );
+  REGISTER_ID( StringTable::Message::BmsonParser::BarIsOutOfBmsRange );
+  REGISTER_ID( StringTable::Message::BmsonParser::NumberOfObjectsIsOutOfBmsRange );
+  REGISTER_ID( StringTable::Message::BmsonParser::RequiredKeyIsNothing );
+  REGISTER_ID( StringTable::Message::BmsonParser::BmsonObjectIsOutOfBmsonLineRange );
+
   // ----------------
   // core
   // converter
