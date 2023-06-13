@@ -66,6 +66,7 @@ namespace BMX2WAV::BL {
     static bool NumberIsPlayerNoteChannel( BL::Word number );
     static bool NumberIsFirstPlayerNoteChannel( BL::Word number );
     static bool NumberIsSecondPlayerNoteChannel( BL::Word number );
+    static bool NumberIsLandmineObjectChannel( BL::Word number );
 
   private:
     friend class Bar;
@@ -78,12 +79,14 @@ namespace BMX2WAV::BL {
     bool IsShoudPlayChannel( void ) const;
     bool IsBmpChannel( void ) const;
     bool IsBpmChangeChannel( void ) const;
+    bool IsInvisibilityObjectChannel( void ) const;
     bool IsExtendedBpmChangeChannel( void ) const;
     bool IsLongNoteChannel( void ) const;
     bool IsStopSequenceChannel( void ) const;
     bool IsPlayerNoteChannel( void ) const;
     bool IsFirstPlayerNoteChannel( void ) const;
     bool IsSecondPlayerNoteChannel( void ) const;
+    bool IsLandmineObjectChannel( void ) const;
 
   private:
     BL::Word number_;

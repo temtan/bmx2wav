@@ -243,6 +243,13 @@ BL::Channel::NumberIsExtendedBpmChangeChannel( BL::Word number )
 }
 
 bool
+BL::Channel::NumberIsInvisibilityObjectChannel( BL::Word number )
+{
+  return ( "31"_hex36 <= number && number <= "3Z"_hex36 ||
+           "41"_hex36 <= number && number <= "4Z"_hex36 );
+}
+
+bool
 BL::Channel::NumberIsLongNoteChannel( BL::Word number )
 {
   return ( "51"_hex36 <= number && number <= "5Z"_hex36 ||
@@ -276,6 +283,13 @@ BL::Channel::NumberIsSecondPlayerNoteChannel( BL::Word number )
 {
   return ("21"_hex36 <= number && number <= "2Z"_hex36 ||
           "61"_hex36 <= number && number <= "6Z"_hex36 );
+}
+
+bool
+BL::Channel::NumberIsLandmineObjectChannel( BL::Word number )
+{
+  return ("D1"_hex36 <= number && number <= "DZ"_hex36 ||
+          "E1"_hex36 <= number && number <= "EZ"_hex36 );
 }
 
 // -----------------------------------------
@@ -322,6 +336,12 @@ BL::Channel::IsBpmChangeChannel( void ) const
 }
 
 bool
+BL::Channel::IsInvisibilityObjectChannel( void ) const
+{
+  return BL::Channel::NumberIsInvisibilityObjectChannel( number_ );
+}
+
+bool
 BL::Channel::IsExtendedBpmChangeChannel( void ) const
 {
   return BL::Channel::NumberIsExtendedBpmChangeChannel( number_ );
@@ -357,3 +377,8 @@ BL::Channel::IsSecondPlayerNoteChannel( void ) const
   return BL::Channel::NumberIsSecondPlayerNoteChannel( number_ );
 }
 
+bool
+BL::Channel::IsLandmineObjectChannel( void ) const
+{
+  return BL::Channel::NumberIsLandmineObjectChannel( number_ );
+}

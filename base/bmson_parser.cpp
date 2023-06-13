@@ -7,6 +7,9 @@
 #include "string_table.h"
 #include "utility.h"
 
+#include "base/word.h"
+#include "base/channel.h"
+
 #include "base/bmson_parser.h"
 
 #pragma warning(disable : 4672)
@@ -565,6 +568,10 @@ BL::Bmson::Parser::BmsonDataToBmsData( BmsonData& bmson )
 
     for ( BmsonData::Note& note : channel.notes_ ) {
       if ( note.continuation_flag_ ) {
+        continue;
+      }
+      if ( BL::Channel::NumberIsInvisibilityObjectChannel( BL::Word( note.lane_ ) ) ||
+           BL::Channel::NumberIsLandmineObjectChannel( BL::Word( note.lane_ ) ) ) {
         continue;
       }
       position_converter.ConvertPositionAndCall( note.position_, [&] ( Bar& bar, unsigned int position_of_bar ) {
