@@ -380,14 +380,6 @@ BL::Parser::Parser::ParseAsBmson( const std::string& path )
   catch ( TtFileAccessException& ex ) {
     throw FileAccessException( ex );
   }
-  catch ( Bmson::NumberFormatException& e ) {
-    PCI( e.GetLine() );
-    throw;
-  }
-  catch ( TtException& e ) {
-    PCS( e.Dump() );
-    throw;
-  }
 }
 
 

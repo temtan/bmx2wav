@@ -11,6 +11,7 @@ BMX2WAV は BMS を WAV ファイルまたは ogg ファイルに変換します。
 ** 拡張 BPM
 ** STOP シーケンス
 ** ロングノート
+* BMSON に対応
 * ogg 読み込み、ogg 出力対応
 * 音量調整（ノーマライズ）機能搭載
 * 変換したい BMS を探す BMX2WAV Searcher を搭載。
