@@ -155,6 +155,34 @@ BL::Buffer::MagnifyBy( unsigned int multiplier )
   }
 }
 
+void
+BL::Buffer::SafetyShrink( void )
+{
+  unsigned int prime_numbers[16] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, std::numeric_limits<unsigned int>::max()};
+  unsigned int* divisor = prime_numbers;
+  while ( array_.size() >= *divisor ) {
+    if ( array_.size() % *divisor != 0 ) {
+      divisor++;
+      continue;
+    }
+    for ( unsigned int i = 0; i < array_.size(); ++i ) {
+      if ( i % *divisor != 0 ) {
+        if ( array_[i] != BL::Word::MIN ) {
+          divisor++;
+          continue;
+        }
+      }
+    }
+    for ( unsigned int i = 0; i < array_.size(); ++i ) {
+      if ( i % *divisor == 0 ) {
+        array_[i / *divisor] = array_[i];
+      }
+    }
+    array_.resize( array_.size() / *divisor );
+    divisor++;
+  }
+}
+
 
 std::string
 BL::Buffer::ToString( void )

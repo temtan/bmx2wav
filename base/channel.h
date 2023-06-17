@@ -37,6 +37,7 @@ namespace BMX2WAV::BL {
     // unsafety
     void Resize( size_t size );
     void MagnifyBy( unsigned int multiplier );
+    void SafetyShrink( void );
 
     std::string ToString( void );
 
