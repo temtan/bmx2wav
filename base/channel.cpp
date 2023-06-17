@@ -166,6 +166,15 @@ BL::Buffer::SafetyShrink( void )
       divisor = std::gcd( divisor, i );
     }
   }
+  this->ShrinkBy( divisor );
+}
+
+void
+BL::Buffer::ShrinkBy( unsigned int divisor )
+{
+  if ( divisor == 0 ) {
+    throw BMX2WAV_INTERNAL_EXCEPTION;
+  }
   if ( divisor == 1 ) {
     return;
   }
