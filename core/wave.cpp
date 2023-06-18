@@ -240,7 +240,7 @@ Core::Wave::AverageNormalize( void )
 }
 
 double
-Core::Wave::OverNormalize( double over_ratio )
+Core::Wave::GetOverNormalizeRatio( double over_ratio )
 {
   auto length = static_cast<unsigned int>( std::ceil( static_cast<double>( this->GetLength() ) * 2.0 * over_ratio ) );
   std::list<uint64_t> top_list( length, 0 );
@@ -261,7 +261,14 @@ Core::Wave::OverNormalize( double over_ratio )
     tmp( std::abs( tick.right_ ) );
   }
 
-  double ratio = static_cast<double>( Tick::MaxValue ) / static_cast<double>( top_list.back() );
+  return static_cast<double>( Tick::MaxValue ) / static_cast<double>( top_list.back() );
+}
+
+
+double
+Core::Wave::OverNormalize( double over_ratio )
+{
+  double ratio = this->GetOverNormalizeRatio( over_ratio );
   this->ChangeVolume( ratio );
   return ratio;
 }

@@ -18,7 +18,6 @@ using namespace BMX2WAV;
 
 namespace Tag {
 #define DEFINE_PARAMETER_NAME_STRING( name ) static const std::string name( #name )
-  // DEFINE_PARAMETER_NAME_STRING(  );
   DEFINE_PARAMETER_NAME_STRING( print );
   DEFINE_PARAMETER_NAME_STRING( system );
   DEFINE_PARAMETER_NAME_STRING( constructor );
@@ -93,6 +92,7 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( bar_number_of_max_resolution );
   DEFINE_PARAMETER_NAME_STRING( NormalizeKind );
   DEFINE_PARAMETER_NAME_STRING( normalize_kind_to_string );
+  // DEFINE_PARAMETER_NAME_STRING(  );
 }
 
 
@@ -772,7 +772,7 @@ SquirrelVMBase::Initialize( void )
     Tag::SubMenu,
     [&] () {
       TtSquirrel::StackRecoverer recoverer( this, 1 );
-      Native().NewClass( false );
+      this->Native().NewClass( false );
 
       // -- static Separator 定義 -----
       this->NewNullSlotOfTopByString( Tag::Separator, true );
@@ -801,7 +801,8 @@ SquirrelVMBase::Initialize( void )
     } );
 
   // ---------------------------------------------------------------------
-  // StringTable 絡み
+  // 他ファイルにて実装
+  this->InitializeWaveClass();
   this->InitializeStringTable();
 }
 

@@ -8,7 +8,6 @@ using namespace BMX2WAV;
 
 namespace Tag {
 #define DEFINE_PARAMETER_NAME_STRING( name ) static const std::string name( #name )
-  // DEFINE_PARAMETER_NAME_STRING(  );
   DEFINE_PARAMETER_NAME_STRING( StringTable );
   DEFINE_PARAMETER_NAME_STRING( get_by_number );
   DEFINE_PARAMETER_NAME_STRING( ID );
@@ -21,6 +20,7 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( SettingsPropertySheet );
   DEFINE_PARAMETER_NAME_STRING( SPS );
   DEFINE_PARAMETER_NAME_STRING( StrT );
+  // DEFINE_PARAMETER_NAME_STRING(  );
 }
 
 

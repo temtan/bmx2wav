@@ -65,6 +65,7 @@ namespace BMX2WAV::Core {
     // return value is changed ratio
     double PeakNormalize( void );
     double AverageNormalize( void );
+    double GetOverNormalizeRatio( double over_ratio );
     double OverNormalize( double over_ratio );
     double OverNormalizeOld( double over_ratio );
     double OverNormalizeOld2( double over_ratio );

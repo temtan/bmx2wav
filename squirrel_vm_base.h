@@ -39,6 +39,7 @@ namespace BMX2WAV {
     void SetPrintFunction( PrintFunction print_function );
 
     void Initialize( void );
+    void InitializeWaveClass( void );
     void InitializeStringTable( void );
 
     void CallBmsDataContructorAndPushIt( BL::BmsData& bms_data );
