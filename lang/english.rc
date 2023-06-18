@@ -31,6 +31,7 @@ STRINGTABLE
 
   RSID_STR_MAIN_MENU_TOOL                             "&Tools"
   RSID_STR_MAIN_MENU_TOOL_SETTINGS                    "&Settings..."
+  RSID_STR_MAIN_MENU_TOOL_EXECUTE_SQUIRREL_SCRIPT     "&Execute script file"
   RSID_STR_MAIN_MENU_TOOL_RELOAD_SQUIRREL_SCRIPT      "&Reload script files"
   RSID_STR_MAIN_MENU_TOOL_SHOW_SQUIRREL_OUTPUT_DIALOG "S&how script output dialog..."
   RSID_STR_MAIN_MENU_TOOL_START_SEARCHER              "S&tart BMX2WAV Searcher..."
@@ -52,6 +53,7 @@ STRINGTABLE
   RSID_STR_MAIN_TB_EDIT_INDIVIDUAL_PARAMETER   "Edit individual parameter"
   RSID_STR_MAIN_TB_CONVERT_ONE_BMS             "Convert one BMS"
   RSID_STR_MAIN_TB_CONVERT_ALL_BMS             "Convert all BMS"
+  RSID_STR_MAIN_TB_EXECUTE_SQUIRREL_SCRIPT     "Execute script file"
   RSID_STR_MAIN_TB_RELOAD_SQUIRREL_SCRIPT      "Reload script files"
   RSID_STR_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG "Show script output dialog"
   RSID_STR_MAIN_TB_START_SEARCHER              "Start BMX2WAV Searcher"
@@ -114,6 +116,8 @@ STRINGTABLE
   RSID_STR_MAIN_MB_EDIT_INDIVIDUAL_PARAMETER_COPY_CAUTION_MSG "Do you want to copy common parameter and use individual parameter? (Default parameter if not used)" 
   RSID_STR_MAIN_MB_START_SEARCHER_ERROR_CAP                   "File open error"
   RSID_STR_MAIN_MB_START_SEARCHER_ERROR_MSG                   "Failed to open file.\r\n\r\nFile path : %s\r\nMessage : %s"
+  RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_NUT_FILE           "Squirrel script file(*.nut)"
+  RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_ALL_FILE           "All file(*.*)"
 
   // ---------------------------------------------------------------------
   // settings property sheet

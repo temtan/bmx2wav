@@ -68,6 +68,7 @@ namespace BMX2WAV {
 
       // ツール
       Settings,
+      ExecuteSquirrelScript,
       ReloadSquirrelScript,
       ShowSquirrelOutputDialog,
       StartSearcher,
@@ -107,6 +108,7 @@ namespace BMX2WAV {
         ConvertOneBms            = CommandID::ConvertOneBms,
         ConvertAllBms            = CommandID::ConvertAllBms,
         // ツール
+        ExecuteSquirrelScript    = CommandID::ExecuteSquirrelScript,
         ReloadSquirrelScript     = CommandID::ReloadSquirrelScript,
         ShowSquirrelOutputDialog = CommandID::ShowSquirrelOutputDialog,
         StartSearcher            = CommandID::StartSearcher,
@@ -150,6 +152,7 @@ namespace BMX2WAV {
         EditIndividualParameter,
         ConvertOneBms,
         ConvertAllBms,
+        ExecuteSquirrelScript,
         ReloadSquirrelScript,
         ShowSquirrelOutputDialog,
         SearcherMainSmall,

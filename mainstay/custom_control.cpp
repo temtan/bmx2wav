@@ -58,6 +58,7 @@ column_group_menu_( TtSubMenuCommand::Create() )
   this->AppendMenu( tool_menu_, StrT::Main::Menu::Tool.Get() );
   add_menu( tool_menu_, CommandID::Settings,                 Index::None,                     StrT::Main::Menu::ToolSettings.Get() );
   tool_menu_.AppendSeparator();
+  add_menu( tool_menu_, CommandID::ExecuteSquirrelScript,    Index::ExecuteSquirrelScript,    StrT::Main::Menu::ToolExecuteSquirrelScript.Get() );
   add_menu( tool_menu_, CommandID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     StrT::Main::Menu::ToolReloadSquirrelScript.Get() );
   add_menu( tool_menu_, CommandID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Main::Menu::ToolShowSquirrelOutputDialog.Get() );
   tool_menu_.AppendSeparator();
@@ -177,6 +178,7 @@ Mainstay::MainToolBar::CreatedInternal( void )
   add_standard_button( ID::ConvertOneBms, Index::ConvertOneBms, StrT::Main::Toolbar::ConvertOneBms.Get() );
   add_standard_button( ID::ConvertAllBms, Index::ConvertAllBms, StrT::Main::Toolbar::ConvertAllBms.Get() );
   this->AddSeparator();
+  add_standard_button( ID::ExecuteSquirrelScript,    Index::ExecuteSquirrelScript,    StrT::Main::Toolbar::ExecuteSquirrelScript.Get() );
   add_standard_button( ID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     StrT::Main::Toolbar::ReloadSquirrelScript.Get() );
   add_standard_button( ID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Main::Toolbar::ShowSquirrelOutputDialog.Get() );
   this->AddSeparator();

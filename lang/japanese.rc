@@ -31,6 +31,7 @@ STRINGTABLE
 
   RSID_STR_MAIN_MENU_TOOL                             "ツール(&T)"
   RSID_STR_MAIN_MENU_TOOL_SETTINGS                    "環境設定(&S)..."
+  RSID_STR_MAIN_MENU_TOOL_EXECUTE_SQUIRREL_SCRIPT     "スクリプトファイルを実行する(&E)"
   RSID_STR_MAIN_MENU_TOOL_RELOAD_SQUIRREL_SCRIPT      "スクリプトファイルを再読み込みする(&R)"
   RSID_STR_MAIN_MENU_TOOL_SHOW_SQUIRREL_OUTPUT_DIALOG "スクリプト出力ダイアログを表示する(&O)..."
   RSID_STR_MAIN_MENU_TOOL_START_SEARCHER              "BMX2WAV Searcherを起動する(&T)..."
@@ -52,6 +53,7 @@ STRINGTABLE
   RSID_STR_MAIN_TB_EDIT_INDIVIDUAL_PARAMETER   "BMSの個別設定"
   RSID_STR_MAIN_TB_CONVERT_ONE_BMS             "個別に変換する"
   RSID_STR_MAIN_TB_CONVERT_ALL_BMS             "全て変換する"
+  RSID_STR_MAIN_TB_EXECUTE_SQUIRREL_SCRIPT     "スクリプトファイルを実行する"
   RSID_STR_MAIN_TB_RELOAD_SQUIRREL_SCRIPT      "スクリプトファイルを再読み込みする"
   RSID_STR_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG "スクリプト出力ダイアログを表示する"
   RSID_STR_MAIN_TB_START_SEARCHER              "BMX2WAV Searcherを起動する"
@@ -114,6 +116,8 @@ STRINGTABLE
   RSID_STR_MAIN_MB_EDIT_INDIVIDUAL_PARAMETER_COPY_CAUTION_MSG "共通設定をコピーして個別設定を使用しますか？（使用しない場合はデフォルト設定になります）" 
   RSID_STR_MAIN_MB_START_SEARCHER_ERROR_CAP                   "ファイルオープンエラー"
   RSID_STR_MAIN_MB_START_SEARCHER_ERROR_MSG                   "ファイルを開くのに失敗しました。\r\n\r\nファイル名 : %s\r\nメッセージ : %s"
+  RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_NUT_FILE           "squirrel スクリプトファイル(*.nut)"
+  RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_ALL_FILE           "すべてのファイル(*.*)"
 
   // ---------------------------------------------------------------------
   // settings property sheet

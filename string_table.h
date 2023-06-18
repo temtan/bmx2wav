@@ -46,6 +46,7 @@ namespace BMX2WAV::StringTable {
 
       static const ID Tool                         = RSID_STR_MAIN_MENU_TOOL;
       static const ID ToolSettings                 = RSID_STR_MAIN_MENU_TOOL_SETTINGS;
+      static const ID ToolExecuteSquirrelScript    = RSID_STR_MAIN_MENU_TOOL_EXECUTE_SQUIRREL_SCRIPT;
       static const ID ToolReloadSquirrelScript     = RSID_STR_MAIN_MENU_TOOL_RELOAD_SQUIRREL_SCRIPT;
       static const ID ToolShowSquirrelOutputDialog = RSID_STR_MAIN_MENU_TOOL_SHOW_SQUIRREL_OUTPUT_DIALOG;
       static const ID ToolStartSearcher            = RSID_STR_MAIN_MENU_TOOL_START_SEARCHER;
@@ -69,6 +70,7 @@ namespace BMX2WAV::StringTable {
       static const ID EditIndividualParameter  = RSID_STR_MAIN_TB_EDIT_INDIVIDUAL_PARAMETER;
       static const ID ConvertOneBms            = RSID_STR_MAIN_TB_CONVERT_ONE_BMS;
       static const ID ConvertAllBms            = RSID_STR_MAIN_TB_CONVERT_ALL_BMS;
+      static const ID ExecuteSquirrelScript    = RSID_STR_MAIN_TB_EXECUTE_SQUIRREL_SCRIPT;
       static const ID ReloadSquirrelScript     = RSID_STR_MAIN_TB_RELOAD_SQUIRREL_SCRIPT;
       static const ID ShowSquirrelOutputDialog = RSID_STR_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG;
       static const ID StartSearcher            = RSID_STR_MAIN_TB_START_SEARCHER;
@@ -138,6 +140,8 @@ namespace BMX2WAV::StringTable {
     static const ID MBStartSearcherErrorCaption                 = RSID_STR_MAIN_MB_START_SEARCHER_ERROR_CAP;
     static const ID MBStartSearcherErrorMessage                 = RSID_STR_MAIN_MB_START_SEARCHER_ERROR_MSG;
     static const ID EntryProcessorMenuEmpty                     = RSID_STR_MAIN_ENTRY_PROCESSOR_MENU_EMPTY;
+    static const ID ExecuteScriptFileDialogNutFile              = RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_NUT_FILE;
+    static const ID ExecuteScriptFileDialogAllFile              = RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_ALL_FILE;
   }
 
   // ---------------------------------------------------------------------

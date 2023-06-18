@@ -265,6 +265,20 @@ Mainstay::MainFrame::RegisterHandlers( void )
     return {WMResult::Done};
   } );
 
+  this->AddCommandHandler( CommandID::ExecuteSquirrelScript, [this] ( int, HWND ) -> WMResult {
+    TtOpenFileDialog dialog;
+    dialog.GetFilters().push_back( {StrT::Main::ExecuteScriptFileDialogNutFile.Get(), "*.nut"} );
+    dialog.GetFilters().push_back( {StrT::Main::ExecuteScriptFileDialogAllFile.Get(), "*.*"} );
+
+    if ( dialog.ShowDialog( *this ) ) {
+      squirrel_standard_output_dialog_.Show();
+      this->SquirrelErrorHandling( [&] ( void ) {
+        vm_->DoFile( dialog.GetFileName() );
+      } );
+    }
+    return {WMResult::Done};
+  } );
+
   this->AddCommandHandler( CommandID::ReloadSquirrelScript, [this] ( int, HWND ) -> WMResult {
     this->InitializeSquirrelVM();
     return {WMResult::Done};
