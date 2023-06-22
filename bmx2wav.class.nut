@@ -75,7 +75,7 @@ Main.callback_table.decide_output_file_path = function ( converter ) {
     tmp = Path.remove_can_not_use_character_as_file_path_from( tmp );
   }
   if ( converter.parameter.never_overwrite_output_file ) {
-    tmp = Path.get_not_exist_path_from( tmp );
+    tmp = Path.get_file_not_exist_path_from( tmp );
   }
   return tmp;
 }

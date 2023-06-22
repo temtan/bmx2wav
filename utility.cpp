@@ -187,21 +187,6 @@ Utility::GetLanguageDirectoryPath( void )
 
 
 std::string
-Utility::GetNotExistPathFrom( const std::string& path )
-{
-  if ( NOT( TtPath::FileExists( path ) ) ) {
-    return path;
-  }
-  for ( unsigned int i = 1; i < std::numeric_limits<unsigned int>::max(); ++i ) {
-    auto new_path = TtPath::ChangeExtension( path, TtUtility::ToStringFrom( i ) ) + TtPath::FindExtension( path );
-    if ( NOT( TtPath::FileExists( new_path ) ) ) {
-      return new_path;
-    }
-  }
-  return "";
-}
-
-std::string
 Utility::RemoveCanNotUseCharacterAsFilePathFrom( const std::string& path )
 {
   auto buffer = std::make_unique<char[]>( path.size() + 1 );

@@ -2,8 +2,6 @@
 
 #include "tt_string.h"
 #include "tt_process.h"
-#include "tt_path.h"
-#include "tt_message_box.h"
 
 #include "tt_squirrel_utility.h"
 
@@ -18,16 +16,11 @@ using namespace BMX2WAV;
 
 namespace Tag {
 #define DEFINE_PARAMETER_NAME_STRING( name ) static const std::string name( #name )
-  DEFINE_PARAMETER_NAME_STRING( print );
   DEFINE_PARAMETER_NAME_STRING( system );
   DEFINE_PARAMETER_NAME_STRING( constructor );
   DEFINE_PARAMETER_NAME_STRING( BMX2WAV );
-  DEFINE_PARAMETER_NAME_STRING( Path );
   DEFINE_PARAMETER_NAME_STRING( path );
   DEFINE_PARAMETER_NAME_STRING( BmsData );
-  DEFINE_PARAMETER_NAME_STRING( basename );
-  DEFINE_PARAMETER_NAME_STRING( dirname );
-  DEFINE_PARAMETER_NAME_STRING( change_extension );
   DEFINE_PARAMETER_NAME_STRING( integer_to_word_string );
   DEFINE_PARAMETER_NAME_STRING( word_string_to_integer );
   DEFINE_PARAMETER_NAME_STRING( headers );
@@ -38,35 +31,6 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( calculate_playing_time );
   DEFINE_PARAMETER_NAME_STRING( play_wav_file_async );
   DEFINE_PARAMETER_NAME_STRING( play_ogg_file_async );
-  DEFINE_PARAMETER_NAME_STRING( MessageBox );
-  DEFINE_PARAMETER_NAME_STRING( Icon );
-  DEFINE_PARAMETER_NAME_STRING( DefaultButton );
-  DEFINE_PARAMETER_NAME_STRING( Result );
-  DEFINE_PARAMETER_NAME_STRING( None );
-  DEFINE_PARAMETER_NAME_STRING( Exclamation );
-  DEFINE_PARAMETER_NAME_STRING( Warning );
-  DEFINE_PARAMETER_NAME_STRING( Information );
-  DEFINE_PARAMETER_NAME_STRING( Asterisk );
-  DEFINE_PARAMETER_NAME_STRING( Question );
-  DEFINE_PARAMETER_NAME_STRING( Stop );
-  DEFINE_PARAMETER_NAME_STRING( Error );
-  DEFINE_PARAMETER_NAME_STRING( Hand );
-  DEFINE_PARAMETER_NAME_STRING( First );
-  DEFINE_PARAMETER_NAME_STRING( Second );
-  DEFINE_PARAMETER_NAME_STRING( Third );
-  DEFINE_PARAMETER_NAME_STRING( Fourth );
-  DEFINE_PARAMETER_NAME_STRING( Abort );
-  DEFINE_PARAMETER_NAME_STRING( Cancel );
-  DEFINE_PARAMETER_NAME_STRING( Ignore );
-  DEFINE_PARAMETER_NAME_STRING( No );
-  DEFINE_PARAMETER_NAME_STRING( Ok );
-  DEFINE_PARAMETER_NAME_STRING( Retry );
-  DEFINE_PARAMETER_NAME_STRING( Yes );
-  DEFINE_PARAMETER_NAME_STRING( OkCancel );
-  DEFINE_PARAMETER_NAME_STRING( RetryCancel );
-  DEFINE_PARAMETER_NAME_STRING( YesNo );
-  DEFINE_PARAMETER_NAME_STRING( YesNoCancel );
-  DEFINE_PARAMETER_NAME_STRING( AbortRetryIgnore );
   DEFINE_PARAMETER_NAME_STRING( SubMenu );
   DEFINE_PARAMETER_NAME_STRING( shell_execute );
   DEFINE_PARAMETER_NAME_STRING( create_process );
@@ -74,14 +38,10 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( name );
   DEFINE_PARAMETER_NAME_STRING( items );
   DEFINE_PARAMETER_NAME_STRING( ErrorLevel );
-  DEFINE_PARAMETER_NAME_STRING( get_execute_file_directory_path );
   DEFINE_PARAMETER_NAME_STRING( error_level_to_string );
   DEFINE_PARAMETER_NAME_STRING( most_serious_error_level );
-  DEFINE_PARAMETER_NAME_STRING( get_not_exist_path_from );
-  DEFINE_PARAMETER_NAME_STRING( remove_can_not_use_character_as_file_path_from );
   DEFINE_PARAMETER_NAME_STRING( ShowState );
   DEFINE_PARAMETER_NAME_STRING( expand_environment_string );
-  DEFINE_PARAMETER_NAME_STRING( file_exist );
   DEFINE_PARAMETER_NAME_STRING( ConvertException );
   DEFINE_PARAMETER_NAME_STRING( message );
   DEFINE_PARAMETER_NAME_STRING( get_error_level );
@@ -171,178 +131,7 @@ SquirrelVMBase::SetPrintFunction( SquirrelVMBase::PrintFunction print_function )
 void
 SquirrelVMBase::Initialize( void )
 {
-  // -- MessageBox 実装 -----
-  this->NewSlotOfRootTableByString(
-    Tag::MessageBox,
-    [&] () {
-      TtSquirrel::StackRecoverer recoverer( this, 1 );
-      this->Native().NewTable();
-
-      // Icon 定義
-      this->NewSlotOfTopByString(
-        Tag::Icon,
-        [&] () {
-          TtSquirrel::StackRecoverer recoverer( this, 1 );
-          this->Native().NewTable();
-          this->NewIntegerSlotOfTopByString( Tag::None,        TtMessageBox::Icon::NONE        );
-          this->NewIntegerSlotOfTopByString( Tag::Exclamation, TtMessageBox::Icon::EXCLAMATION );
-          this->NewIntegerSlotOfTopByString( Tag::Warning,     TtMessageBox::Icon::WARNING );
-          this->NewIntegerSlotOfTopByString( Tag::Information, TtMessageBox::Icon::INFORMATION );
-          this->NewIntegerSlotOfTopByString( Tag::Asterisk,    TtMessageBox::Icon::ASTERISK    );
-          this->NewIntegerSlotOfTopByString( Tag::Question,    TtMessageBox::Icon::QUESTION    );
-          this->NewIntegerSlotOfTopByString( Tag::Stop,        TtMessageBox::Icon::STOP        );
-          this->NewIntegerSlotOfTopByString( Tag::Error,       TtMessageBox::Icon::ERROR       );
-          this->NewIntegerSlotOfTopByString( Tag::Hand,        TtMessageBox::Icon::HAND        );
-        } );
-
-      // DefaultButton 定義
-      this->NewSlotOfTopByString(
-        Tag::DefaultButton,
-        [&] () {
-          TtSquirrel::StackRecoverer recoverer( this, 1 );
-          Native().NewTable();
-          this->NewIntegerSlotOfTopByString( Tag::First,  TtMessageBox::DefaultButton::FIRST  );
-          this->NewIntegerSlotOfTopByString( Tag::Second, TtMessageBox::DefaultButton::SECOND );
-          this->NewIntegerSlotOfTopByString( Tag::Third,  TtMessageBox::DefaultButton::THIRD  );
-          this->NewIntegerSlotOfTopByString( Tag::Fourth, TtMessageBox::DefaultButton::FOURTH );
-        } );
-
-      // Result 定義
-      this->NewSlotOfTopByString(
-        Tag::Result,
-        [&] () {
-          TtSquirrel::StackRecoverer recoverer( this, 1 );
-          Native().NewTable();
-          this->NewIntegerSlotOfTopByString( Tag::Abort,  TtMessageBox::Result::ABORT  );
-          this->NewIntegerSlotOfTopByString( Tag::Cancel, TtMessageBox::Result::CANCEL );
-          this->NewIntegerSlotOfTopByString( Tag::Ignore, TtMessageBox::Result::IGNORE );
-          this->NewIntegerSlotOfTopByString( Tag::No,     TtMessageBox::Result::NO     );
-          this->NewIntegerSlotOfTopByString( Tag::Ok,     TtMessageBox::Result::OK     );
-          this->NewIntegerSlotOfTopByString( Tag::Retry,  TtMessageBox::Result::RETRY  );
-          this->NewIntegerSlotOfTopByString( Tag::Yes,    TtMessageBox::Result::YES    );
-        } );
-
-      using ShowFunction = int (*)( TtWindow&, const std::string&, const std::string&, unsigned int );
-      auto define_closure = [&] ( const std::string& name, ShowFunction show_function ) {
-        this->NewSlotOfTopByString(
-          name,
-          [&] () {
-            this->NewClosure( SquirrelVMBase::ConvertClosure( [&parent = parent_window_, show_function] ( SquirrelVMBase& vm ) -> int {
-              int icon = vm.GetAsFromTop<int>();
-              vm.Native().PopTop();
-              std::string caption = vm.GetAsFromTop<std::string>();
-              vm.Native().PopTop();
-              std::string message = vm.GetAsFromTop<std::string>();
-              vm.Native().PopTop();
-
-              int result = show_function( *parent, message, caption, icon );
-              vm.Native().PushInteger( result );
-              return TtSquirrel::Const::ExistReturnValue;
-            } ) );
-            Native().SetParamsCheck( 4, "tssi" );
-          } );
-      };
-
-      define_closure( Tag::Ok,               static_cast<ShowFunction>( &TtMessageBoxOk::Show ) );
-      define_closure( Tag::OkCancel,         static_cast<ShowFunction>( &TtMessageBoxOkCancel::Show ) );
-      define_closure( Tag::RetryCancel,      static_cast<ShowFunction>( &TtMessageBoxRetryCancel::Show ) );
-      define_closure( Tag::YesNo,            static_cast<ShowFunction>( &TtMessageBoxYesNo::Show ) );
-      define_closure( Tag::YesNoCancel,      static_cast<ShowFunction>( &TtMessageBoxYesNoCancel::Show ) );
-      define_closure( Tag::AbortRetryIgnore, static_cast<ShowFunction>( &TtMessageBoxAbortRetryIgnore::Show ) );
-    } );
-
-  // -- Path 実装 -----
-  this->NewSlotOfRootTableByString(
-    Tag::Path,
-    [&] () {
-      TtSquirrel::StackRecoverer recoverer( this, 1 );
-      this->Native().NewTable();
-
-      // -- file_exist 定義
-      this->NewSlotOfTopByString(
-        Tag::file_exist,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            vm.Native().PushBoolean( TtPath::FileExists( vm.GetAsFromTop<std::string>() ) );
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 2, ".s" );
-        } );
-
-      // -- basename 定義
-      this->NewSlotOfTopByString(
-        Tag::basename,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            vm.Native().PushString( TtPath::BaseName( vm.GetAsFromTop<std::string>() ) );
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 2, "ts" );
-        } );
-
-      // -- dirname 定義
-      this->NewSlotOfTopByString(
-        Tag::dirname,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            vm.Native().PushString( TtPath::DirName( vm.GetAsFromTop<std::string>() ) );
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 2, "ts" );
-        } );
-
-      // -- change_extension 定義
-      this->NewSlotOfTopByString(
-        Tag::change_extension,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            std::string extension = vm.GetAsFromTop<std::string>();
-            vm.Native().PopTop();
-            std::string path = vm.GetAsFromTop<std::string>();
-            vm.Native().PopTop();
-            vm.Native().PushString( TtPath::ChangeExtension( path, extension ) );
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 3, "tss" );
-        } );
-
-      // -- get_execute_file_directory_path 定義
-      this->NewSlotOfTopByString(
-        Tag::get_execute_file_directory_path,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            vm.Native().PushString( TtPath::GetExecutingDirectoryPath() );
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 1, "t" );
-        } );
-
-      // -- get_not_exist_path_from 定義
-      this->NewSlotOfTopByString(
-        Tag::get_not_exist_path_from,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            vm.Native().PushString( Utility::GetNotExistPathFrom( vm.GetAsFromTop<std::string>() ) );
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 2, "ts" );
-        } );
-
-      // -- remove_can_not_use_character_as_file_path_from 定義
-      this->NewSlotOfTopByString(
-        Tag::remove_can_not_use_character_as_file_path_from,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            vm.Native().PushString( Utility::RemoveCanNotUseCharacterAsFilePathFrom( vm.GetAsFromTop<std::string>() ) );
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 2, "ts" );
-        } );
-
-    } ); // end of Path
-
-
-  // -- BMX2WAV 実装
+  // -- BMX2WAV 実装 -----
   this->NewSlotOfRootTableByString(
     Tag::BMX2WAV,
     [&] () {

@@ -31,7 +31,6 @@ namespace BMX2WAV::Utility {
   bool UserDefaultLocaleIsJapanese( void );
   std::string GetLanguageDirectoryPath( void );
 
-  std::string GetNotExistPathFrom( const std::string& path );
   std::string RemoveCanNotUseCharacterAsFilePathFrom( const std::string& path );
 
   // -- Format -----------------------------------------------------------
