@@ -79,7 +79,7 @@ BL::Bar::ContainsAnyObject( void ) const
 }
 
 bool
-BL::Bar::Emtpy( void ) const
+BL::Bar::Empty( void ) const
 {
   return NOT( this->ContainsAnyObject() );
 }

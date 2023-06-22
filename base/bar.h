@@ -23,7 +23,7 @@ namespace BMX2WAV::BL {
     void MultiplyResolution( unsigned int multiplier );
 
     bool ContainsAnyObject( void ) const;
-    bool Emtpy( void ) const;
+    bool Empty( void ) const;
 
     unsigned int GetObjectCountOf( std::function<bool ( BL::Word channel_number )> should_count_channel ) const;
 
