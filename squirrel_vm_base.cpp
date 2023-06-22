@@ -19,16 +19,8 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( system );
   DEFINE_PARAMETER_NAME_STRING( constructor );
   DEFINE_PARAMETER_NAME_STRING( BMX2WAV );
-  DEFINE_PARAMETER_NAME_STRING( path );
-  DEFINE_PARAMETER_NAME_STRING( BmsData );
   DEFINE_PARAMETER_NAME_STRING( integer_to_word_string );
   DEFINE_PARAMETER_NAME_STRING( word_string_to_integer );
-  DEFINE_PARAMETER_NAME_STRING( headers );
-  DEFINE_PARAMETER_NAME_STRING( object_count );
-  DEFINE_PARAMETER_NAME_STRING( object_count_of_1P );
-  DEFINE_PARAMETER_NAME_STRING( object_count_of_2P );
-  DEFINE_PARAMETER_NAME_STRING( has_random_statement );
-  DEFINE_PARAMETER_NAME_STRING( calculate_playing_time );
   DEFINE_PARAMETER_NAME_STRING( play_wav_file_async );
   DEFINE_PARAMETER_NAME_STRING( play_ogg_file_async );
   DEFINE_PARAMETER_NAME_STRING( SubMenu );
@@ -39,7 +31,6 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( items );
   DEFINE_PARAMETER_NAME_STRING( ErrorLevel );
   DEFINE_PARAMETER_NAME_STRING( error_level_to_string );
-  DEFINE_PARAMETER_NAME_STRING( most_serious_error_level );
   DEFINE_PARAMETER_NAME_STRING( ShowState );
   DEFINE_PARAMETER_NAME_STRING( expand_environment_string );
   DEFINE_PARAMETER_NAME_STRING( ConvertException );
@@ -48,11 +39,8 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( reset_error_level );
   DEFINE_PARAMETER_NAME_STRING( BmsDescriptionException );
   DEFINE_PARAMETER_NAME_STRING( line );
-  DEFINE_PARAMETER_NAME_STRING( max_resolution );
-  DEFINE_PARAMETER_NAME_STRING( bar_number_of_max_resolution );
   DEFINE_PARAMETER_NAME_STRING( NormalizeKind );
   DEFINE_PARAMETER_NAME_STRING( normalize_kind_to_string );
-  DEFINE_PARAMETER_NAME_STRING( parse );
   // DEFINE_PARAMETER_NAME_STRING(  );
 }
 
@@ -346,101 +334,6 @@ SquirrelVMBase::Initialize( void )
 
     } ); // end of BMX2WAV
 
-  // -- BmsData 実装 ----------
-  this->NewSlotOfRootTableByString(
-    Tag::BmsData,
-    [&] () {
-      TtSquirrel::StackRecoverer recoverer( this, 1 );
-      this->Native().NewClass( false );
-      this->Native().SetTypeTag( TtSquirrel::Const::StackTop, TtSquirrel::TypeTag::Create<std::shared_ptr<BL::BmsData>>() );
-
-      // -- parse 定義
-      this->NewSlotOfTopByStringAsStatic(
-        Tag::parse,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            std::string path = vm.GetAsFromTop<std::string>();
-
-            // TODO
-
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 2, ".s" );
-        } );
-
-      // -- constructor 定義 -----
-      this->NewSlotOfTopByString(
-        Tag::constructor,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            std::shared_ptr<BL::BmsData> p_self = *vm.GetAsPointerOf<std::shared_ptr<BL::BmsData>>( TtSquirrel::Const::StackTop );
-            BL::BmsData& self = *p_self;
-            vm.Native().PopTop();
-
-            // "std::shared_ptr" の生ポインタを扱う
-            std::shared_ptr<BL::BmsData>* pp_self = new std::shared_ptr<BL::BmsData>( p_self );
-            vm.Native().SetInstanceUserPointer( TtSquirrel::Const::StackTop, pp_self );
-            SQRELEASEHOOK hook = [] ( SQUserPointer p, SQInteger ) -> SQInteger {
-              delete static_cast<std::shared_ptr<BL::BmsData>*>( p );
-              return 0;
-            };
-            vm.Native().SetReleaseHook( TtSquirrel::Const::StackTop, hook );
-
-            vm.SetToTopByString(
-              Tag::headers,
-              [&] () {
-                vm.Native().NewTable();
-                for ( auto& one : self.headers_ ) {
-                  vm.NewStringSlotOfTopByString( one.first, one.second );
-                }
-              } );
-
-            vm.SetStringToTopByString(  Tag::path,                         self.path_ );
-            vm.SetIntegerToTopByString( Tag::object_count,                 self.GetObjectCount() );
-            vm.SetIntegerToTopByString( Tag::object_count_of_1P,           self.GetObjectCountOf1P() );
-            vm.SetIntegerToTopByString( Tag::object_count_of_2P,           self.GetObjectCountOf2P() );
-            vm.SetIntegerToTopByString( Tag::most_serious_error_level,     self.most_serious_error_level_ );
-            vm.SetBooleanToTopByString( Tag::has_random_statement,         self.has_random_statement_ );
-            vm.SetIntegerToTopByString( Tag::max_resolution,               self.GetMaxResolution() );
-            vm.SetIntegerToTopByString( Tag::bar_number_of_max_resolution, self.GetBarNumberOfMaxResolution() );
-
-            return TtSquirrel::Const::NoneReturnValue;
-          } ) );
-          Native().SetParamsCheck( 2, "xp" );
-        } );
-
-      // -- プロパティ
-      this->NewNullSlotOfTopByString( Tag::headers );
-      this->NewNullSlotOfTopByString( Tag::path );
-      this->NewNullSlotOfTopByString( Tag::object_count );
-      this->NewNullSlotOfTopByString( Tag::object_count_of_1P );
-      this->NewNullSlotOfTopByString( Tag::object_count_of_2P );
-      this->NewNullSlotOfTopByString( Tag::most_serious_error_level );
-      this->NewNullSlotOfTopByString( Tag::has_random_statement );
-      this->NewNullSlotOfTopByString( Tag::max_resolution );
-      this->NewNullSlotOfTopByString( Tag::bar_number_of_max_resolution );
-
-      // -- calculate_playing_time -----
-      this->NewSlotOfTopByString(
-        Tag::calculate_playing_time,
-        [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            BL::BmsData& self = **vm.GetInstanceUserPointerAs<std::shared_ptr<BL::BmsData>>( TtSquirrel::Const::StackTop );
-
-            try {
-              vm.Native().PushFloat( static_cast<float>( self.CalculatePlayingTime() ) );
-            }
-            catch ( TtException ) {
-              vm.Native().PushNull();
-            }
-
-            return TtSquirrel::Const::ExistReturnValue;
-          } ) );
-          Native().SetParamsCheck( 1, "x" );
-        } );
-
-    } );
-
 
   // -- ConvertException 実装
   this->NewSlotOfRootTableByString(
@@ -614,21 +507,9 @@ SquirrelVMBase::Initialize( void )
 
   // ---------------------------------------------------------------------
   // 他ファイルにて実装
+  this->InitializeBmsDataClass();
   this->InitializeWaveClass();
   this->InitializeStringTable();
-}
-
-
-void
-SquirrelVMBase::CallBmsDataContructorAndPushIt( std::shared_ptr<BL::BmsData> bms_data )
-{
-  this->CallAndPushReturnValue(
-    [&] () { this->GetByStringFromRootTable( Tag::BmsData ); },
-    [&] () {
-      this->Native().PushRootTable();
-      this->PushAsUserPointer( &bms_data );
-      return 2;
-    } );
 }
 
 void

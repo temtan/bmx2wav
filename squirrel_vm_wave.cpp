@@ -1,4 +1,4 @@
-// squirrelvm_wave.cpp
+// squirrel_vm_wave.cpp
 
 #include "tt_string.h"
 
