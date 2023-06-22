@@ -293,7 +293,7 @@ Mainstay::SquirrelVM::InitializeForMainstay( void )
                 }
                */
 
-              vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataContructorAndPushIt( *self.bms_data_ ); } );
+              vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataContructorAndPushIt( self.bms_data_ ); } );
               return TtSquirrel::Const::NoneReturnValue;
             } ) );
             this->Native().SetParamsCheck( 1, "x" );
@@ -312,7 +312,7 @@ Mainstay::SquirrelVM::InitializeForMainstay( void )
 
                 Entry& self = *vm.GetInstanceUserPointerAs<Mainstay::Entry>( TtSquirrel::Const::StackTop );
                 self.ParseAsBmsDataOnce();
-                vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataContructorAndPushIt( *self.bms_data_ ); } );
+                vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataContructorAndPushIt( self.bms_data_ ); } );
               }
               return TtSquirrel::Const::NoneReturnValue;
             } ) );
@@ -364,7 +364,7 @@ Mainstay::SquirrelVM::InitializeForMainstay( void )
       Tag::translate_template_path,
       [&] () {
         this->NewClosure( SquirrelVM::ConvertClosure( [] ( SquirrelVM& vm ) -> int {
-          BL::BmsData* bms_data = vm.GetInstanceUserPointerAs<BL::BmsData>( TtSquirrel::Const::StackTop );
+          std::shared_ptr<BL::BmsData> bms_data = *vm.GetInstanceUserPointerAs<std::shared_ptr<BL::BmsData>>( TtSquirrel::Const::StackTop );
           vm.Native().PopTop();
 
           bool output_as_ogg = vm.GetAsFromTop<bool>();
@@ -376,7 +376,7 @@ Mainstay::SquirrelVM::InitializeForMainstay( void )
           std::string template_path = vm.GetAsFromTop<std::string>();
           vm.Native().PopTop();
 
-          vm.Native().PushString( Core::TranslateTemplatePath( template_path, input_path, output_as_ogg, bms_data ) );
+          vm.Native().PushString( Core::TranslateTemplatePath( template_path, input_path, output_as_ogg, bms_data.get() ) );
 
           return TtSquirrel::Const::ExistReturnValue;
         } ) );
@@ -842,7 +842,7 @@ Mainstay::SquirrelVM::SetBmsDataToConverterObject( Core::Converter& converter )
   this->SetToTopByString(
     Tag::bms_data,
     [&] () {
-      this->CallBmsDataContructorAndPushIt( *converter.info_.bms_data_ );
+      this->CallBmsDataContructorAndPushIt( converter.info_.bms_data_ );
     } );
 }
 

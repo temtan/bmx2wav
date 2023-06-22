@@ -52,6 +52,7 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( bar_number_of_max_resolution );
   DEFINE_PARAMETER_NAME_STRING( NormalizeKind );
   DEFINE_PARAMETER_NAME_STRING( normalize_kind_to_string );
+  DEFINE_PARAMETER_NAME_STRING( parse );
   // DEFINE_PARAMETER_NAME_STRING(  );
 }
 
@@ -110,7 +111,7 @@ parent_window_( parent_window )
 {
   HANDLE_TABLE.insert( {this->GetHandle(), this} );
 
-  this->RegisterStandardLibraries();
+  this->RegisterStandardLibrariesAndAllAdditionalLibraries();
   this->Native().SetPrintFunction( SquirrelVMBase::PrintFunctionStatic, SquirrelVMBase::PrintFunctionStatic );
 }
 
@@ -351,17 +352,39 @@ SquirrelVMBase::Initialize( void )
     [&] () {
       TtSquirrel::StackRecoverer recoverer( this, 1 );
       this->Native().NewClass( false );
-      this->Native().SetTypeTag( TtSquirrel::Const::StackTop, TtSquirrel::TypeTag::Create<BL::BmsData>() );
+      this->Native().SetTypeTag( TtSquirrel::Const::StackTop, TtSquirrel::TypeTag::Create<std::shared_ptr<BL::BmsData>>() );
+
+      // -- parse 定義
+      this->NewSlotOfTopByStringAsStatic(
+        Tag::parse,
+        [&] () {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
+            std::string path = vm.GetAsFromTop<std::string>();
+
+            // TODO
+
+            return TtSquirrel::Const::ExistReturnValue;
+          } ) );
+          Native().SetParamsCheck( 2, ".s" );
+        } );
 
       // -- constructor 定義 -----
       this->NewSlotOfTopByString(
         Tag::constructor,
         [&] () {
           this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            vm.Native().SetInstanceUserPointer( TtSquirrel::Utility::PushedFromTop( 1 ), vm.GetAsFromTop<SQUserPointer>() );
-
-            BL::BmsData& self = *vm.GetAsPointerOf<BL::BmsData>( TtSquirrel::Const::StackTop );
+            std::shared_ptr<BL::BmsData> p_self = *vm.GetAsPointerOf<std::shared_ptr<BL::BmsData>>( TtSquirrel::Const::StackTop );
+            BL::BmsData& self = *p_self;
             vm.Native().PopTop();
+
+            // "std::shared_ptr" の生ポインタを扱う
+            std::shared_ptr<BL::BmsData>* pp_self = new std::shared_ptr<BL::BmsData>( p_self );
+            vm.Native().SetInstanceUserPointer( TtSquirrel::Const::StackTop, pp_self );
+            SQRELEASEHOOK hook = [] ( SQUserPointer p, SQInteger ) -> SQInteger {
+              delete static_cast<std::shared_ptr<BL::BmsData>*>( p );
+              return 0;
+            };
+            vm.Native().SetReleaseHook( TtSquirrel::Const::StackTop, hook );
 
             vm.SetToTopByString(
               Tag::headers,
@@ -402,7 +425,7 @@ SquirrelVMBase::Initialize( void )
         Tag::calculate_playing_time,
         [&] () {
           this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
-            BL::BmsData& self = *vm.GetInstanceUserPointerAs<BL::BmsData>( TtSquirrel::Const::StackTop );
+            BL::BmsData& self = **vm.GetInstanceUserPointerAs<std::shared_ptr<BL::BmsData>>( TtSquirrel::Const::StackTop );
 
             try {
               vm.Native().PushFloat( static_cast<float>( self.CalculatePlayingTime() ) );
@@ -597,7 +620,7 @@ SquirrelVMBase::Initialize( void )
 
 
 void
-SquirrelVMBase::CallBmsDataContructorAndPushIt( BL::BmsData& bms_data )
+SquirrelVMBase::CallBmsDataContructorAndPushIt( std::shared_ptr<BL::BmsData> bms_data )
 {
   this->CallAndPushReturnValue(
     [&] () { this->GetByStringFromRootTable( Tag::BmsData ); },
