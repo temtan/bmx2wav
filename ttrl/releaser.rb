@@ -63,10 +63,10 @@ module TTRL
         @pre_copy_procs.each {|proc| proc.call( file_utils, to_base ) }
         begin
           @files.each {|file, to|
-            file_utils.copy( "./#{file}", "#{to_base}/#{to}" )
+            file_utils.copy( "./#{file}", "#{to_base}/#{to}", {:preserve => true} )
           }
           @dirs.each {|dir, to|
-            file_utils.cp_r( "./#{dir}", "#{to_base}/#{to}" )
+            file_utils.cp_r( "./#{dir}", "#{to_base}/#{to}", {:preserve => true} )
           }
           @post_copy_procs.each {|proc| proc.call( file_utils, to_base ) }
 
