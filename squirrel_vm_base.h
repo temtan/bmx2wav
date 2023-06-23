@@ -49,8 +49,5 @@ namespace BMX2WAV {
 
   private:
     PrintFunction print_function_;
-
-  protected:
-    TtWindow* parent_window_;
   };
 }

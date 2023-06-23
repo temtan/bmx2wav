@@ -94,10 +94,11 @@ SquirrelVMBase::GetVM( TtSquirrel::VirtualMachine& vm )
 
 SquirrelVMBase::SquirrelVMBase( TtWindow* parent_window ) :
 TtSquirrel::VirtualMachine(),
-print_function_( nullptr ),
-parent_window_( parent_window )
+print_function_( nullptr )
 {
   HANDLE_TABLE.insert( {this->GetHandle(), this} );
+
+  this->SetParentWindow( parent_window );
 
   this->RegisterStandardLibrariesAndAllAdditionalLibraries();
   this->Native().SetPrintFunction( SquirrelVMBase::PrintFunctionStatic, SquirrelVMBase::PrintFunctionStatic );
@@ -242,7 +243,7 @@ SquirrelVMBase::Initialize( void )
       this->NewSlotOfTopByString(
         Tag::shell_execute,
         [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [this] ( SquirrelVMBase& vm ) -> int {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
             const char* directory_pointer = nullptr;
             std::string directory;
             if ( vm.GetTopType() != TtSquirrel::ObjectType::Null ) {
@@ -264,7 +265,7 @@ SquirrelVMBase::Initialize( void )
             std::string verb = vm.GetAsFromTop<std::string>();
             vm.Native().PopTop();
 
-            auto ret = ::ShellExecute( parent_window_->GetHandle(), verb.c_str(), file.c_str(), parameters_pointer, directory_pointer, SW_SHOWNORMAL );
+            auto ret = ::ShellExecute( vm.GetParentWindow()->GetHandle(), verb.c_str(), file.c_str(), parameters_pointer, directory_pointer, SW_SHOWNORMAL );
             vm.Native().PushBoolean( reinterpret_cast<int64_t>( ret ) > 32 );
             return TtSquirrel::Const::ExistReturnValue;
           } ) );
@@ -275,7 +276,7 @@ SquirrelVMBase::Initialize( void )
       this->NewSlotOfTopByString(
         Tag::expand_environment_string,
         [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [this] ( SquirrelVMBase& vm ) -> int {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
             vm.Native().PushString( TtUtility::ExpandEnvironmentString( vm.GetAsFromTop<std::string>() ) );
             return TtSquirrel::Const::ExistReturnValue;
           } ) );
@@ -308,11 +309,11 @@ SquirrelVMBase::Initialize( void )
       this->NewSlotOfTopByString(
         Tag::play_wav_file_async,
         [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [this] ( SquirrelVMBase& vm ) -> int {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
             int volume = vm.GetAsFromTop<int>();
             vm.Native().PopTop();
             std::string path = vm.GetAsFromTop<std::string>();
-            Core::DirectSoundStream::Player::PlayWavFileAsync( *parent_window_, path, volume );
+            Core::DirectSoundStream::Player::PlayWavFileAsync( *vm.GetParentWindow(), path, volume );
             return TtSquirrel::Const::NoneReturnValue;
           } ) );
           Native().SetParamsCheck( 3, "tsi" );
@@ -322,11 +323,11 @@ SquirrelVMBase::Initialize( void )
       this->NewSlotOfTopByString(
         Tag::play_ogg_file_async,
         [&] () {
-          this->NewClosure( SquirrelVMBase::ConvertClosure( [this] ( SquirrelVMBase& vm ) -> int {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
             int volume = vm.GetAsFromTop<int>();
             vm.Native().PopTop();
             std::string path = vm.GetAsFromTop<std::string>();
-            Core::DirectSoundStream::Player::PlayOggFileAsync( *parent_window_, path, volume );
+            Core::DirectSoundStream::Player::PlayOggFileAsync( *vm.GetParentWindow(), path, volume );
             return TtSquirrel::Const::NoneReturnValue;
           } ) );
           Native().SetParamsCheck( 3, "tsi" );
