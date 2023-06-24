@@ -19,6 +19,10 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( max_resolution );
   DEFINE_PARAMETER_NAME_STRING( bar_number_of_max_resolution );
   DEFINE_PARAMETER_NAME_STRING( calculate_playing_time );
+  DEFINE_PARAMETER_NAME_STRING( Parser );
+  DEFINE_PARAMETER_NAME_STRING( parse );
+  DEFINE_PARAMETER_NAME_STRING( must_read_as_utf8 );
+  DEFINE_PARAMETER_NAME_STRING( not_nesting_if_statement );
   // DEFINE_PARAMETER_NAME_STRING(  );
 }
 
@@ -107,7 +111,67 @@ SquirrelVMBase::InitializeBmsDataClass( void )
         } );
 
     } );
+
+
+  // -- Parser 実装 -----
+  this->NewSlotOfRootTableByString(
+    Tag::Parser,
+    [&] () {
+      TtSquirrel::StackRecoverer recoverer( this, 1 );
+      this->Native().NewClass( false );
+
+      // -- constructor 定義 -----
+      this->NewSlotOfTopByString(
+        Tag::constructor,
+        [&] () {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
+            vm.SetBooleanToTopByString( Tag::must_read_as_utf8, false );
+            vm.SetBooleanToTopByString( Tag::not_nesting_if_statement, true );
+
+            return TtSquirrel::Const::NoneReturnValue;
+          } ) );
+          Native().SetParamsCheck( 1, "x" );
+        } );
+
+      // -- プロパティ
+      this->NewNullSlotOfTopByString( Tag::must_read_as_utf8 );
+      this->NewNullSlotOfTopByString( Tag::not_nesting_if_statement );
+
+      // -- parse 定義
+      this->NewSlotOfTopByString(
+        Tag::parse,
+        [&] () {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
+            std::string path = vm.GetAsFromTop<std::string>();
+            vm.Native().PopTop();
+
+            BL::Parser::Parser parser;
+            parser.must_read_as_utf8_        = vm.GetByStringFromTopAndGetAs<bool>( Tag::must_read_as_utf8 );
+            parser.not_nesting_if_statement_ = vm.GetByStringFromTopAndGetAs<bool>( Tag::not_nesting_if_statement );
+
+            std::shared_ptr<BL::BmsData> bms_data;
+            try {
+              bms_data = parser.Parse( path );
+            }
+            catch ( TtException& ) {
+              bms_data = std::make_shared<BL::BmsData>();
+              bms_data->path_ = path;
+              bms_data->most_serious_error_level_ = ErrorLevel::Internal;
+            }
+            catch ( ... ) {
+              bms_data = std::make_shared<BL::BmsData>();
+              bms_data->path_ = path;
+              bms_data->most_serious_error_level_ = ErrorLevel::Internal;
+            }
+
+            vm.CallBmsDataContructorAndPushIt( bms_data );
+            return TtSquirrel::Const::ExistReturnValue;
+          } ) );
+          Native().SetParamsCheck( 2, "xs" );
+        } );
+    } );
 }
+
 
 void
 SquirrelVMBase::CallBmsDataContructorAndPushIt( std::shared_ptr<BL::BmsData> bms_data )
