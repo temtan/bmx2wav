@@ -2,6 +2,8 @@
 
 #include "exception.h"
 
+#include "utility.h"
+
 #include "base/bms_data.h"
 
 using namespace BMX2WAV;
@@ -182,4 +184,85 @@ BL::BmsData::CalculatePlayingTime( void )
     }
   }
   return sum;
+}
+
+
+std::string
+BL::BmsData::ConvertToFileFormat( void )
+{
+  std::string result;
+  auto add_result = [&] ( const std::string& str ) {
+    result.append( str );
+    result.append( "\n" );
+  };
+  auto add_as_header = [&] ( const std::string& key, const std::string& value ) {
+    add_result( "#" + key + " " + value );
+  };
+
+  std::unordered_map<std::string, std::string> headers_clone = headers_;
+
+  auto if_has_header_add_result = [&] ( const std::string& key ) {
+    if ( headers_clone.contains( key ) ) {
+      add_as_header( key, headers_clone[key] );
+      headers_clone.erase( key );
+    }
+  };
+  for ( unsigned int i = 0; i < Const::WORD_MAX_COUNT; ++i ) {
+    headers_clone.erase( wav_array_.GetName()           + BL::Word( i ).ToString() );
+    headers_clone.erase( bmp_array_.GetName()           + BL::Word( i ).ToString() );
+    headers_clone.erase( extended_bpm_array_.GetName()  + BL::Word( i ).ToString() );
+    headers_clone.erase( stop_sequence_array_.GetName() + BL::Word( i ).ToString() );
+  }
+
+  add_result( "\n*--- HEADER" );
+  if_has_header_add_result( "PLAYER" );
+  if_has_header_add_result( "GENRE" );
+  if_has_header_add_result( "TITLE" );
+  if_has_header_add_result( "ARTIST" );
+  if_has_header_add_result( "BPM" );
+  if_has_header_add_result( "PLAYLEVEL" );
+  if_has_header_add_result( "RANK" );
+  if_has_header_add_result( "TOTAL" );
+  if_has_header_add_result( "STAGEFILE" );
+  add_result( "" );
+  for ( auto one : headers_clone ) {
+    add_as_header( one.first, one.second );
+  }
+
+  auto add_array = [&] ( BL::RegisterArray& array ) {
+    for ( unsigned int i = 0; i < Const::WORD_MAX_COUNT; ++i ) {
+      if ( array.IsExists( BL::Word( i ) ) ) {
+        add_as_header( array.GetName() + BL::Word( i ).ToString(), array[BL::Word( i )] );
+      }
+    }
+    add_result( "" );
+  };
+  add_array( wav_array_ );
+  add_array( bmp_array_ );
+  add_array( extended_bpm_array_ );
+  add_array( stop_sequence_array_ );
+
+  auto add_bar = [&] ( unsigned int bar_number, BL::Bar& bar ) {
+    auto make_number_channel = [bar_number] ( BL::Word channel_number ) -> std::string {
+      return Utility::Format( "#%03d%s:", bar_number, channel_number.ToCharPointer() );
+    };
+
+    if ( bar.Empty() ) {
+      return;
+    }
+    if ( bar.GetRatio() != 1.0 ) {
+      add_result( make_number_channel( "02"_hex36 ) + TtUtility::ToStringFrom( bar.GetRatio() ) );
+    }
+    for ( BL::Channel& channel : bar ) {
+      BL::Channel channel_clone = channel;
+      channel_clone.SafetyShrink();
+      add_result( make_number_channel( channel_clone.GetChannelNumber() ) + channel_clone.ToString() );
+    }
+    add_result( "" );
+  };
+  for ( unsigned int i = 0; auto& bar : bars_ ) {
+    add_bar( i, bar );
+    ++i;
+  }
+  return result;
 }

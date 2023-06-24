@@ -23,6 +23,7 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( parse );
   DEFINE_PARAMETER_NAME_STRING( must_read_as_utf8 );
   DEFINE_PARAMETER_NAME_STRING( not_nesting_if_statement );
+  DEFINE_PARAMETER_NAME_STRING( convert_to_file_format );
   // DEFINE_PARAMETER_NAME_STRING(  );
 }
 
@@ -91,6 +92,19 @@ SquirrelVMBase::InitializeBmsDataClass( void )
       this->NewNullSlotOfTopByString( Tag::max_resolution );
       this->NewNullSlotOfTopByString( Tag::bar_number_of_max_resolution );
 
+      // -- convert_to_file_format ’è‹`
+      this->NewSlotOfTopByString(
+        Tag::convert_to_file_format,
+        [&] () {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
+            BL::BmsData& self = **vm.GetInstanceUserPointerAs<std::shared_ptr<BL::BmsData>>( TtSquirrel::Const::StackTop );
+
+            vm.Native().PushString( self.ConvertToFileFormat() );
+            return TtSquirrel::Const::ExistReturnValue;
+          } ) );
+          Native().SetParamsCheck( 1, "x" );
+        } );
+
       // -- calculate_playing_time ’è‹`
       this->NewSlotOfTopByString(
         Tag::calculate_playing_time,
@@ -104,7 +118,6 @@ SquirrelVMBase::InitializeBmsDataClass( void )
             catch ( TtException ) {
               vm.Native().PushNull();
             }
-
             return TtSquirrel::Const::ExistReturnValue;
           } ) );
           Native().SetParamsCheck( 1, "x" );

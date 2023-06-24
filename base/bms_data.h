@@ -27,6 +27,8 @@ namespace BMX2WAV::BL {
 
     double CalculatePlayingTime( void );
 
+    std::string ConvertToFileFormat( void );
+
   public:
     std::unordered_map<std::string, std::string> headers_;
     BL::RegisterArray                            wav_array_;
