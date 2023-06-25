@@ -8,7 +8,10 @@
 
 #include "exception.h"
 
+#include "base/bmson_parser.h"
+
 #include "core/converter.h"
+#include "core/bmson_converter.h"
 
 using namespace BMX2WAV;
 
@@ -181,7 +184,25 @@ Core::Converter::BmsFileParse( void )
 
   this->SafeCallback<&Callbacks::just_before_parse_>( std::ref( parser ) );
   try {
-    info_.bms_data_ = parser.Parse( parameter_.input_file_path_ );
+    if ( TtString::EndWith( TtString::ToLower( parameter_.input_file_path_ ), ".bmson" ) ) {
+      try {
+        BL::Bmson::Parser bmson_parser;
+        std::shared_ptr<BL::Bmson::BmsonData> bmson_data = bmson_parser.Parse( parameter_.input_file_path_ );
+
+        BmsonConverter bmson_converter;
+        info_.bms_data_ = bmson_converter.ConvertForWaveConvert( *bmson_data );
+      }
+      catch ( BL::Bmson::BmsonDescriptionException& ex ) {
+        this->SafeErrorCallback<&Callbacks::bmson_parser_exception_occurred_>( std::ref( ex ) );
+      }
+      catch ( BmsonException& ex ) {
+        this->SafeErrorCallbackOf( ex.ToSharedPointer(), callbacks_.bmson_error_ );
+      }
+    }
+    else {
+      info_.bms_data_ = parser.Parse( parameter_.input_file_path_ );
+    }
+
     if ( info_.bms_data_->most_serious_error_level_.ToValue() < info_.most_serious_error_level_.ToValue() ) {
       info_.most_serious_error_level_ = info_.bms_data_->most_serious_error_level_;
     }
@@ -191,10 +212,6 @@ Core::Converter::BmsFileParse( void )
   }
   catch ( BL::Parser::FileAccessException& ex ) {
     this->SafeErrorCallback<&Callbacks::bms_file_access_error_>( ex.GetPath(), ex.GetErrorNumber() );
-    throw AbortController( ex.GetMessage() );
-  }
-  catch ( BL::Bmson::BmsonException& ex ) {
-    this->SafeErrorCallback<&Callbacks::bmson_error_>( std::ref( ex ) );
     throw AbortController( ex.GetMessage() );
   }
   catch ( std::bad_alloc e ) {

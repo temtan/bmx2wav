@@ -336,6 +336,34 @@ callbacks_()
 std::shared_ptr<BL::BmsData>
 BL::Parser::Parser::Parse( const std::string& path )
 {
+  this->Initialize( path );
+
+  try {
+    try {
+      this->ReadFile();
+    }
+    catch ( TtFileAccessException& ex ) {
+      throw FileAccessException( ex );
+    }
+
+    this->RandomSyntacticAnalysis();
+    this->SafeCallback<&Callbacks::complete_random_syntactic_analysis_>();
+
+    this->StatementEvaluating();
+  }
+  catch ( AbortController ) {
+    if ( callbacks_.aborted_ ) {
+      callbacks_.aborted_( *this );
+    }
+  }
+
+  this->Finalize();
+  return std::make_shared<BmsData>( frame_->bms_data_ );
+}
+/*
+  std::shared_ptr<BL::BmsData>
+BL::Parser::Parser::Parse( const std::string& path )
+{
   if ( TtString::EndWith( TtString::ToUpper( path ), ".BMSON" ) ) {
     return this->ParseAsBmson( path );
   }
@@ -381,7 +409,7 @@ BL::Parser::Parser::ParseAsBmson( const std::string& path )
     throw FileAccessException( ex );
   }
 }
-
+*/
 
 void
 BL::Parser::Parser::Initialize( const std::string& path )

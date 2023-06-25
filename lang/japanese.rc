@@ -479,7 +479,7 @@ STRINGTABLE
   RSID_STR_MSG_BMSON_DATA_TYPE_ERROR                         "データ型が不正です。行番号 : %d ; 正しい型 : %s ; 実際の型 : %s"
   RSID_STR_MSG_BMSON_BAR_IS_OUT_OF_BMS_RANGE                 "小節数が BMS の限界を超えました。"
   RSID_STR_MSG_BMSON_NUMBER_OF_OBJECTS_IS_OUT_OF_BMS_RANGE   "オブジェクトの登録数が BMS の限界を超えました。オブジェクト種類 : %s"
-  RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING                 "必須キーがありません。キー : %s"
+  RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING                 "必須キーがありません。行番号 : %d ; キー : %s"
   RSID_STR_MSG_BMSON_BMSON_OBJECT_IS_OUT_OF_BMSON_LINE_RANGE "BMSON のオブジェクトが小節線定義の範囲外にあります。"
 
   // ----------------

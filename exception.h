@@ -434,4 +434,60 @@ namespace BMX2WAV {
 
     virtual std::string GetMessage( void ) override;
   };
+
+
+  // -- Bmson ŠÖ˜A -------------------------------------------------------
+  class BmsonException : public ConvertExceptionWith<ErrorLevel::ImmediatelyAbort> {
+  public:
+    explicit BmsonException( void ) = default;
+
+    virtual std::shared_ptr<BmsonException> ToSharedPointer( void ) = 0;
+  };
+
+  // -- OutOfBmsRangeException -------------------------------------------
+  class OutOfBmsRangeException : public BmsonException {
+  public:
+    explicit OutOfBmsRangeException( void ) = default;
+  };
+
+  // -- BarIsOutOfBmsRangeException --------------------------------------
+  class BarIsOutOfBmsRangeException : public OutOfBmsRangeException {
+  public:
+    explicit BarIsOutOfBmsRangeException( void ) = default;
+
+    virtual std::string GetMessage( void ) override;
+
+    virtual std::shared_ptr<BmsonException> ToSharedPointer( void ) override {
+      return std::shared_ptr<BmsonException>( new std::remove_pointer<decltype( this )>::type( *this ) );
+    }
+  };
+
+  // -- NumberOfObjectsIsOutOfBmsRangeException --------------------------
+  class NumberOfObjectsIsOutOfBmsRangeException : public OutOfBmsRangeException {
+  public:
+    explicit NumberOfObjectsIsOutOfBmsRangeException( const std::string& object_kind );
+
+    const std::string& GetObjectKind( void );
+
+    virtual std::string GetMessage( void ) override;
+
+    virtual std::shared_ptr<BmsonException> ToSharedPointer( void ) override {
+      return std::shared_ptr<BmsonException>( new std::remove_pointer<decltype( this )>::type( *this ) );
+    }
+
+  private:
+    std::string object_kind_;
+  };
+
+  // -- BmsonObjectIsOutOfBmsonLineRangeException ------------------------
+  class BmsonObjectIsOutOfBmsonLineRangeException : public BmsonException {
+  public:
+    explicit BmsonObjectIsOutOfBmsonLineRangeException( void ) = default;
+
+    virtual std::string GetMessage( void ) override;
+
+    virtual std::shared_ptr<BmsonException> ToSharedPointer( void ) override {
+      return std::shared_ptr<BmsonException>( new std::remove_pointer<decltype( this )>::type( *this ) );
+    }
+  };
 }

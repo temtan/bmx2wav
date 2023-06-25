@@ -456,7 +456,7 @@ StopSequenceEntryNotExistException::GetMessage( void )
   return Utility::Format( StrT::Message::StopSequenceEntryNotExist.Get(), this->GetBarNumber(), this->GetObjectNumber().ToCharPointer() );
 }
 
-// -- OutputFileAccessException ----------------------------------------
+// -- OutputFileAccessException ------------------------------------------
 OutputFileAccessException::OutputFileAccessException( AudioFileOpenException& parent ) :
 WithFilePathException( parent.GetFilePath() ),
 WithErrorNumberException( parent.GetErrorNumber() )
@@ -468,3 +468,40 @@ OutputFileAccessException::GetMessage( void )
 {
   return Utility::Format( StrT::Message::OutputFileAccessError.Get(), this->GetFilePath(), this->GetSystemErrorMessage() );
 }
+
+
+// -- Bmson ŠÖ˜A ---------------------------------------------------------
+// -- OutOfBmsRangeException ---------------------------------------------
+
+// -- BarIsOutOfBmsRangeException ----------------------------------------
+std::string
+BarIsOutOfBmsRangeException::GetMessage( void )
+{
+  return Utility::Format( StrT::Message::BmsonParser::BarIsOutOfBmsRange.Get() );
+}
+
+// -- NumberOfObjectsIsOutOfBmsRangeException ----------------------------
+NumberOfObjectsIsOutOfBmsRangeException::NumberOfObjectsIsOutOfBmsRangeException( const std::string& object_kind ) :
+object_kind_( object_kind )
+{
+}
+
+const std::string&
+NumberOfObjectsIsOutOfBmsRangeException::GetObjectKind( void )
+{
+  return object_kind_;
+}
+
+std::string
+NumberOfObjectsIsOutOfBmsRangeException::GetMessage( void )
+{
+  return Utility::Format( StrT::Message::BmsonParser::NumberOfObjectsIsOutOfBmsRange.Get(), this->GetObjectKind() );
+}
+
+// -- BmsonObjectIsOutOfBmsonLineRangeException --------------------------
+std::string
+BmsonObjectIsOutOfBmsonLineRangeException::GetMessage( void )
+{
+  return Utility::Format( StrT::Message::BmsonParser::BmsonObjectIsOutOfBmsonLineRange.Get() );
+}
+

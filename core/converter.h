@@ -94,10 +94,11 @@ namespace BMX2WAV::Core {
       // exception
       FunctionOf<ConvertException&>                               exception_occurred_;
       FunctionOf<ConvertBmsDescriptionException&>                 parser_exception_occurred_;
+      FunctionOf<ConvertBmsonDescriptionException&>               bmson_parser_exception_occurred_;
 
       FunctionOf<MessageOnlyException&>                           message_only_exception_;
       FunctionOf<BmsFileAccessException&>                         bms_file_access_error_;
-      FunctionOf<ConvertBmsonException&>                          bmson_error_;
+      FunctionOf<BmsonException&>                                 bmson_error_;
       FunctionOf<BadAllocationException&>                         bad_allocation_error_;
       FunctionOf<EntriedAudioFileNotFoundException&>              entried_audio_file_not_found_;
       FunctionOf<AudioFileError&>                                 wav_file_access_error_;

@@ -1,9 +1,13 @@
 // base/bmson_parser.h
 
+#pragma once
+
 #include <unordered_map>
 #include <vector>
 
 #include "tt_json.h"
+
+#include "exception.h"
 
 #include "base/bms_data.h"
 #include "base/parser.h"
@@ -11,20 +15,32 @@
 
 namespace BMX2WAV::BL::Bmson {
   // -- Exceptions -------------------------------------------------------
-  class BmsonException : public Parser::ParseException {};
+  // -- BmsonDescriptionException ----------------------------------------
+  class BmsonDescriptionException : public Parser::ParseException {
+  public:
+    explicit BmsonDescriptionException( unsigned int line );
+
+    unsigned int GetLine( void ) const;
+
+  private:
+    unsigned int line_;
+  };
 
   // -- UnexpectedTokenException -----------------------------------------
-  class UnexpectedTokenException : public BmsonException,
-                                   public TtJson::UnexpectedTokenException {
+  class UnexpectedTokenException : public BmsonDescriptionException {
   public:
     explicit UnexpectedTokenException( TtJson::UnexpectedTokenException& origin );
 
+    char GetToken( void ) const;
+
     virtual std::string GetMessage( void ) override;
+
+  private:
+    char token_;
   };
 
   // -- NumberFormatException --------------------------------------------
-  class NumberFormatException : public BmsonException,
-                                public TtJson::NumberFormatException {
+  class NumberFormatException : public BmsonDescriptionException {
   public:
     explicit NumberFormatException( TtJson::NumberFormatException& origin );
 
@@ -32,8 +48,7 @@ namespace BMX2WAV::BL::Bmson {
   };
   
   // -- UnicodeFormatException -------------------------------------------
-  class UnicodeFormatException : public BmsonException,
-                                 public TtJson::UnicodeFormatException {
+  class UnicodeFormatException : public BmsonDescriptionException {
   public:
     explicit UnicodeFormatException( TtJson::UnicodeFormatException& origin );
 
@@ -41,45 +56,24 @@ namespace BMX2WAV::BL::Bmson {
   };
 
   // -- BadCastException -------------------------------------------------
-  class BadCastException : public BmsonException,
-                           public TtJson::BadCastException {
+  class BadCastException : public BmsonDescriptionException {
   public:
     explicit BadCastException( TtJson::BadCastException& origin );
 
-    virtual std::string GetMessage( void ) override;
-  };
-
-  // -- OutOfBmsRangeException -------------------------------------------
-  class OutOfBmsRangeException : public BmsonException {
-  public:
-    explicit OutOfBmsRangeException( void ) = default;
-  };
-
-  // -- BarIsOutOfBmsRangeException --------------------------------------
-  class BarIsOutOfBmsRangeException : public OutOfBmsRangeException {
-  public:
-    explicit BarIsOutOfBmsRangeException( void ) = default;
-
-    virtual std::string GetMessage( void ) override;
-  };
-
-  // -- NumberOfObjectsIsOutOfBmsRangeException --------------------------
-  class NumberOfObjectsIsOutOfBmsRangeException : public OutOfBmsRangeException {
-  public:
-    explicit NumberOfObjectsIsOutOfBmsRangeException( const std::string& object_kind );
-
-    const std::string& GetObjectKind( void );
+    const type_info& GetExpectedType( void ) const;
+    const type_info& GetActualType( void ) const;
 
     virtual std::string GetMessage( void ) override;
 
   private:
-    std::string object_kind_;
+    const type_info& expected_;
+    const type_info& actual_;
   };
 
   // -- RequiredKeyIsNothingException ------------------------------------
-  class RequiredKeyIsNothingException : public BmsonException {
+  class RequiredKeyIsNothingException : public BmsonDescriptionException {
   public:
-    explicit RequiredKeyIsNothingException( const std::string& key );
+    explicit RequiredKeyIsNothingException( TtJson::HashTable& table, const std::string& key );
 
     const std::string& GetRequiredKey( void );
 
@@ -88,26 +82,21 @@ namespace BMX2WAV::BL::Bmson {
   private:
     std::string required_key_;
   };
-
-  // -- BmsonObjectIsOutOfBmsonLineRangeException ------------------------
-  class BmsonObjectIsOutOfBmsonLineRangeException : public BmsonException {
-  public:
-    explicit BmsonObjectIsOutOfBmsonLineRangeException( void ) = default;
-
-    virtual std::string GetMessage( void ) override;
-  };
 }
 
 namespace BMX2WAV {
-  // -- ConvertBmsonException --------------------------------------------
-  class ConvertBmsonException : public ConvertException {
+  // -- ConvertBmsonDescriptionException --------------------------------------------
+  class ConvertBmsonDescriptionException : public ConvertException {
   public:
-    explicit ConvertBmsonException( BL::Bmson::BmsonException& origin );
+    explicit ConvertBmsonDescriptionException( BL::Bmson::BmsonDescriptionException& origin );
+
+    unsigned int GetLine( void ) const;
 
     virtual std::string GetMessage( void ) override;
 
   private:
-    std::string message_;
+    unsigned int line_;
+    std::string  message_;
   };
 }
 
@@ -222,10 +211,11 @@ namespace BMX2WAV::BL::Bmson {
   public:
     explicit Parser( void );
 
-    // throw TtFileAccessException
-    std::shared_ptr<BmsData> Parse( const std::string& path );
+    // throw FileAccessException
+    std::shared_ptr<BmsonData> Parse( const std::string& path );
 
-  private:
-    std::shared_ptr<BmsData> BmsonDataToBmsData( BmsonData& bmson );
+    // partial
+    std::shared_ptr<TtJson::Value> FileToJsonData( const std::string& path );
+    std::shared_ptr<BmsonData>     JsonDataToBmsonData( TtJson::Value& json_data );
   };
 }

@@ -172,8 +172,6 @@ namespace BMX2WAV::BL::Parser {
 
     // throw FileAccessException
     std::shared_ptr<BmsData> Parse( const std::string& path );
-    std::shared_ptr<BmsData> ParseAsBms( const std::string& path );
-    std::shared_ptr<BmsData> ParseAsBmson( const std::string& path );
 
   private:
     void Initialize( const std::string& path );
