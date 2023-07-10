@@ -1,0 +1,525 @@
+
+#include "../string_table_id.h"
+
+
+STRINGTABLE
+{
+  // ---------------------------------------------------------------------
+  // main frame
+  // ----------------
+  // menu
+  RSID_STR_MAIN_MENU_FILE       "文件 (&F)"
+  RSID_STR_MAIN_MENU_FILE_CLOSE "退出 (&X)"
+
+  RSID_STR_MAIN_MENU_VIEW                    "?示 (&V)"
+  RSID_STR_MAIN_MENU_VIEW_AUTO_DISPLAY_CELLS "自??示?元格内容 (&T)"
+  RSID_STR_MAIN_MENU_VIEW_COLUMN_GROUP       "?示列? (&G)"
+  RSID_STR_MAIN_MENU_VIEW_DISPLAY_CELLS      "?示?元格内容 (&D)"
+  RSID_STR_MAIN_MENU_VIEW_RELOAD             "重新加?BMS (&R)"
+
+  RSID_STR_MAIN_MENU_EDIT                           "?? (&E)"
+  RSID_STR_MAIN_MENU_EDIT_EDIT_COMMON_PARAMETER     "??常用?置 (&E) ..."
+  RSID_STR_MAIN_MENU_EDIT_ADD_ENTRY                 "添加BMS (&A)"
+  RSID_STR_MAIN_MENU_EDIT_DELETE_ENTRY              "?除BMS (&D)"
+  RSID_STR_MAIN_MENU_EDIT_DELETE_ALL_ENTRY          "?除所有BMS (&E)"
+  RSID_STR_MAIN_MENU_EDIT_SHOW_PROPERTY_OF_ENTRY    "BMS属性 (&P) ..."
+  RSID_STR_MAIN_MENU_EDIT_EDIT_INDIVIDUAL_PARAMETER "?独的BMS?置 (&I)..."
+
+  RSID_STR_MAIN_MENU_CONVERT                 "?? (&C)..."
+  RSID_STR_MAIN_MENU_CONVERT_CONVERT_ONE_BMS "?独?? (&C)..."
+  RSID_STR_MAIN_MENU_CONVERT_CONVERT_ALL_BMS "全部?? (&A)..."
+
+  RSID_STR_MAIN_MENU_TOOL                             "工具 (&T)..."
+  RSID_STR_MAIN_MENU_TOOL_SETTINGS                    "首?? (&S)..."
+  RSID_STR_MAIN_MENU_TOOL_EXECUTE_SQUIRREL_SCRIPT     "?行脚本文件 (&E)..."
+  RSID_STR_MAIN_MENU_TOOL_RELOAD_SQUIRREL_SCRIPT      "重新加?脚本文件 (&R) ..."
+  RSID_STR_MAIN_MENU_TOOL_SHOW_SQUIRREL_OUTPUT_DIALOG "?示脚本?出??框 (&O)..."
+  RSID_STR_MAIN_MENU_TOOL_START_SEARCHER              "??BMX2WAV搜索器 (&T)..."
+
+  RSID_STR_MAIN_MENU_HELP                     "?助 (&H)..."
+  RSID_STR_MAIN_MENU_HELP_VERSION_INFORMATION "?于 (&A)..."
+
+  // ----------------
+  // tool bar
+  RSID_STR_MAIN_TB_AUTO_DISPLAY_CELLS          "自??元格?示"
+  RSID_STR_MAIN_TB_SELECT_COLUMN_LABEL         "列的?示"
+  RSID_STR_MAIN_TB_DISPLAY_CELLS               "?示?池内容"
+  RSID_STR_MAIN_TB_RELOAD                      "重新加?BMS"
+  RSID_STR_MAIN_TB_EDIT_COMMON_PARAMETER       "??常用?置"
+  RSID_STR_MAIN_TB_ADD_ENTRY                   "添加一个BMS"
+  RSID_STR_MAIN_TB_DELETE_ENTRY                "?除BMS"
+  RSID_STR_MAIN_TB_DELETE_ALL_ENTRY            "?除所有BMS"
+  RSID_STR_MAIN_TB_SHOW_PROPERTY_OF_ENTRY      "BMS的属性"
+  RSID_STR_MAIN_TB_EDIT_INDIVIDUAL_PARAMETER   "?独的BMS?置"
+  RSID_STR_MAIN_TB_CONVERT_ONE_BMS             "?独??"
+  RSID_STR_MAIN_TB_CONVERT_ALL_BMS             "全部??"
+  RSID_STR_MAIN_TB_EXECUTE_SQUIRREL_SCRIPT     "?行脚本文件"
+  RSID_STR_MAIN_TB_RELOAD_SQUIRREL_SCRIPT      "重新加?脚本文件"
+  RSID_STR_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG "?示 "脚本?出 "??框"
+  RSID_STR_MAIN_TB_START_SEARCHER              "??BMX2WAV搜索器"
+
+  // ----------------
+  // popup entry menu
+  RSID_STR_MAIN_PO_ENTRY_SHOW_PROPERTY_OF_ENTRY    "BMS属性(&P)..."
+  RSID_STR_MAIN_PO_ENTRY_EDIT_INDIVIDUAL_PARAMETER "??个??置 (&E)"
+  RSID_STR_MAIN_PO_ENTRY_CONVERT_ONE_BMS           "?? (&C)"
+  RSID_STR_MAIN_PO_ENTRY_DELETE_ENTRY              "?除 (&D)"
+  RSID_STR_MAIN_PO_ENTRY_PROCESSOR_MENU            "?行脚本功能 (&F)"
+
+  // Searcher 兼用
+  RSID_STR_MAIN_PO_ENTRY_PROCESSOR_MENU_PLAY_PREVIEW    "??播放"
+  RSID_STR_MAIN_PO_ENTRY_PROCESSOR_MENU_OPEN            "打?"
+  RSID_STR_MAIN_PO_ENTRY_PROCESSOR_MENU_OPEN_BY_NOTEPAD "在?事本中打?"
+  RSID_STR_MAIN_PO_ENTRY_PROCESSOR_MENU_FILE_OPERATIONS "文件操作"
+
+  // ----------------
+  // column name (use at script)
+  RSID_STR_MAIN_COLUMN_NAME_OBJECT_COUNT               "?象的数量"
+  RSID_STR_MAIN_COLUMN_NAME_OBJECT_OF_1P_COUNT         "1P?象的数量"
+  RSID_STR_MAIN_COLUMN_NAME_OBJECT_OF_2P_COUNT         "2P?象的数量"
+  RSID_STR_MAIN_COLUMN_NAME_MOST_SERIOUS_ERROR         "最高重量的??"
+  RSID_STR_MAIN_COLUMN_NAME_RANDOM_STATEMENT           "随机?法"
+  RSID_STR_MAIN_COLUMN_NAME_RANDOM_STATEMENT_EXIST     "有"
+  RSID_STR_MAIN_COLUMN_NAME_RANDOM_STATEMENT_NOT_EXIST "没有"
+  RSID_STR_MAIN_COLUMN_NAME_FULL_PATH                  "文件路径"
+  RSID_STR_MAIN_COLUMN_NAME_BASENAME                   "文件名称"
+  RSID_STR_MAIN_COLUMN_NAME_PARENT_DIRECTORY           "文件?"
+  RSID_STR_MAIN_COLUMN_NAME_PARENTS_PARENT_DIRECTORY   "父文件?"
+  RSID_STR_MAIN_COLUMN_NAME_PLAYING_TIME               "性能??"
+
+  RSID_STR_MAIN_COLUMN_NAME_PARAMETER                  "???置"
+  RSID_STR_MAIN_COLUMN_NAME_PARAMETER_INDIVIDUAL       "(个?)"
+  RSID_STR_MAIN_COLUMN_NAME_PARAMETER_COMMON           "(普通)"
+
+  // column group name (use at script)
+  // Searcher 兼用
+  RSID_STR_MAIN_COLUMN_GROUP_NAME_SIMPLE     "??"
+  RSID_STR_MAIN_COLUMN_GROUP_NAME_DETAILS    "??"
+  RSID_STR_MAIN_COLUMN_GROUP_NAME_VARIOUS    "其他各?"
+  RSID_STR_MAIN_COLUMN_GROUP_NAME_FOR_SEARCH "用于搜索"
+
+  // ----------------
+  // main frame
+  RSID_STR_MAIN_MB_SCRIPT_ERROR_CAP                           "?展脚本中的??"
+  RSID_STR_MAIN_MB_SCRIPT_ERROR_MSG                           "在?展脚本中出?了一个??。"
+  RSID_STR_MAIN_SQUIRREL_STANDARD_OUTPUT_DIALOG_TITLE         "脚本?准?出"
+  RSID_STR_MAIN_DEFAULT_SORT_METHOD_NAME                      "无"
+  RSID_STR_MAIN_STATUS_BAR_SORT_METHOD_TITLE                  "排序?序 :"
+  RSID_STR_MAIN_ENTRY_PROCESSOR_MENU_EMPTY                    "(无)"
+  RSID_STR_MAIN_STATUS_BAR_SORT_METHOD_DESCENDING             "(倒序)"
+  RSID_STR_MAIN_DEFAULT_FIRST_COLUMN_NAME                     "文件路径。"
+  RSID_STR_MAIN_ADD_ENTRY_FILE_DIALOG_BMS_BME_FILE            "BMS BME文件 (*.bms;*.bme)"
+  RSID_STR_MAIN_ADD_ENTRY_FILE_DIALOG_ALL_FILE                "所有文件 (*. *)"
+  RSID_STR_MAIN_MB_DELETE_ALL_ENTRY_CAUTION_CAP               "???除所有BMS"
+  RSID_STR_MAIN_MB_DELETE_ALL_ENTRY_CAUTION_MSG               "?除所有的BMS。 ??定?？"
+  RSID_STR_MAIN_MB_EDIT_INDIVIDUAL_PARAMETER_COPY_CAUTION_CAP "??。"
+  RSID_STR_MAIN_MB_EDIT_INDIVIDUAL_PARAMETER_COPY_CAUTION_MSG "?想?制公共?置并使用个??置?？ (如果不是，将使用默??置)" 
+  RSID_STR_MAIN_MB_START_SEARCHER_ERROR_CAP                   "文件打???。"
+  RSID_STR_MAIN_MB_START_SEARCHER_ERROR_MSG                   "打?文件失?。 \文件名 : %s\r\n信息 : %s"
+  RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_NUT_FILE           "松鼠脚本文件 (*.nut)"
+  RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_ALL_FILE           "所有文件(*. *)"
+
+  // ---------------------------------------------------------------------
+  // settings property sheet
+  RSID_STR_SPS_TITLE "?境?置"
+
+  RSID_STR_SPS_LANGUAGE                "?言?置"
+  RSID_STR_SPS_LANGUAGE_LANGUAGE_GROUP "要使用的?言"
+  RSID_STR_SPS_LANGUAGE_NOTICE_LABEL   "*重?后反映的?置"
+  RSID_STR_SPS_LANGUAGE_SELECT_BUTTON  "使用?定的DLL"
+  RSID_STR_SPS_LANGUAGE_AUTO           "自?化"
+
+  // ---------------------------------------------------------------------
+  // parameter property sheet
+  RSID_STR_PPS_TITLE "?????置"
+
+  RSID_STR_PPS_GENERAL                      "一般情况"
+  RSID_STR_PPS_GENERAL_LOAD_SAVE_GROUP      "加?和保存?置"
+  RSID_STR_PPS_GENERAL_LOAD_BUTTON          "加??置(&D)"
+  RSID_STR_PPS_GENERAL_SAVE_BUTTON          "保存?置 (&A)"
+  RSID_STR_PPS_GENERAL_NAME_LABEL           "命名此?置 (&N)"
+  RSID_STR_PPS_GENERAL_USE_SCRIPT_CHECK     "使用脚本文件 (&S)"
+  RSID_STR_PPS_GENERAL_SCRIPT_LABEL         "脚本文件路径 (&P)"
+  RSID_STR_PPS_GENERAL_SCRIPT_REF_BUTTON    "也?看..."
+  RSID_STR_PPS_GENERAL_OUTPUT_LOG_CHECK     "?出日志 (&L)"
+  RSID_STR_PPS_GENERAL_LOG_LABEL            "日志文件的路径 (&O)"
+  RSID_STR_PPS_GENERAL_LOG_REF_BUTTON       "也?看..."
+  RSID_STR_PPS_GENERAL_FILE_DIALOG_ALL_FILE "所有文件 (*. *)"
+
+  RSID_STR_PPS_OUTPUT                            "?出。"
+  RSID_STR_PPS_OUTPUT_OUTPUT_AS_OGG_CHECK        "?出?ogg文件 (&G)"
+  RSID_STR_PPS_OUTPUT_OGG_BASE_QUALITY_LABEL     "?出OGG文件的?量(-0.1到1.0) (&Q)"
+  RSID_STR_PPS_OUTPUT_NEVER_OVERWRITE_CHECK      "如果文件已?存在，以?名形式?出 (&N)"
+  RSID_STR_PPS_OUTPUT_REMOVE_CHAR_CHECK          "?除不能作?文件路径的字符 (&R)"
+  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_TEMPLATE_LABEL "?出文件?格模板 (&O)"
+  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_HELP_BUTTON    "?示可用功能的列表 (&H)"
+  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_EXAMPLE_BMS    "???入BMS路径 :"
+  RSID_STR_PPS_OUTPUT_OUTPUT_FILE_EXAMPLE_RESULT "???出?果"
+  RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_CAP    "??。"
+  RSID_STR_PPS_OUTPUT_MB_OGG_BASE_QUALITY_MSG    "??入正?的?出OGG文件的?量。"
+
+  RSID_STR_PPS_PARSER                                "分析?果"
+  RSID_STR_PPS_PARSER_READ_AS_UTF8_CHECK             "以UTF-8格式?取(&R)"
+  RSID_STR_PPS_PARSER_IGNORE_BGA_CHANNEL_CHECK       "忽略?取BGA通道?(&I)"
+  RSID_STR_PPS_PARSER_NOT_NESTING_IF_STATEMENT_CHECK "不要在随机?法中嵌套#IF (&S)"
+
+  RSID_STR_PPS_MIXIN                                    "??"
+  RSID_STR_PPS_MIXIN_CANCEL_AT_RESOUNDING_CHECK         "如果在WAV播放?束前播放同一个WAV，??除之前的WAV(&D)"
+  RSID_STR_PPS_MIXIN_START_LABEL                        "?始措施号"
+  RSID_STR_PPS_MIXIN_END_LABEL                          "?束小?号"
+  RSID_STR_PPS_MIXIN_CONVERT_START_END_BAR_NUMBER_LABEL "播放WAV的范?(&P)"
+  RSID_STR_PPS_MIXIN_DO_TRIMING_CHECK                   "切除要?出的WAV的一部分(&C)"
+  RSID_STR_PPS_MIXIN_REMOVE_FRONT_SILENCE_CHECK         "去掉前面的静音(&R)"
+  RSID_STR_PPS_MIXIN_INSERT_FRONT_SILENCE_CHECK         "插入前面的静音(&I)"
+  RSID_STR_PPS_MIXIN_INSERT_FRONT_SILENCE_SECOND_LABEL  "插入??(&S)"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_CAP                 "??。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_START           "??入正?的??起始度数。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_END             "??入正?的???束度数?。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_ORDER           "???始措施?号比???束措施?号?。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_TRIM_START      "?入正?的切出起始?量?。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_TRIM_END        "?入正?的剪裁?束?量?。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_TRIM_ORDER      "切出的起始?量??于切出的?束?量?。"
+  RSID_STR_PPS_MIXIN_MB_KILL_ACTIVE_MSG_FRONT_SILENCE   "?入正?的静音??，在??插入。"
+
+  RSID_STR_PPS_AUDIO                               "音?。"
+  RSID_STR_PPS_AUDIO_NORMALIZE_KIND_NONE_RADIO     "无?范化(&Y)"
+  RSID_STR_PPS_AUDIO_NORMALIZE_KIND_PEAK_RADIO     "峰?正常化(&P)"
+  RSID_STR_PPS_AUDIO_NORMALIZE_KIND_AVERAGE_RADIO  "平均正常化(&A)"
+  RSID_STR_PPS_AUDIO_NORMALIZE_KIND_OVER_RADIO     "精??本?弃(&O)"
+  RSID_STR_PPS_AUDIO_NORMALIZE_KIND_GROUP          "?一化"
+  RSID_STR_PPS_AUDIO_NORMALIZE_OVER_PPM_LABEL      "?弃?品率(ppm) (&N)"
+  RSID_STR_PPS_AUDIO_VOLUME_LABEL                  "体?(%) (&V)"
+  RSID_STR_PPS_AUDIO_MB_KILL_ACTIVE_CAP            "??。"
+  RSID_STR_PPS_AUDIO_MB_KILL_ACTIVE_MSG_OVER_PPM   "??入正?的弃置?品率，用于微量?品弃置。"
+  RSID_STR_PPS_AUDIO_MB_KILL_ACTIVE_MSG_VOLUME     "??入正?的体??。"
+
+  RSID_STR_PPS_AFTER_PROCESS                             "后期?理"
+  RSID_STR_PPS_AFTER_PROCESS_EXECUTE_AFTER_PROCESS_CHECK "?建?出文件后??程序 (&E)"
+  RSID_STR_PPS_AFTER_PROCESS_EXECUTE_FILE_LABEL          "可?行文件(&F)"
+  RSID_STR_PPS_AFTER_PROCESS_EXECUTE_FILE_REF_BUTTON     "也?参?..."
+  RSID_STR_PPS_AFTER_PROCESS_EXECUTE_ARGUMENTS_LABEL     "?行?的参数(&A)"
+  RSID_STR_PPS_AFTER_PROCESS_EXECUTE_ARGUMENTS_HELP      "?出的WAV文件可以用@@output_file_path@@指定。"
+  RSID_STR_PPS_AFTER_PROCESS_START_ON_BACKGROUND_CHECK   "在后台?行程序 (&B)"
+  RSID_STR_PPS_AFTER_PROCESS_WAIT_FOR_PROCESS_EXIT_CHECK "等待程序?束(&W)"
+  RSID_STR_PPS_AFTER_PROCESS_DELETE_OUTPUT_FILE_CHECK    "??/等待程序后?除?出文件(&D)"
+  RSID_STR_PPS_AFTER_PROCESS_FILE_DIALOG_EXE_FILE        "可?行文件(*.exe)"
+  RSID_STR_PPS_AFTER_PROCESS_FILE_DIALOG_ALL_FILE        "所有文件(*.*)"
+
+  // ---------------------------------------------------------------------
+  // convert dialog
+  RSID_STR_CONVERT_TITLE                   "BMX2WAV??正在?行"
+
+  RSID_STR_CONVERT_ABORT_BUTTON            "??中断"
+  RSID_STR_CONVERT_INITIALIZE_TITLE_LABEL  "初始化/??理:"
+  RSID_STR_CONVERT_INITIALIZE_REPORT_LABEL "未?行"
+  RSID_STR_CONVERT_PARSE_TITLE_LABEL       "BMS解析:"
+  RSID_STR_CONVERT_PARSE_REPORT_LABEL      "未?行"
+  RSID_STR_CONVERT_WAV_TITLE_LABEL         "音?文件加?:"
+  RSID_STR_CONVERT_WAV_REPORT_LABEL        "未?行"
+  RSID_STR_CONVERT_MIXIN_TITLE_LABEL       "?音合成:"
+  RSID_STR_CONVERT_MIXIN_REPORT_LABEL      "未?行"
+  RSID_STR_CONVERT_AFTER_TITLE_LABEL       "?音、后?理和?出:"
+  RSID_STR_CONVERT_AFTER_REPORT_LABEL      "未?行"
+  RSID_STR_CONVERT_PLAY_WAV_BUTTON         "直接播放"
+  RSID_STR_CONVERT_STOP_WAV_BUTTON         "停止播放"
+  RSID_STR_CONVERT_SAVE_AS_WAV_BUTTON      "保存?wav格式"
+  RSID_STR_CONVERT_SAVE_AS_OGG_BUTTON      "保存?OGG"
+  RSID_STR_CONVERT_OPEN_WAV_BUTTON         "打??出文件"
+  RSID_STR_CONVERT_SHOW_OUTPUT_BOX_BUTTON  "?看??日志"
+
+  RSID_STR_CONVERT_FILE_DIALOG_WAV_FILE    "wav文件 (*.wav)"
+  RSID_STR_CONVERT_FILE_DIALOG_OGG_FILE    "ogg文件 (*.ogg)"
+  RSID_STR_CONVERT_FILE_DIALOG_ALL_FILE    "所有文件 (*. *)"
+  RSID_STR_CONVERT_MB_OPEN_WAV_CAP         "文件打???"
+  RSID_STR_CONVERT_MB_OPEN_WAV_MSG         "打?文件失?。 \r\n\r\n文件名 : %s\r\nMessage:"
+  RSID_STR_CONVERT_OUTPUT_DIALOG_TITLE     "????日志"
+  RSID_STR_CONVERT_OPEN_LOG_ERROR_MSG      "打?日志文件失?。 File : %s ; Message : %s"
+  RSID_STR_CONVERT_OUTPUT_TO_LOG_ERROR     "写入日志文件失?。"
+
+  RSID_STR_CONVERT_MB_ERROR_ABORT_CAP        "??。"
+  RSID_STR_CONVERT_MB_ERROR_ABORT_MSG        "??中止。 ????的日志以?得更多信息。"
+  RSID_STR_CONVERT_MB_ERROR_MEMORY_CAP       "??。"
+  RSID_STR_CONVERT_MB_ERROR_MEMORY_MSG       "在分配内存??生??。 ??被中止。"
+  RSID_STR_CONVERT_MB_ERROR_UNEXPECTED_CAP   "??。"
+  RSID_STR_CONVERT_MB_ERROR_UNEXPECTED_MSG   "?生了一个意外的??。 ??被中止。"
+  RSID_STR_CONVERT_MB_ERROR_SCRIPT_CAP       "?展脚本??"
+  RSID_STR_CONVERT_MB_ERROR_SCRIPT_MSG       "?展脚本中?生了??。"
+  RSID_STR_CONVERT_MB_INFO_RANDOM_DIALOG_CAP "随机?法??"
+  RSID_STR_CONVERT_MB_INFO_RANDOM_DIALOG_MSG "在BMS中??到随机?法。 \r\n?从?中??要?用的?。"
+
+  RSID_STR_CONVERT_REPORT_LABEL_COMPLETED                       "已完成"
+  RSID_STR_CONVERT_REPORT_LABEL_ERROR_EXIST                     "?? 是"
+  RSID_STR_CONVERT_REPORT_LABEL_ABORT                           "中止。"
+  RSID_STR_CONVERT_REPORT_RESULT_ABORT                          "??被中断了。"
+  RSID_STR_CONVERT_REPORT_LABEL_INITIALIZE_RUNNING              "正在?行。"
+  RSID_STR_CONVERT_REPORT_RESULT_INITIALIZE_RUNNING             "正在?行初始化和??理。"
+  RSID_STR_CONVERT_REPORT_LABEL_PARSE_RUNNING                   "?行中"
+  RSID_STR_CONVERT_REPORT_RESULT_PARSE_RUNNING                  "BMS解析正在?行中。"
+  RSID_STR_CONVERT_REPORT_LABEL_READ_AUDIO_FILES_RUNNING        "?行中"
+  RSID_STR_CONVERT_REPORT_RESULT_READ_AUDIO_FILES_RUNNING       "正在加?声音文件。"
+  RSID_STR_CONVERT_REPORT_LABEL_ONE_AUDIO_FILE_READ_RUNNING     "?行中"
+  RSID_STR_CONVERT_REPORT_LABEL_MIXIN_RUNNING                   "?行中"
+  RSID_STR_CONVERT_REPORT_RESULT_MIXIN_RUNNING                  "声音文件的合成正在?行中。"
+  RSID_STR_CONVERT_REPORT_LABEL_AFFECT_WAVE_RUNNING             "?行中"
+  RSID_STR_CONVERT_REPORT_RESULT_AFFECT_WAVE_RUNNING            "?整和后?理正在?行中。"
+  RSID_STR_CONVERT_REPORT_RESULT_OUTPUT_TO_FILE_RUNNING         "?出到文件中。"
+  RSID_STR_CONVERT_REPORT_LABEL_AFTER_OUTPUT_TO_FILE_NO_OUTPUT  "文件尚未?出"
+  RSID_STR_CONVERT_REPORT_RESULT_AFTER_OUTPUT_TO_FILE_COMPLETED "??完成。 (%.2f秒)"
+
+  // ---------------------------------------------------------------------
+  // multiple convert dialog
+  RSID_STR_MULTIPLE_TITLE                           "??BMS的列表"
+  RSID_STR_MULTIPLE_MENU_SHOW_LOG                   "?示日志 (&L)"
+  RSID_STR_MULTIPLE_ABORT_BUTTON                    "中止??"
+  RSID_STR_MULTIPLE_COLUMN_BMS                      "BMS"
+  RSID_STR_MULTIPLE_COLUMN_RESULT                   "滞后"
+  RSID_STR_MULTIPLE_COLUMN_MOST_SERIOUS_ERROR       "最?重的??"
+  RSID_STR_MULTIPLE_COLUMN_DEFAULT_TEXT_UNCONVERTED "未??"
+  RSID_STR_MULTIPLE_LOG_DIALOG_TITLE                "BMS??日志"
+  RSID_STR_MULTIPLE_STATUS_TEXT_CONVERTING          "???行中"
+  RSID_STR_MULTIPLE_STATUS_TEXT_ABORTED             "??中断了"
+  RSID_STR_MULTIPLE_STATUS_TEXT_COMPLETED           "??已完成。"
+
+  // ---------------------------------------------------------------------
+  // entry dialog
+  RSID_STR_EMTRY_TITLE                            "条目??信息??框"
+  RSID_STR_EMTRY_USING_PARAMETER_TITLE_LABEL      "使用的?置 :"
+  RSID_STR_EMTRY_USE_COMMON_PARAMETER_BUTTON      "使用通用?置"
+  RSID_STR_EMTRY_USE_INDIVIDUAL_PARAMETER_BUTTON  "使用个??置"
+  RSID_STR_EMTRY_CONVERT_BUTTON                   "??"
+  RSID_STR_EMTRY_COLUMN_NAME                      "名称"
+  RSID_STR_EMTRY_COLUMN_VALUE                     "价?"
+  RSID_STR_EMTRY_USING_PARAMETER_LABEL_COMMON     "共同?置"
+  RSID_STR_EMTRY_USING_PARAMETER_LABEL_INDIVIDUAL "?独?置"
+  RSID_STR_EMTRY_MB_USE_COMMON_CAP                "??放弃个??置"
+  RSID_STR_EMTRY_MB_USE_COMMON_MSG                "放弃个??置，使用共同?置。 ??定?？"
+  RSID_STR_EMTRY_MB_USE_INDIVIDUAL_CAP            "??。"
+  RSID_STR_EMTRY_MB_USE_INDIVIDUAL_MSG            "?是否要?制公共?置并使用个??置？ (如果不是，?使用默??置)。"
+
+  // ---------------------------------------------------------------------
+  // random statement dialog
+  RSID_STR_RANDOM_TITLE        "随机?法????"
+  RSID_STR_RANDOM_CHECK_BUTTON "勾?根据?法的随机性"
+  RSID_STR_RANDOM_?定_BUTTON    "?定"
+
+  // ---------------------------------------------------------------------
+  // template path translate help dialog
+  RSID_STR_TEMPLATE_PATH_TITLE              "可用功能列表"
+  RSID_STR_TEMPLATE_PATH_MENU_COPY          "?制函数名称(&C)"
+  RSID_STR_TEMPLATE_PATH_COLUMN_NAME        "功能名称"
+  RSID_STR_TEMPLATE_PATH_COLUMN_DESCRIPTION "解?"
+  RSID_STR_TEMPLATE_PATH_FUNCTION           "功能名称"
+
+  RSID_STR_TEMPLATE_PATH_TEXT_OMITTED               "上面的?写"
+  RSID_STR_TEMPLATE_PATH_TEXT_INPUT_BMS_PATH        "?入BMS文件路径"
+  RSID_STR_TEMPLATE_PATH_TEXT_AUTO_EXTENSION        "wav 或 ogg，取决于?出?置"
+  RSID_STR_TEMPLATE_PATH_TEXT_BMX2WAV_DIRECTORY     "BMX2WAV可?行文件所在文件?的路径"
+  RSID_STR_TEMPLATE_PATH_TEXT_HEADER_XXXXX          "?入BMS文件中数据的?XXXX的?"
+  RSID_STR_TEMPLATE_PATH_TEXT_BASENAME              "... 只提取部分的文件名"
+  RSID_STR_TEMPLATE_PATH_TEXT_DIRNAME               "... 从零件中提取父目?的路径"
+  RSID_STR_TEMPLATE_PATH_TEXT_REMOVE_EXTENSION      "... 从部分中只提取?展部分。"
+  RSID_STR_TEMPLATE_PATH_TEXT_CHANGE_AUTO_EXTENSION "... 根据?出?置，用wav或ogg替??部分的?展部分。"
+
+  // ---------------------------------------------------------------------
+  // ===== searcher =====
+  // ---------------------------------------------------------------------
+  // searcher main frame
+  // ----------------
+  // searcher menu
+  RSID_STR_SRC_MAIN_FILE                         "文件 (&F)"
+  RSID_STR_SRC_MAIN_FILE_EXPORT                  "?出 (&E)"
+  RSID_STR_SRC_MAIN_FILE_EXPORT_CSV_TO_FILE      "以CSV格式?出到文件(&F) ..."
+  RSID_STR_SRC_MAIN_FILE_EXPORT_TSV_TO_CLIPBOARD "以TSV格式?出到剪?板(&C)"
+  RSID_STR_SRC_MAIN_FILE_CLOSE                   "退出 (&X)"
+
+  RSID_STR_SRC_MAIN_TOOL          "工具 (&T)"
+  RSID_STR_SRC_MAIN_TOOL_SETTINGS "首?? (&S)"
+
+  // ----------------
+  // searcher tree menu
+  RSID_STR_SRC_MAIN_PO_TREE_OPEN_DIRECTORY "打? (&O)"
+
+  // ----------------
+  // searcher entry menu
+  RSID_STR_SRC_MAIN_PO_ENTRY_HIDE_ENTRY     "???藏 (&H)"
+  RSID_STR_SRC_MAIN_PO_ENTRY_PROCESSOR_MENU "?行脚本功能 (&F)"
+
+  // ----------------
+  // searcher tool bar
+  RSID_STR_SRC_MAIN_TB_RELOAD_SQUIRREL_SCRIPT      "重新加?脚本"
+  RSID_STR_SRC_MAIN_TB_SHOW_SQUIRREL_OUTPUT_DIALOG "?示脚本的?准?出??框"
+  RSID_STR_SRC_MAIN_TB_EXPORT                      "?出"
+  RSID_STR_SRC_MAIN_TB_HOME_FOLDER                 "移?到主文件?"
+  RSID_STR_SRC_MAIN_TB_FILTER_LABEL                "??"
+  RSID_STR_SRC_MAIN_TB_AUTO_DISPLAY_CELLS          "自??示?目"
+  RSID_STR_SRC_MAIN_TB_SELECT_COLUMN_LABEL         "?示列的内容"
+  RSID_STR_SRC_MAIN_TB_DISPLAY_CELLS               "?示列的内容"
+  RSID_STR_SRC_MAIN_TB_EXECUTE_SEARCH_LABEL        "搜索方法"
+  RSID_STR_SRC_MAIN_TB_EXECUTE_SEARCH              "搜索?行"
+
+  // display filter (use at script)
+  RSID_STR_SRC_MAIN_TB_DISPLAY_FILTER_ALL_PASS    "?示所有"
+  RSID_STR_SRC_MAIN_TB_DISPLAY_FILTER_BMS_GENERAL "一般的BMS系?"
+  RSID_STR_SRC_MAIN_TB_DISPLAY_FILTER_ONLY_BMS    "?BMS"
+  RSID_STR_SRC_MAIN_TB_DISPLAY_FILTER_ONLY_BME    "?限BME"
+
+  // search method (use at script)
+  RSID_STR_SRC_MAIN_TB_SEARCH_METHOD_BMS_ALL            "所有普通BMS系列"
+  RSID_STR_SRC_MAIN_TB_SEARCH_METHOD_FILTER_BMS_GENERAL "基于BMS的一般"
+  RSID_STR_SRC_MAIN_TB_SEARCH_METHOD_MOST_PLAYLEVEL     "BMS系?(个文件?最多只能播放一?)。"
+
+  // ----------------
+  // searcher main frame
+  RSID_STR_SRC_MAIN_MB_SCRIPT_ERROR_CAP                           "?展脚本中的??"
+  RSID_STR_SRC_MAIN_MB_SCRIPT_ERROR_MSG                           "?展脚本中出?了一个??。"
+  RSID_STR_SRC_MAIN_SQUIRREL_STANDARD_OUTPUT_DIALOG_TITLE         "脚本?准?出"
+  RSID_STR_SRC_MAIN_DEFAULT_SORT_METHOD_NAME                      "没有。"
+  RSID_STR_SRC_MAIN_STATUS_BAR_SORT_METHOD_TITLE                  "排序?序 :"
+  RSID_STR_SRC_MAIN_ENTRY_PROCESSOR_MENU_EMPTY                    "(无)"
+  RSID_STR_SRC_MAIN_STATUS_BAR_SORT_METHOD_DESCENDING             "(倒序)"
+  RSID_STR_SRC_MAIN_DEFAULT_FIRST_COLUMN_NAME                     "文件名称"
+  RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_IMPOSSIBLE_DIRECTORY_CAP    "不能?行搜索"
+  RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_IMPOSSIBLE_DIRECTORY_MSG    "无法在此位置搜索。"
+  RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_EXECUTE_CONFIRM_CAP         "??搜索的?行"
+  RSID_STR_SRC_MAIN_MB_EXECUTE_SEARCH_EXECUTE_CONFIRM_MSG         "在以下条件下?行搜索。 ??定?？ \r\n\r\n参考文件? : %s\r\n参考条件 : %s"
+  RSID_STR_SRC_MAIN_MB_SEARCH_RESULT_DESTRUCTION_CONFIRM_CAP      "???弃搜索?果。"
+  RSID_STR_SRC_MAIN_MB_SEARCH_RESULT_DESTRUCTION_CONFIRM_MSG      "??定要?弃搜索?果?？"
+
+  // ---------------------------------------------------------------------
+  // searcher settings property sheet
+  RSID_STR_SRC_SPS_TITLE "首??"
+
+  RSID_STR_SRC_SPS_SETTINGS                                    "首??"
+  RSID_STR_SRC_SPS_SETTINGS_HOME_LABEL                         "主文件? (&H)"
+  RSID_STR_SRC_SPS_SETTINGS_HOME_REF_BUTTON                    "也?看..."
+  RSID_STR_SRC_SPS_SETTINGS_AUTO_DISPLAY_CHECK                 "自??示?元格内容 (&A)"
+  RSID_STR_SRC_SPS_SETTINGS_ASYNCHRONOUS_CHECK                 "???示?元格内容(&S)"
+  RSID_STR_SRC_SPS_SETTINGS_HOME_REF_FOLDER_DIALOG_DESCRIPTION "??主文件?"
+
+  RSID_STR_SRC_SPS_LANGUAGE                "?言。"
+  RSID_STR_SRC_SPS_LANGUAGE_LANGUAGE_GROUP "要使用的?言"
+  RSID_STR_SRC_SPS_LANGUAGE_NOTICE_LABEL   "?置在重?后反映出来"
+  RSID_STR_SRC_SPS_LANGUAGE_SELECT_BUTTON  "使用?定的DLL"
+  RSID_STR_SRC_SPS_LANGUAGE_AUTO           "自?"
+
+  // ---------------------------------------------------------------------
+  // searcher entry wait dialog
+  RSID_STR_SRC_ENTRY_WAIT_DIALOG_TITLE "正在等待。"
+  RSID_STR_SRC_ENTRY_WAIT_DIALOG_TEXT  "?理?程正在?行中。 \r\n?稍候"
+
+
+
+  // ---------------------------------------------------------------------
+  // message
+  // ----------------
+  // main
+  RSID_STR_MSG_INTERNAL_ERROR                   "?生了一个内部??。 \文件: %s\r\n行数: %d"
+  RSID_STR_MSG_UNEXPECTED_ERROR                 "?生了一个意外的??。 ?止?用程序。"
+  RSID_STR_MSG_UNEXPECTED_ERROR_CAP             "出乎意料的??。"
+  RSID_STR_MSG_COMMAND_LINE_ERROR               "命令行参数出?。 \r\n信息 : %s\r\n?命令行参数将被忽略。"
+  RSID_STR_MSG_COMMAND_LINE_ERROR_CAP           "命令行??。"
+
+  // ----------------
+  // convert
+  RSID_STR_MSG_ENTRIED_AUDIO_FILE_NOT_FOUND     "指定的音?文件不存在。?部: WAV%s；文件:%s"
+  RSID_STR_MSG_AUDIO_FILE_OPEN_ERROR            "打?音?文件失?。文件 : %s ; 消息 : %s"
+  RSID_STR_MSG_WAV_FILE_READ_ERROR              "?取WAV文件失?。文件 : %s ; 信息 : %s"
+  RSID_STR_MSG_WAV_FILE_WRITE_ERROR             "写入WAV文件失?。文件 : %s ; 信息 : %s"
+  RSID_STR_MSG_OGG_FILE_OPEN_ERROR              "打?OGG文件失?。文件 : %s ; ??号?: %d"
+  RSID_STR_MSG_OGG_FILE_READ_ERROR              "?取OGG文件失?。文件 : %s"
+  RSID_STR_MSG_INVALID_WAV_FILE_FORMAT          "WAV文件格式不正?。文件 : %s ; 原因 : %s"
+  RSID_STR_MSG_UNSUPPORTED_WAV_FILE_FORMAT      "不支持的WAV文件格式。文件 : %s; 原因 : %s"
+  RSID_STR_MSG_BAD_ALLOCATION                   "内存分配失?。信息 : %s"
+  RSID_STR_MSG_BMS_FILE_ACCESS_ERROR            "??BMS文件?出?。文件 : %s ; 信息 : %s"
+  RSID_STR_MSG_OUTPUT_FILE_IS_INPUT_FILE_PATH   "?出文件的路径是BMS文件的WAV中指定的?入文件。?部名称 : WAV%s ; 文件路径 : %s"
+  RSID_STR_MSG_INVALID_FORMAT_AS_BPM_HEADER     "指定的BPM的?号无效。"
+  RSID_STR_MSG_INVALID_FORMAT_AS_EXTENDED_BPM   "指定的?展BPM的符号是无效的。 ??名称 : BPM%s"
+  RSID_STR_MSG_INVALID_FORMAT_AS_STOP_SEQUENCE  "指定的停止序列的?号无效。 ??名称: STOP%s"
+  RSID_STR_MSG_INVALID_FORMAT_AS_LNOBJ_HEADER   "LNOBJ中指定的?号无效。"
+  RSID_STR_MSG_LN_OBJECT_INVALID_ENCLOSE        "?音符?束?的?象与?始?不同。?始 : %s ; ?束 : %s"
+  RSID_STR_MSG_LN_OBJECT_INVALID_ENCLOSE_ADD    "( 小節:%d - ch:%s - object:%s )"
+  RSID_STR_MSG_LN_OBJECT_NOT_ENCLOSED           "没有?音符端点。?始的度数 : %d ; 通道 : %s ; ?象 : %s"
+  RSID_STR_MSG_NOT_ENTRIED_WAV_WAS_USED         "使用了一个未注册?WAV的?象。小?数: %d ; 通道: %s ; ?象: %s"
+  RSID_STR_MSG_INVALID_FORMAT_AS_BPM_CHANGE     "用于正常BPM?化的无效?象。措施?号 : %d ; ?象 : %s"
+  RSID_STR_MSG_EX_BPM_CHANGE_ENTRY_NOT_EXIST    "在?展BPM?化的??中使用了未配置的?象。措施?号: %d; ?象: %s"
+  RSID_STR_MSG_STOP_SEQUENCE_ENTRY_NOT_EXIST    "?部使用的未配置的?象用于停止序列。措施?号 : %d; ?象 : %s"
+  RSID_STR_MSG_OUTPUT_FILE_ACCESS_ERROR         "未能打??出的音?文件。文件 : %s ; 信息 : %s"
+
+  // ----------------
+  // base
+  RSID_STR_MSG_INVALID_CHAR_USED_AS_WORD      "??将0-9、A-Z以外的字符?成一个?象。 \r\n 字符串 : %s"
+  RSID_STR_MSG_INVALID_WORD_VALUE_USED        "使用了一个数?不在00到ZZ范?内的?象。 \r\n ? : %d"
+  RSID_STR_MSG_BUFFER_OUT_OF_RANGE_ACCESS     "????一个超出范?的Buffer。 \r\n 位置 : %d"
+  RSID_STR_MSG_REQIORED_RESOLUTION_IS_TOO_BIG "分辨率超?了要求的?限。 \r\n?求的分辨率 : %d"
+  // parser
+  RSID_STR_MSG_P_FILE_ACCESS_ERROR                "在文件??中出?。 文件: %s；信息: %s"
+  RSID_STR_MSG_P_NO_BEGINNING_END_RAMDOM          "使用了#ENDRANDOM而不是#RANDOM。"
+  RSID_STR_MSG_P_HEADER_COLLISION                 "重?的??%s。"
+  RSID_STR_MSG_P_INVALID_BPM                      "BPM的指定?无效。"
+  RSID_STR_MSG_P_INVALID_LNOBJ                    "LNOBJ的指定?无效。"
+  RSID_STR_MSG_P_OBJECT_COLLISION                 "重?的?象。"
+  RSID_STR_MSG_P_BAR_LENGTH_CHANGE_COLLISION      "重?的?量?度?化。"
+  RSID_STR_MSG_P_INVALID_CHANNEL_OR_HEADER_SYNTAX "无效的??或通道?格?法。"
+  RSID_STR_MSG_P_CORRESPONDING_END_IF_IS_NOTING   "相?的#ENDIF不存在。"
+  RSID_STR_MSG_P_INVALID_RANDOM_STATEMENT_VALUE   "#RANDOM ?法的指定?无效，%s。"
+  RSID_STR_MSG_P_CORRESPONDING_IF_IS_NOTIONG      "相?的#IF不存在。"
+  RSID_STR_MSG_P_INVALID_BAR_LENGTH_CHANGE_VALUE  "?量?度?化的指定?无效。"
+  RSID_STR_MSG_P_INVALID_OBJECT_EXPRESSION        "?象?法无效。"
+  RSID_STR_MSG_P_INVALID_EXTENDED_BPM             "??展BPM指定的?不合法。"
+  RSID_STR_MSG_P_INVALID_STOP_SEQUENCE            "?停止序列指定的?不正?。"
+  RSID_STR_MSG_P_UNDEFINED_OBJECT_USED            "使用了未定?的?象%s。"
+  RSID_STR_MSG_P_DEFINED_OBJECT_NOT_USED          "没有使用指定的?象%s。"
+  RSID_STR_MSG_P_RESOLUTION_EXCEEDED_LIMIT        "超?了分辨率限制。 要求的分辨率: %d"
+
+  // bmson parser
+  // RSID_STR_MSG_BMSON_ ""
+  RSID_STR_MSG_BMSON_UNEXPECTED_TOKEN                        "遇到了意外的??。 行号: %d；??: '%c'。"
+  RSID_STR_MSG_BMSON_NUMBER_FORMAT_ERROR                     "数?格式不正?。 行号: %d"
+  RSID_STR_MSG_BMSON_UNICODE_FORMAT_ERROR                    "Unicode??格式不正?。 行号: %d"
+  RSID_STR_MSG_BMSON_DATA_TYPE_ERROR                         "数据?型不正?。 行数: %d；正??型: %s；???型: %s"
+  RSID_STR_MSG_BMSON_BAR_IS_OUT_OF_BMS_RANGE                 "措施的数量超?了BMS的限制。"
+  RSID_STR_MSG_BMSON_NUMBER_OF_OBJECTS_IS_OUT_OF_BMS_RANGE   "注册?象的数量超?了BMS的限制。 ?象?型 : %s"
+  RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING                 "缺少必要的?。 行数 : %d ; ?? : %s"
+  RSID_STR_MSG_BMSON_BMSON_OBJECT_IS_OUT_OF_BMSON_LINE_RANGE "BMSON中的?象超出了条形?定?的范?。"
+
+  // ----------------
+  // core
+  // converter
+  RSID_STR_MSG_C_USED_MEMORY_EXCEEDED_LIMIT                  "使用的内存已?超?了配置的限制。 ??使用的内存: %dMB.; 要求的分辨率: %d"
+  RSID_STR_MSG_C_USE_DEFAULT_BPM                             "BPM使用默???120。"
+  RSID_STR_MSG_C_USE_DEFAULT_BPM_NO_SPECIFIED                "没有指定BPM，所以将使用默??120。"
+  RSID_STR_MSG_C_TREAT_EXTENDED_BPM_AS_NOT_SPECIFIED         "假?没有指定%BPM%s。"
+  RSID_STR_MSG_C_TREAT_STOP_SEQUENCE_AS_NOT_SPECIFIED        "假?没有指定STOP%s。"
+  RSID_STR_MSG_C_DECIMAL_IS_SPECIFIED_AS_STOP_SEQUENCE       "?STOP%s指定了一个十?制数字。 ?范中只能指定整数，但会使用指定的小数。"
+  RSID_STR_MSG_C_TREAT_LNOBJ_AS_NOT_SPECIFIED                "假?没有指定LNOBJ。"
+  RSID_STR_MSG_C_TREAT_WAV_AS_NOT_SPECIFIED                  "假?没有指定WAV%s。"
+  RSID_STR_MSG_C_TREAT_EMPTY_FILE_AS_SPECIFIED_AS_WAV        "WAV%s假定指定了一个空的音?文件。"
+  RSID_STR_MSG_C_TREAT_BPM_AS_NOT_CHANGED_WITH_NUMBER        "假?BPM没有被改?。措施?号: %d"
+  RSID_STR_MSG_C_TREAT_BPM_AS_NOT_CHANGED_WITH_NUMBER_OBJECT "假?BPM没有被改?。措施?号: %d；?象: %s"
+  RSID_STR_MSG_C_TREAT_STOP_SEQUENCE_AS_NOTHING              "假?没有停止序列。?量? : %d; ?象 : %s"
+
+  // use at script
+  RSID_STR_MSG_C_ABORTED                         "??中止。"
+  RSID_STR_MSG_C_REQUEST_TO_ABORT_BY_USER        "用?要求中止??。"
+  RSID_STR_MSG_C_EXCEPTION_OCCURRED_ERROR_EXIST  "??是"
+  RSID_STR_MSG_C_CONVERT_START                   "== ???始 ====="
+  RSID_STR_MSG_C_INITIALIZE_START                "初始化/??理: ?始"
+  RSID_STR_MSG_C_INITIALIZE_END                  "初始化/??理: 完成"
+  RSID_STR_MSG_C_PARSE_START                     "BMS解析: ?始"
+  RSID_STR_MSG_C_PARSE_END                       "BMS解析: 完成"
+  RSID_STR_MSG_C_MAX_RESOLUTION_AND_BAR_NUMBER   "最大分辨率: %d；相??量数: %d"
+  RSID_STR_MSG_C_READ_AUDIO_FILES_START          "音?文件加?: ?始"
+  RSID_STR_MSG_C_READ_AUDIO_FILES_END            "?音文件?取: 完成"
+  RSID_STR_MSG_C_MIXIN_WAVES_START               "?音合成: ?始"
+  RSID_STR_MSG_C_MIXIN_WAVES_END                 "文本??音: 完成"
+  RSID_STR_MSG_C_AFFECT_WAVE_START               "音量控制: ?始"
+  RSID_STR_MSG_C_AFFECT_WAVE_END                 "音量控制: 完成"
+  RSID_STR_MSG_C_NORMALIZE_KIND                  "正常化?型: 完成"
+  RSID_STR_MSG_C_NORMALIZE_RATIO                 "正常化音量?整率 :"
+  RSID_STR_MSG_C_OUTPUT_TO_FILE_START            "文件?出: ?始"
+  RSID_STR_MSG_C_OUTPUT_TO_FILE_END              "文件?出: 完成"
+  RSID_STR_MSG_C_OUTPUT_FILE                     "?出文件: 未?出到文件，因?没有指定?出。"
+  RSID_STR_MSG_C_OUTPUT_TO_FILE_NO_OUTPUT_NOTICE "没有指定?出，因此没有?出到文件。"
+  RSID_STR_MSG_C_OUTPUT_TO_FILE_NO_OUTPUT_END    "文件?出: 完成: 没有文件?出"
+  RSID_STR_MSG_C_PROCESSING_TIME                 "????: %.2f秒。"
+}
