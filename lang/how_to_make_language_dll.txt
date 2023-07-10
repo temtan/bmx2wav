@@ -1,0 +1,13 @@
+
+need tool : MS Visula Studio
+  resource compiler (rc.exe)
+  linker (link.exe)
+
+need file :
+  lang/japanese.rc
+  string_table_id.h
+
+command :
+  rc.exe japanese.rc
+  link.exe /DLL /NOENTRY /MACHINE:X64 japanese.res
+
