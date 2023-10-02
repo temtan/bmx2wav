@@ -17,8 +17,6 @@ namespace BMX2WAV::Core {
     std::shared_ptr<BL::BmsData> ConvertForWaveConvert( BL::Bmson::BmsonData& bmson );
     std::shared_ptr<BL::BmsData> ConvertForWaveConvertFromFile( const std::string& path );
 
-    void ConvertToFileAndWave( BL::Bmson::BmsonData& bmson );
-
-  private:
+    void ConvertToFileAndWave( BL::Bmson::BmsonData& original, const std::string& input_file, const std::string& output_dir );
   };
 }

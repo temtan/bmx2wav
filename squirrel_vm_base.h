@@ -43,7 +43,7 @@ namespace BMX2WAV {
     void InitializeWaveClass( void );
     void InitializeStringTable( void );
 
-    void CallBmsDataContructorAndPushIt( std::shared_ptr<BL::BmsData> bms_data );
+    void CallBmsDataConstructorAndPushIt( std::shared_ptr<BL::BmsData> bms_data );
     void CallConvertExceptionConstructorAndPushIt( ConvertException& exception );
     void CallBmsDescriptionExceptionConstructorAndPushIt( ConvertBmsDescriptionException& exception );
 

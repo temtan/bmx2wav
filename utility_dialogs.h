@@ -34,6 +34,44 @@ namespace BMX2WAV {
     OutputEdit output_edit_;
   };
 
+  // -- UserInputDialogBase ----------------------------------------------
+  class UserInputDialogBase : public TtDialog {
+  public:
+    explicit UserInputDialogBase( const std::string& title, const std::string& explanation, std::unique_ptr<TtEdit> edit );
+
+    virtual DWORD GetStyle( void ) override;
+    virtual DWORD GetExtendedStyle( void ) override;
+
+    virtual bool Created( void ) override;
+
+    const std::string& GetTitle( void );
+    void SetTitle( const std::string& title );
+
+    const std::string& GetExplanation( void );
+    void SetExplanation( const std::string& explanation );
+
+    const std::string& GetInput( void );
+
+  private:
+    std::string title_;
+    std::string explanation_;
+    std::string input_;
+
+    TtStatic                explanation_label_;
+    std::unique_ptr<TtEdit> edit_;
+    TtButton                ok_button_;
+  };
+
+  template <DWORD style>
+  class UserInputDialogWithStyle : public UserInputDialogBase {
+  public:
+    explicit UserInputDialogWithStyle( const std::string& title = "", const std::string& explanation = "" ) :
+    UserInputDialogBase( title, explanation, std::make_unique<TtEditWithStyle<style>>() ) {}
+  };
+
+  using UserInputDialog = UserInputDialogWithStyle<0>;
+  using UserInputDialogNumber = UserInputDialogWithStyle<TtEdit::Style::NUMBER>;
+
   // -- VersionDialog ----------------------------------------------------
   class VersionDialog : public TtDialog {
   public:

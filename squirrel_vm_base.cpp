@@ -1,13 +1,20 @@
 // squirrel_vm_base.cpp
 
+#include <any>
+
 #include "tt_string.h"
 #include "tt_process.h"
+#include "tt_directory.h"
+#include "tt_utility.h"
 
 #include "tt_squirrel_utility.h"
 
 #include "utility.h"
+#include "utility_dialogs.h"
+#include "base/bmson_parser.h"
 #include "core/direct_sound_stream.h"
 #include "core/convert_parameter.h"
+#include "core/bmson_converter.h"
 
 #include "squirrel_vm_base.h"
 
@@ -41,6 +48,15 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( line );
   DEFINE_PARAMETER_NAME_STRING( NormalizeKind );
   DEFINE_PARAMETER_NAME_STRING( normalize_kind_to_string );
+  DEFINE_PARAMETER_NAME_STRING( Utility );
+  DEFINE_PARAMETER_NAME_STRING( convert_bmson_data_to_bms_data );
+  DEFINE_PARAMETER_NAME_STRING( get_directory_entries );
+  DEFINE_PARAMETER_NAME_STRING( UserInputDialog );
+  DEFINE_PARAMETER_NAME_STRING( UserInputDialogNumber );
+  DEFINE_PARAMETER_NAME_STRING( title );
+  DEFINE_PARAMETER_NAME_STRING( explanation );
+  DEFINE_PARAMETER_NAME_STRING( input );
+  DEFINE_PARAMETER_NAME_STRING( show_dialog );
   // DEFINE_PARAMETER_NAME_STRING(  );
 }
 
@@ -157,7 +173,9 @@ SquirrelVMBase::Initialize( void )
                 process.Create( tmp_info );
               }
               catch ( TtWindowsSystemCallException& ) {
-                throw TtSquirrel::RuntimeException( "CreateProcess Error", vm.GetCallStack() );
+                std::string message = "CreateProcess Error";
+                vm.Native().ThrowError( message );
+                throw TtSquirrel::RuntimeException( message, vm.GetCallStack() );
               }
               pipe.GetWritePipeHandle().Close();
               for_error.Close();
@@ -232,7 +250,9 @@ SquirrelVMBase::Initialize( void )
               }
             }
             catch ( TtWindowsSystemCallException& ) {
-              throw TtSquirrel::RuntimeException( "CreateProcess Error", vm.GetCallStack() );
+              std::string message = "CreateProcess Error";
+              vm.Native().ThrowError( message );
+              throw TtSquirrel::RuntimeException( message, vm.GetCallStack() );
             }
             return TtSquirrel::Const::ExistReturnValue;
           } ) );
@@ -331,6 +351,21 @@ SquirrelVMBase::Initialize( void )
             return TtSquirrel::Const::NoneReturnValue;
           } ) );
           Native().SetParamsCheck( 3, "tsi" );
+        } );
+
+      // -- get_directory_entries 定義
+      this->NewSlotOfTopByString(
+        Tag::get_directory_entries,
+        [&] () {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
+            TtDirectory dir( vm.GetAsFromTop<std::string>() );
+            std::vector<std::string> v = dir.GetEntries( "*" );
+            vm.NewArrayOf( v, [&] ( const std::string& file ) {
+              vm.Native().PushString( file );
+            } );
+            return TtSquirrel::Const::ExistReturnValue;
+          } ) );
+          Native().SetParamsCheck( 2, "ts" );
         } );
 
     } ); // end of BMX2WAV
@@ -505,6 +540,130 @@ SquirrelVMBase::Initialize( void )
       this->NewNullSlotOfTopByString( Tag::name );
       this->NewNullSlotOfTopByString( Tag::items );
     } );
+
+  {
+    // -- UserInputDialog 2種
+    auto make_closure = [] <class UserInputDialogType> ( TtUtility::TypeTag<UserInputDialogType> ) {
+      return SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
+        auto get_member = [&] ( const std::string& key ) -> std::string {
+          TtSquirrel::StackRecoverer recoverer( &vm );
+          vm.GetByStringFromTop( key );
+          return (vm.GetTopType() == TtSquirrel::ObjectType::String) ? vm.GetAsFromTop<std::string>() : "";
+        };
+
+        UserInputDialogType dialog;
+        dialog.SetTitle( get_member( Tag::title ) );
+        dialog.SetExplanation( get_member( Tag::explanation ) );
+        int ret = dialog.ShowDialog( *vm.GetParentWindow() );
+        if ( ret == 0 ) {
+          vm.SetStringToTopByString( Tag::input, dialog.GetInput() );
+        }
+        vm.Native().PushBoolean( ret );
+        return TtSquirrel::Const::ExistReturnValue;
+      } );
+    };
+
+    // -- UserInputDialog 実装 -----
+    this->NewSlotOfRootTableByString(
+      Tag::UserInputDialog,
+      [&] () {
+        TtSquirrel::StackRecoverer recoverer( this, 1 );
+        this->Native().NewClass( false );
+
+        // -- constructor 定義 -----
+        this->NewSlotOfTopByString(
+          Tag::constructor,
+          [&] () {
+            this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
+              while ( vm.Native().GetTopIndex() > 3 ) {
+                vm.Native().PopTop();
+              }
+
+              switch ( vm.Native().GetTopIndex() ) {
+              case 1:
+                vm.Native().PushNull();
+              case 2:
+                vm.Native().PushNull();
+              }
+
+              TtSquirrel::Object explanation = vm.GetStackTopObject();
+              vm.Native().PopTop();
+              TtSquirrel::Object title = vm.GetStackTopObject();
+              vm.Native().PopTop();
+
+              vm.SetToTopByString( Tag::title,       [&] () { vm.PushObject( title ); } );
+              vm.SetToTopByString( Tag::explanation, [&] () { vm.PushObject( explanation ); } );
+
+              return TtSquirrel::Const::NoneReturnValue;
+            } ) );
+            Native().SetParamsCheck( -1, "xss" );
+          } );
+
+        // -- show_dialog 定義 -----
+        this->NewSlotOfTopByString(
+          Tag::show_dialog,
+          [&] () {
+            this->NewClosure( make_closure( TtUtility::TypeTag<UserInputDialog>() ) );
+            Native().SetParamsCheck( 1, "x" );
+          } );
+
+        this->NewNullSlotOfTopByString( Tag::title );
+        this->NewNullSlotOfTopByString( Tag::explanation );
+        this->NewNullSlotOfTopByString( Tag::input );
+      } );
+
+    // -- UserInputDialogNumber 実装 -----
+    this->NewSlotOfRootTableByString(
+      Tag::UserInputDialogNumber,
+      [&] () {
+        TtSquirrel::StackRecoverer recoverer( this, 1 );
+        this->GetByStringFromRootTable( Tag::UserInputDialog );
+        this->Native().NewClass( true );
+
+        // -- show_dialog 定義 -----
+        this->NewSlotOfTopByString(
+          Tag::show_dialog,
+          [&] () {
+            this->NewClosure( make_closure( TtUtility::TypeTag<UserInputDialogNumber>() ) );
+            Native().SetParamsCheck( 1, "x" );
+          } );
+      } );
+  }
+
+  // -- Utility 実装 -----
+  this->NewSlotOfRootTableByString(
+    Tag::Utility,
+    [&] () {
+      TtSquirrel::StackRecoverer recoverer( this, 1 );
+      Native().NewTable();
+
+      // -- convert_bmson_data_to_bms_data 定義
+      this->NewSlotOfTopByString(
+        Tag::convert_bmson_data_to_bms_data,
+        [&] () {
+          this->NewClosure( SquirrelVMBase::ConvertClosure( [] ( SquirrelVMBase& vm ) -> int {
+            std::string output_dir = vm.GetAsFromTop<std::string>();
+            vm.Native().PopTop();
+            std::string input_file = vm.GetAsFromTop<std::string>();
+            vm.Native().PopTop();
+
+            try {
+              BL::Bmson::Parser bmson_parser;
+              std::shared_ptr<BL::Bmson::BmsonData> bmson_data = bmson_parser.Parse( input_file );
+
+              Core::BmsonConverter bmson_converter;
+              bmson_converter.ConvertToFileAndWave( *bmson_data, input_file, output_dir );
+            }
+            catch ( Exception& e ) {
+              vm.Native().ThrowError( e.GetMessage() );
+              throw TtSquirrel::RuntimeException( e.GetMessage(), vm.GetCallStack() );
+            }
+            return TtSquirrel::Const::NoneReturnValue;
+          } ) );
+          Native().SetParamsCheck( 3, ".ss" );
+        } );
+    } );
+
 
   // ---------------------------------------------------------------------
   // 他ファイルにて実装

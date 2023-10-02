@@ -12,6 +12,8 @@
 #include "converter_dialog.h"
 #include "string_table.h"
 
+#include "core/bmson_converter.h"
+
 #include "mainstay/entry_dialog.h"
 #include "mainstay/multiple_convert_dialog.h"
 #include "mainstay/settings_property_sheet.h"
@@ -269,6 +271,7 @@ Mainstay::MainFrame::RegisterHandlers( void )
     TtOpenFileDialog dialog;
     dialog.GetFilters().push_back( {StrT::Main::ExecuteScriptFileDialogNutFile.Get(), "*.nut"} );
     dialog.GetFilters().push_back( {StrT::Main::ExecuteScriptFileDialogAllFile.Get(), "*.*"} );
+    dialog.SetInitialDirectory( TtPath::GetExecutingDirectoryPath() + "\\script_tools" );
 
     if ( dialog.ShowDialog( *this ) ) {
       squirrel_standard_output_dialog_.Show();
@@ -286,6 +289,44 @@ Mainstay::MainFrame::RegisterHandlers( void )
 
   this->AddCommandHandler( CommandID::ShowSquirrelOutputDialog, [this] ( int, HWND ) -> WMResult {
     squirrel_standard_output_dialog_.Show();
+    return {WMResult::Done};
+  } );
+
+  this->AddCommandHandler( CommandID::ConvertBmsonToBms, [this] ( int, HWND ) -> WMResult {
+    TtOpenFileDialog dialog;
+    dialog.GetFilters().push_back( {StrT::Main::ConvertBmsonFileDialogBmsonFile.Get(), "*.bmson"} );
+    dialog.GetFilters().push_back( {StrT::Main::ConvertBmsonFileDialogAllFile.Get(), "*.*"} );
+
+    if ( dialog.ShowDialog( *this ) ) {
+      std::string input_file = dialog.GetFileName();
+      std::string output_dir = TtPath::RemoveExtension( input_file ) + "_bms";
+      TtMessageBoxOkCancel box1;
+      box1.SetMessage( Utility::Format( StrT::Main::ConvertBmsonConfirmMessage.Get(), input_file, output_dir ) );
+      box1.SetCaption( StrT::Main::ConvertBmsonConfirmCaption.Get() );
+      box1.SetIcon( TtMessageBox::Icon::QUESTION );
+      if ( box1.ShowDialog( *this ) == TtMessageBox::Result::OK ) {
+        try {
+          BL::Bmson::Parser bmson_parser;
+          std::shared_ptr<BL::Bmson::BmsonData> bmson_data = bmson_parser.Parse( input_file );
+
+          Core::BmsonConverter bmson_converter;
+          bmson_converter.ConvertToFileAndWave( *bmson_data, input_file, output_dir );
+
+          TtMessageBoxOk box2;
+          box2.SetMessage( Utility::Format( StrT::Main::ConvertBmsonCompleteMessage.Get(), output_dir ) );
+          box2.SetCaption( StrT::Main::ConvertBmsonCompleteCaption.Get() );
+          box2.SetIcon( TtMessageBox::Icon::INFORMATION );
+          box2.ShowDialog( *this );
+        }
+        catch ( Exception& e ) {
+          TtMessageBoxOk box3;
+          box3.SetMessage( Utility::Format( StrT::Main::ConvertBmsonErrorMessage.Get(), e.GetMessage() ) );
+          box3.SetCaption( StrT::Main::ConvertBmsonErrorCaption.Get() );
+          box3.SetIcon( TtMessageBox::Icon::ERROR );
+          box3.ShowDialog( *this );
+        }
+      }
+    }
     return {WMResult::Done};
   } );
 

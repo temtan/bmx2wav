@@ -30,6 +30,7 @@ releaser.additional_string = "-#{version}"
 ].each {|file| releaser.add_file( file ) }
 
 [
+"script_tools",
 ].each {|dir| releaser.add_dir( dir ) }
 
 releaser.add_pre_copy {|file_utils, to_base|

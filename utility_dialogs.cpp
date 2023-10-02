@@ -98,6 +98,118 @@ OutputDialog::Created( void )
   return {true};
 }
 
+// -- UserInputDialogBase ------------------------------------------------
+UserInputDialogBase::UserInputDialogBase( const std::string& title, const std::string& explanation, std::unique_ptr<TtEdit> edit ) :
+title_( title ),
+explanation_( explanation ),
+input_(),
+
+edit_( std::move( edit ) )
+{
+}
+
+
+
+DWORD
+UserInputDialogBase::GetStyle( void )
+{
+  return WS_DLGFRAME | WS_CAPTION | WS_SIZEBOX;
+}
+
+DWORD
+UserInputDialogBase::GetExtendedStyle( void )
+{
+  return WS_EX_TOOLWINDOW;
+}
+
+bool
+UserInputDialogBase::Created( void )
+{
+  this->SetText( title_ );
+
+  struct CommandID {
+    enum ID : int {
+      Edit = 10001,
+      Ok,
+    };
+  };
+  explanation_label_.Create( {this} );
+  edit_->Create( {this, CommandID::Edit} );
+  ok_button_.Create( {this, CommandID::Ok} );
+
+  this->RegisterWMSize( [this] ( int, int w, int ) -> WMResult {
+    explanation_label_.SetPositionSize(  4,  4,     w - 20, 20 );
+    edit_->SetPositionSize(              4, 24, w - 4 - 48, 20 );
+    ok_button_.SetPositionSize(     w - 44, 24,         40, 20 );
+    return {WMResult::Done};
+  } );
+  this->SetClientSize( 392, 54, false );
+  this->RegisterWMSizing( this->MakeCanChangeOnlyHorizontalHandler(), false );
+
+  explanation_label_.SetText( explanation_ );
+  ok_button_.SetText( "OK" );
+
+  edit_->SetFocus();
+
+  this->AddCommandHandler( CommandID::Ok, [this] ( int, HWND ) -> WMResult {
+    input_ = edit_->GetText();
+    this->EndDialog( 0 );
+    return {WMResult::Done};
+  } );
+
+  explanation_label_.Show();
+  edit_->Show();
+  ok_button_.Show();
+
+  this->DragAcceptFiles( true );
+  this->RegisterWMDropFiles( [this] ( HDROP drop ) -> WMResult {
+    const unsigned int buf_size = ::DragQueryFile( drop, 0, nullptr, 0 ) + 1;
+    auto buf = std::make_unique<char[]>( buf_size );
+    ::DragQueryFile( drop, 0, buf.get(), buf_size );
+    edit_->SetText( buf.get() );
+
+    ::DragFinish( drop );
+    return {WMResult::Done};
+  } );
+
+  return true;
+}
+
+
+const std::string&
+UserInputDialogBase::GetTitle( void )
+{
+  return title_;
+}
+
+void
+UserInputDialogBase::SetTitle( const std::string& title )
+{
+  title_ = title;
+}
+
+
+const std::string&
+UserInputDialogBase::GetExplanation( void )
+{
+  return explanation_;
+}
+
+void
+UserInputDialogBase::SetExplanation( const std::string& explanation )
+{
+  explanation_ = explanation;
+}
+
+
+const std::string&
+UserInputDialogBase::GetInput( void )
+{
+  return input_;
+}
+
+
+// -- VersionDialog ------------------------------------------------------
 VersionDialog::VersionDialog( void ) :
 icon_( Image::ICONS[Image::Index::Main] ),
 name_label_(),

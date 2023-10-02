@@ -29,6 +29,13 @@ BL::RegisterArray::GetArray( void )
 }
 
 
+void
+BL::RegisterArray::Register( BL::Word position, const std::string& value )
+{
+  array_[position] = std::make_optional<std::string>( value );
+}
+
+
 std::string
 BL::RegisterArray::At( BL::Word position ) const
 {

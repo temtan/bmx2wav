@@ -471,6 +471,25 @@ OutputFileAccessException::GetMessage( void )
 
 
 // -- Bmson ŠÖ˜A ---------------------------------------------------------
+// -- BmsonDataContradictionException ------------------------------------
+BmsonDataContradictionException::BmsonDataContradictionException( const std::string& reason ) :
+reason_( reason )
+{
+}
+
+const std::string&
+BmsonDataContradictionException::GetReason( void )
+{
+  return reason_;
+}
+
+std::string
+BmsonDataContradictionException::GetMessage( void )
+{
+  return Utility::Format( StrT::Message::BmsonParser::BmsonDataContradiction.Get(), this->GetReason() );
+}
+
+
 // -- OutOfBmsRangeException ---------------------------------------------
 
 // -- BarIsOutOfBmsRangeException ----------------------------------------

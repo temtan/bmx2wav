@@ -10,7 +10,7 @@
 
 
 namespace BMX2WAV {
-  const char* const VERSION = "2.2.0";
+  const char* const VERSION = "2.2.1-beta1";
   const char* const APPLICATION_NAME = "BMX2WAV";
 
   namespace Const {
@@ -71,6 +71,7 @@ namespace BMX2WAV {
       ExecuteSquirrelScript,
       ReloadSquirrelScript,
       ShowSquirrelOutputDialog,
+      ConvertBmsonToBms,
       StartSearcher,
 
       // ƒwƒ‹ƒv

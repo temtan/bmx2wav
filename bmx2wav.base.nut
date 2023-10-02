@@ -1,12 +1,4 @@
 
-// -- Path テーブル ------------------------------------------------------
-Path.has_extension <- function( str, extension ) {
-  if ( ::endswith( str.tolower(), "." + extension.tolower() ) ) {
-    return true;
-  }
-  return false;
-}
-
 // ----- BMX2WAV テーブル ------------------------------------------------
 BMX2WAV.replace_string <- function ( str, pattern, replacement )
 {

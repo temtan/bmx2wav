@@ -62,6 +62,8 @@ column_group_menu_( TtSubMenuCommand::Create() )
   add_menu( tool_menu_, CommandID::ReloadSquirrelScript,     Index::ReloadSquirrelScript,     StrT::Main::Menu::ToolReloadSquirrelScript.Get() );
   add_menu( tool_menu_, CommandID::ShowSquirrelOutputDialog, Index::ShowSquirrelOutputDialog, StrT::Main::Menu::ToolShowSquirrelOutputDialog.Get() );
   tool_menu_.AppendSeparator();
+  add_menu( tool_menu_, CommandID::ConvertBmsonToBms,        Index::None,                     StrT::Main::Menu::ToolConvertBmsonToBms.Get() );
+  tool_menu_.AppendSeparator();
   add_menu( tool_menu_, CommandID::StartSearcher,            Index::SearcherMainSmall,        StrT::Main::Menu::ToolStartSearcher.Get() );
 
   this->AppendMenu( help_menu_, StrT::Main::Menu::Help.Get() );

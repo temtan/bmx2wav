@@ -34,6 +34,7 @@ STRINGTABLE
   RSID_STR_MAIN_MENU_TOOL_EXECUTE_SQUIRREL_SCRIPT     "スクリプトファイルを実行する(&E)"
   RSID_STR_MAIN_MENU_TOOL_RELOAD_SQUIRREL_SCRIPT      "スクリプトファイルを再読み込みする(&R)"
   RSID_STR_MAIN_MENU_TOOL_SHOW_SQUIRREL_OUTPUT_DIALOG "スクリプト出力ダイアログを表示する(&O)..."
+  RSID_STR_MAIN_MENU_TOOL_CONVERT_BMSON_TO_BMS        "BMSON を BMS に変換する(&C)..."
   RSID_STR_MAIN_MENU_TOOL_START_SEARCHER              "BMX2WAV Searcherを起動する(&T)..."
 
   RSID_STR_MAIN_MENU_HELP                     "ヘルプ(&H)"
@@ -118,6 +119,14 @@ STRINGTABLE
   RSID_STR_MAIN_MB_START_SEARCHER_ERROR_MSG                   "ファイルを開くのに失敗しました。\r\n\r\nファイル名 : %s\r\nメッセージ : %s"
   RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_NUT_FILE           "squirrel スクリプトファイル(*.nut)"
   RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_ALL_FILE           "すべてのファイル(*.*)"
+  RSID_STR_MAIN_CONVERT_BMSON_FILE_DIALOG_BMSON_FILE          "bmson ファイル(*.bmson)"
+  RSID_STR_MAIN_CONVERT_BMSON_FILE_DIALOG_ALL_FILE            "すべてのファイル(*.*)"
+  RSID_STR_MAIN_CONVERT_BMSON_CONFIRM_CAP                     "BMSON 変換の確認"
+  RSID_STR_MAIN_CONVERT_BMSON_CONFIRM_MSG                     "以下で BMSON を変換します。よろしいですか？\r\n\r\nBMSONファイル : %s\r\n出力フォルダ : %s"
+  RSID_STR_MAIN_CONVERT_BMSON_COMPLETE_CAP                    "変換完了"
+  RSID_STR_MAIN_CONVERT_BMSON_COMPLETE_MSG                    "変換が終了しました。\r\n\r\n出力フォルダ : %s"
+  RSID_STR_MAIN_CONVERT_BMSON_ERROR_CAP                       "変換エラー"
+  RSID_STR_MAIN_CONVERT_BMSON_ERROR_MSG                       "変換に失敗しました。\r\n\r\nエラー内容 : %s"
 
   // ---------------------------------------------------------------------
   // settings property sheet
@@ -472,11 +481,11 @@ STRINGTABLE
   RSID_STR_MSG_P_RESOLUTION_EXCEEDED_LIMIT        "分解能が限界を超えました。要求分解能 : %d"
 
   // bmson parser
-  // RSID_STR_MSG_BMSON_ ""
   RSID_STR_MSG_BMSON_UNEXPECTED_TOKEN                        "予期しないトークンがありました。行番号 : %d ; トークン : '%c'"
   RSID_STR_MSG_BMSON_NUMBER_FORMAT_ERROR                     "数値の形式が不正です。行番号 : %d"
   RSID_STR_MSG_BMSON_UNICODE_FORMAT_ERROR                    "Unicode エスケープの形式が不正です。行番号 : %d"
   RSID_STR_MSG_BMSON_DATA_TYPE_ERROR                         "データ型が不正です。行番号 : %d ; 正しい型 : %s ; 実際の型 : %s"
+  RSID_STR_MSG_BMSON_BMSON_DATA_CONTRADICTION                "BMSON のデータに矛盾があります。理由 : %s"
   RSID_STR_MSG_BMSON_BAR_IS_OUT_OF_BMS_RANGE                 "小節数が BMS の限界を超えました。"
   RSID_STR_MSG_BMSON_NUMBER_OF_OBJECTS_IS_OUT_OF_BMS_RANGE   "オブジェクトの登録数が BMS の限界を超えました。オブジェクト種類 : %s"
   RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING                 "必須キーがありません。行番号 : %d ; キー : %s"

@@ -228,6 +228,7 @@ BL::BmsData::ConvertToFileFormat( void )
   for ( auto one : headers_clone ) {
     add_as_header( one.first, one.second );
   }
+  add_result( "" );
 
   auto add_array = [&] ( BL::RegisterArray& array ) {
     for ( unsigned int i = 0; i < Const::WORD_MAX_COUNT; ++i ) {

@@ -444,6 +444,23 @@ namespace BMX2WAV {
     virtual std::shared_ptr<BmsonException> ToSharedPointer( void ) = 0;
   };
 
+  // -- BmsonDataContradictionException --------------------------------------
+  class BmsonDataContradictionException : public BmsonException {
+  public:
+    explicit BmsonDataContradictionException( const std::string& reason );
+
+    const std::string& GetReason( void );
+
+    virtual std::string GetMessage( void ) override;
+
+    virtual std::shared_ptr<BmsonException> ToSharedPointer( void ) override {
+      return std::shared_ptr<BmsonException>( new std::remove_pointer<decltype( this )>::type( *this ) );
+    }
+
+  private:
+    std::string reason_;
+  };
+
   // -- OutOfBmsRangeException -------------------------------------------
   class OutOfBmsRangeException : public BmsonException {
   public:

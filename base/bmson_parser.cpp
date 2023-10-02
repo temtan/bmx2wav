@@ -173,6 +173,30 @@ BL::Bmson::JsonToBmsonDataConverter::HashTableGetValueAs( TtJson::HashTable& tab
   return table.GetData()[key]->CastTo<TYPE>();
 }
 
+template <>
+auto
+BL::Bmson::JsonToBmsonDataConverter::HashTableGetValueAs<TtJson::Number>( TtJson::HashTable& table, const std::string& key )
+{
+  if ( NOT( table.GetData().contains( key ) ) ) {
+    throw RequiredKeyIsNothingException( table, key );
+  }
+  auto& tmp = table.GetData()[key];
+  if ( tmp->Is<TtJson::Number>() ) {
+    return tmp->CastTo<TtJson::Number>();
+  }
+  if ( tmp->Is<TtJson::String>() ) {
+    const std::string& str = tmp->CastTo<TtJson::String>().GetData();
+    double num;
+    if ( TtUtility::StringToDouble( str, &num ) ) {
+      return TtJson::Number( tmp->GetLine(), num );
+    }
+  }
+  // throw BadCastException
+  return tmp->CastTo<TtJson::Number>();
+}
+
+
+
 template <class TYPE>
 void
 BL::Bmson::JsonToBmsonDataConverter::IfHashTableContainsKeyDoValueAs( TtJson::HashTable& table, const std::string& key, std::function<void ( TYPE& )> func )
@@ -250,7 +274,7 @@ BL::Bmson::JsonToBmsonDataConverter::ProcessInfo( TtJson::HashTable& info )
     bmson_.info_.back_image_ = back_image.GetData();
   } );
 
-  this->IfHashTableContainsKeyDoValueAs<TtJson::String>( info, "eyuecatch_image", [&] ( auto& eyecatch_image ) {
+  this->IfHashTableContainsKeyDoValueAs<TtJson::String>( info, "eyecatch_image", [&] ( auto& eyecatch_image ) {
     bmson_.info_.eyecatch_image_ = eyecatch_image.GetData();
   } );
 
@@ -328,10 +352,26 @@ BL::Bmson::JsonToBmsonDataConverter::ProcessNotes( TtJson::Array& notes, std::ve
 void
 BL::Bmson::JsonToBmsonDataConverter::ProcessBga( TtJson::HashTable& bga )
 {
-  this->ProcessBgaHeader( this->HashTableGetValueAs<TtJson::Array>( bga, "bga_header" ) );
-  this->ProcessBgaEvents( this->HashTableGetValueAs<TtJson::Array>( bga, "bga_events" ), bmson_.bga_.bga_events_ );
-  this->ProcessBgaEvents( this->HashTableGetValueAs<TtJson::Array>( bga, "layer_events" ), bmson_.bga_.layer_events_ );
-  this->ProcessBgaEvents( this->HashTableGetValueAs<TtJson::Array>( bga, "poor_events" ), bmson_.bga_.poor_events_ );
+  // ‚±‚ê‚ç‚Í–{—ˆ‚Í•K{€–Ú‚¾‚¯‚Ç”CˆÓ€–Ú‚Æ‚µ‚Äˆµ‚¤
+  // this->ProcessBgaHeader( this->HashTableGetValueAs<TtJson::Array>( bga, "bga_header" ) );
+  this->IfHashTableContainsKeyDoValueAs<TtJson::Array>( bga, "bga_header", [&] ( auto& array ) {
+    this->ProcessBgaHeader( array );
+  } );
+
+  // this->ProcessBgaEvents( this->HashTableGetValueAs<TtJson::Array>( bga, "bga_events" ), bmson_.bga_.bga_events_ );
+  this->IfHashTableContainsKeyDoValueAs<TtJson::Array>( bga, "bga_events", [&] ( auto& array ) {
+    this->ProcessBgaEvents( array, bmson_.bga_.bga_events_ );
+  } );
+
+  // this->ProcessBgaEvents( this->HashTableGetValueAs<TtJson::Array>( bga, "layer_events" ), bmson_.bga_.layer_events_ );
+  this->IfHashTableContainsKeyDoValueAs<TtJson::Array>( bga, "layer_events", [&] ( auto& array ) {
+    this->ProcessBgaEvents( array, bmson_.bga_.layer_events_ );
+  } );
+
+  // this->ProcessBgaEvents( this->HashTableGetValueAs<TtJson::Array>( bga, "poor_events" ), bmson_.bga_.poor_events_ );
+  this->IfHashTableContainsKeyDoValueAs<TtJson::Array>( bga, "poor_events", [&] ( auto& array ) {
+    this->ProcessBgaEvents( array, bmson_.bga_.poor_events_ );
+  } );
 }
 
 void

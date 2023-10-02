@@ -7,6 +7,8 @@
 
 #include "ttl_define.h"
 #include "tt_exception.h"
+#include "tt_string.h"
+#include "tt_path.h"
 
 #include "utility.h"
 #include "exception.h"
@@ -326,6 +328,19 @@ Core::ButterworthTwoOrderFilter::Input( const Core::Wave::Tick& tick )
 Core::WaveMaker::WaveMaker( bool overlook_error ) :
 overlook_error_( overlook_error )
 {
+}
+
+std::shared_ptr<Core::Wave>
+Core::WaveMaker::MakeNewWaveFromPathAutoExtension( const std::string& path )
+{
+  std::string target = path;
+  if ( NOT( TtString::EndWith( TtString::ToLower( target ), ".ogg" ) ) ) {
+    if ( TtPath::FileExists( target ) ) {
+      return this->MakeNewWaveFromWavFile( target );
+    }
+    target = TtPath::ChangeExtension( target, "ogg" );
+  }
+  return this->MakeNewWaveFromOggFile( target );
 }
 
 std::shared_ptr<Core::Wave>

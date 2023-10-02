@@ -34,6 +34,7 @@ STRINGTABLE
   RSID_STR_MAIN_MENU_TOOL_EXECUTE_SQUIRREL_SCRIPT     "&Execute script file"
   RSID_STR_MAIN_MENU_TOOL_RELOAD_SQUIRREL_SCRIPT      "&Reload script files"
   RSID_STR_MAIN_MENU_TOOL_SHOW_SQUIRREL_OUTPUT_DIALOG "S&how script output dialog..."
+  RSID_STR_MAIN_MENU_TOOL_CONVERT_BMSON_TO_BMS        "&Convert BMSON to BMS..."
   RSID_STR_MAIN_MENU_TOOL_START_SEARCHER              "S&tart BMX2WAV Searcher..."
 
   RSID_STR_MAIN_MENU_HELP                     "&Help"
@@ -118,6 +119,14 @@ STRINGTABLE
   RSID_STR_MAIN_MB_START_SEARCHER_ERROR_MSG                   "Failed to open file.\r\n\r\nFile path : %s\r\nMessage : %s"
   RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_NUT_FILE           "Squirrel script file(*.nut)"
   RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_ALL_FILE           "All file(*.*)"
+  RSID_STR_MAIN_CONVERT_BMSON_FILE_DIALOG_BMSON_FILE          "BMSON file(*.bmson)"
+  RSID_STR_MAIN_CONVERT_BMSON_FILE_DIALOG_ALL_FILE            "All file(*.*)"
+  RSID_STR_MAIN_CONVERT_BMSON_CONFIRM_CAP                     "Confirm convert bmson"
+  RSID_STR_MAIN_CONVERT_BMSON_CONFIRM_MSG                     "Convert BMSON. It is OK?\r\n\r\nBMSON file : %s\r\noutput folder : %s"
+  RSID_STR_MAIN_CONVERT_BMSON_COMPLETE_CAP                    "Completed"
+  RSID_STR_MAIN_CONVERT_BMSON_COMPLETE_MSG                    "Conversion is complete.\r\n\r\noutput folder : %s"
+  RSID_STR_MAIN_CONVERT_BMSON_ERROR_CAP                       "Conversion error"
+  RSID_STR_MAIN_CONVERT_BMSON_ERROR_MSG                       "Conversion is failed.\r\n\r\nError : %s"
 
   // ---------------------------------------------------------------------
   // settings property sheet
@@ -476,6 +485,7 @@ STRINGTABLE
   RSID_STR_MSG_BMSON_NUMBER_FORMAT_ERROR                     "The number format is invalid. Line : %d"
   RSID_STR_MSG_BMSON_UNICODE_FORMAT_ERROR                    "Unicode escape is invalid. Line : %d"
   RSID_STR_MSG_BMSON_DATA_TYPE_ERROR                         "Data Type is invalid. Line : %d ; Require Type : %s ; Actual Type : %s"
+  RSID_STR_MSG_BMSON_BMSON_DATA_CONTRADICTION                "There is a contradiction in BMSON data. Reason : %s"
   RSID_STR_MSG_BMSON_BAR_IS_OUT_OF_BMS_RANGE                 "The number of bars has exceeded the limit of BMS."
   RSID_STR_MSG_BMSON_NUMBER_OF_OBJECTS_IS_OUT_OF_BMS_RANGE   "The number of object registrations has exceeded the BMS limit. Object kind : %s"
   RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING                 "Required key don't exist. Line : %d ; Key : %s"

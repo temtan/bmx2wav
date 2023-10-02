@@ -144,6 +144,8 @@ namespace BMX2WAV::Core {
   public:
     explicit WaveMaker( bool overlook_error );
 
+    std::shared_ptr<Wave> MakeNewWaveFromPathAutoExtension( const std::string& path );
+
     std::shared_ptr<Wave> MakeNewWaveFromWavFile( const std::string& path );
     std::shared_ptr<Wave> MakeNewWaveFromOggFile( const std::string& path );
 

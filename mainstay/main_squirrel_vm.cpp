@@ -293,7 +293,7 @@ Mainstay::SquirrelVM::InitializeForMainstay( void )
                 }
                */
 
-              vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataContructorAndPushIt( self.bms_data_ ); } );
+              vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataConstructorAndPushIt( self.bms_data_ ); } );
               return TtSquirrel::Const::NoneReturnValue;
             } ) );
             this->Native().SetParamsCheck( 1, "x" );
@@ -312,7 +312,7 @@ Mainstay::SquirrelVM::InitializeForMainstay( void )
 
                 Entry& self = *vm.GetInstanceUserPointerAs<Mainstay::Entry>( TtSquirrel::Const::StackTop );
                 self.ParseAsBmsDataOnce();
-                vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataContructorAndPushIt( self.bms_data_ ); } );
+                vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataConstructorAndPushIt( self.bms_data_ ); } );
               }
               return TtSquirrel::Const::NoneReturnValue;
             } ) );
@@ -842,7 +842,7 @@ Mainstay::SquirrelVM::SetBmsDataToConverterObject( Core::Converter& converter )
   this->SetToTopByString(
     Tag::bms_data,
     [&] () {
-      this->CallBmsDataContructorAndPushIt( converter.info_.bms_data_ );
+      this->CallBmsDataConstructorAndPushIt( converter.info_.bms_data_ );
     } );
 }
 

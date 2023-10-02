@@ -20,6 +20,8 @@ namespace BMX2WAV::BL {
     const std::string& GetName( void ) const;
     Array& GetArray( void );
 
+    void Register( BL::Word position, const std::string& value );
+
     std::string At( BL::Word position ) const;
     std::string operator []( BL::Word position ) const;
 

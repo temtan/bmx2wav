@@ -145,11 +145,13 @@ SquirrelVMBase::InitializeWaveClass( void )
               vm.Native().PopTop();
             }
 
-            int other_start = 0;
-            if ( vm.Native().GetTopIndex() == 4 ) {
-              other_start = vm.GetAsFromTop<int>();
-              vm.Native().PopTop();
+            if ( vm.Native().GetTopIndex() == 3 ) {
+              vm.Native().PushInteger( 0 );
             }
+
+            int other_start = vm.GetAsFromTop<int>();
+            vm.Native().PopTop();
+
             Core::Wave& other = **vm.GetInstanceUserPointerAs<std::shared_ptr<Core::Wave>>( TtSquirrel::Const::StackTop );
             vm.Native().PopTop();
 
@@ -280,11 +282,12 @@ SquirrelVMBase::InitializeWaveClass( void )
               vm.Native().PopTop();
             }
 
-            float ratio = 0.0;
-            if ( vm.Native().GetTopIndex() == 4 ) {
-              ratio = vm.GetAsFromTop<float>();
-              vm.Native().PopTop();
+            if ( vm.Native().GetTopIndex() == 3 ) {
+              vm.Native().PushFloat( 0.0 );
             }
+
+            float ratio = vm.GetAsFromTop<float>();
+            vm.Native().PopTop();
             int end = vm.GetAsFromTop<int>();
             vm.Native().PopTop();
             int start = vm.GetAsFromTop<int>();
@@ -307,11 +310,12 @@ SquirrelVMBase::InitializeWaveClass( void )
               vm.Native().PopTop();
             }
 
-            float ratio = 0.0;
-            if ( vm.Native().GetTopIndex() == 4 ) {
-              ratio = vm.GetAsFromTop<float>();
-              vm.Native().PopTop();
+            if ( vm.Native().GetTopIndex() == 3 ) {
+              vm.Native().PushFloat( 0.0 );
             }
+
+            float ratio = vm.GetAsFromTop<float>();
+            vm.Native().PopTop();
             int end = vm.GetAsFromTop<int>();
             vm.Native().PopTop();
             int start = vm.GetAsFromTop<int>();

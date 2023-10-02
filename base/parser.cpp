@@ -191,21 +191,21 @@ BL::Parser::Header::EvaluateBy( Parser& parser )
   // WAV Array
   if ( parser.frame_->bms_data_.wav_array_.CanApply( key_ ) ) {
     BL::Word pos = BL::Word( key_.substr( key_.size() - 2 ) );
-    parser.frame_->bms_data_.wav_array_.GetArray()[pos.ToInteger()] = std::make_optional<std::string>( value_ );
+    parser.frame_->bms_data_.wav_array_.Register( pos, value_ );
     parser.frame_->wav_used_table_.insert_or_assign( pos, std::pair<Header&, bool>( *this, false ) );
   }
 
   // BMP Array
   if ( parser.frame_->bms_data_.bmp_array_.CanApply( key_ ) ) {
     BL::Word pos = BL::Word( key_.substr( key_.size() - 2 ) );
-    parser.frame_->bms_data_.bmp_array_.GetArray()[pos.ToInteger()] = std::make_optional<std::string>( value_ );
+    parser.frame_->bms_data_.bmp_array_.Register( pos, value_ );
     parser.frame_->bmp_used_table_.insert_or_assign( pos, std::pair<Header&, bool>( *this, false ) );
   }
 
   // BPM Array
   if ( parser.frame_->bms_data_.extended_bpm_array_.CanApply( key_ ) ) {
     BL::Word pos = BL::Word( key_.substr( key_.size() - 2 ) );
-    parser.frame_->bms_data_.extended_bpm_array_.GetArray()[pos.ToInteger()] = std::make_optional<std::string>( value_ );
+    parser.frame_->bms_data_.extended_bpm_array_.Register( pos, value_ );
     parser.frame_->extended_bpm_used_table_.insert_or_assign( pos, std::pair<Header&, bool>( *this, false ) );
     if ( double tmp; NOT( TtUtility::StringToDouble( parser.frame_->bms_data_.extended_bpm_array_[pos], &tmp ) ) || tmp == 0.0 ) {
       parser.SafeErrorCallback<&Parser::Callbacks::invalid_extended_bpm_>( *this );
@@ -215,7 +215,7 @@ BL::Parser::Header::EvaluateBy( Parser& parser )
   // STOP Array
   if ( parser.frame_->bms_data_.stop_sequence_array_.CanApply( key_ ) ) {
     BL::Word pos = BL::Word( key_.substr( key_.size() - 2 ) );
-    parser.frame_->bms_data_.stop_sequence_array_.GetArray()[pos.ToInteger()] = std::make_optional<std::string>( value_ );
+    parser.frame_->bms_data_.stop_sequence_array_.Register( pos, value_ );
     parser.frame_->stop_sequence_used_table_.insert_or_assign( pos, std::pair<Header&, bool>( *this, false ) );
     if ( int tmp; NOT( TtUtility::StringToInteger( parser.frame_->bms_data_.stop_sequence_array_[pos], & tmp ) ) ) {
       parser.SafeErrorCallback<&Parser::Callbacks::invalid_stop_sequence_>( *this );

@@ -49,6 +49,7 @@ namespace BMX2WAV::StringTable {
       static const ID ToolExecuteSquirrelScript    = RSID_STR_MAIN_MENU_TOOL_EXECUTE_SQUIRREL_SCRIPT;
       static const ID ToolReloadSquirrelScript     = RSID_STR_MAIN_MENU_TOOL_RELOAD_SQUIRREL_SCRIPT;
       static const ID ToolShowSquirrelOutputDialog = RSID_STR_MAIN_MENU_TOOL_SHOW_SQUIRREL_OUTPUT_DIALOG;
+      static const ID ToolConvertBmsonToBms        = RSID_STR_MAIN_MENU_TOOL_CONVERT_BMSON_TO_BMS;
       static const ID ToolStartSearcher            = RSID_STR_MAIN_MENU_TOOL_START_SEARCHER;
 
       static const ID Help                   = RSID_STR_MAIN_MENU_HELP;
@@ -142,6 +143,14 @@ namespace BMX2WAV::StringTable {
     static const ID EntryProcessorMenuEmpty                     = RSID_STR_MAIN_ENTRY_PROCESSOR_MENU_EMPTY;
     static const ID ExecuteScriptFileDialogNutFile              = RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_NUT_FILE;
     static const ID ExecuteScriptFileDialogAllFile              = RSID_STR_MAIN_EXECUTE_SCRIPT_FILE_DIALOG_ALL_FILE;
+    static const ID ConvertBmsonFileDialogBmsonFile             = RSID_STR_MAIN_CONVERT_BMSON_FILE_DIALOG_BMSON_FILE;
+    static const ID ConvertBmsonFileDialogAllFile               = RSID_STR_MAIN_CONVERT_BMSON_FILE_DIALOG_ALL_FILE;
+    static const ID ConvertBmsonConfirmCaption                  = RSID_STR_MAIN_CONVERT_BMSON_CONFIRM_CAP;
+    static const ID ConvertBmsonConfirmMessage                  = RSID_STR_MAIN_CONVERT_BMSON_CONFIRM_MSG;
+    static const ID ConvertBmsonCompleteCaption                 = RSID_STR_MAIN_CONVERT_BMSON_COMPLETE_CAP;
+    static const ID ConvertBmsonCompleteMessage                 = RSID_STR_MAIN_CONVERT_BMSON_COMPLETE_MSG;
+    static const ID ConvertBmsonErrorCaption                    = RSID_STR_MAIN_CONVERT_BMSON_ERROR_CAP;
+    static const ID ConvertBmsonErrorMessage                    = RSID_STR_MAIN_CONVERT_BMSON_ERROR_MSG;
   }
 
   // ---------------------------------------------------------------------
@@ -554,6 +563,7 @@ namespace BMX2WAV::StringTable {
       static const ID NumberFormatError                = RSID_STR_MSG_BMSON_NUMBER_FORMAT_ERROR;
       static const ID UnicodeFormatError               = RSID_STR_MSG_BMSON_UNICODE_FORMAT_ERROR;
       static const ID DataTypeError                    = RSID_STR_MSG_BMSON_DATA_TYPE_ERROR;
+      static const ID BmsonDataContradiction           = RSID_STR_MSG_BMSON_BMSON_DATA_CONTRADICTION;
       static const ID BarIsOutOfBmsRange               = RSID_STR_MSG_BMSON_BAR_IS_OUT_OF_BMS_RANGE;
       static const ID NumberOfObjectsIsOutOfBmsRange   = RSID_STR_MSG_BMSON_NUMBER_OF_OBJECTS_IS_OUT_OF_BMS_RANGE;
       static const ID RequiredKeyIsNothing             = RSID_STR_MSG_BMSON_REQUIRED_KEY_IS_NOTHING;

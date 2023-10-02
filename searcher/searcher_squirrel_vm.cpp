@@ -172,7 +172,7 @@ Searcher::SquirrelVM::InitializeForSearcher( EntryPool* entry_pool )
             }
                */
 
-              vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataContructorAndPushIt( *self.bms_data_ ); } );
+              vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataConstructorAndPushIt( self.bms_data_ ); } );
               return TtSquirrel::Const::NoneReturnValue;
             } ) );
             Native().SetParamsCheck( 1, "x" );
@@ -196,7 +196,7 @@ Searcher::SquirrelVM::InitializeForSearcher( EntryPool* entry_pool )
                 FileEntry& self = *tmp.CastToFile();
 
                 self.ParseAsBmsDataOnce();
-                vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataContructorAndPushIt( *self.bms_data_ ); } );
+                vm.SetToTopByString( Tag::bms_data, [&] () { vm.CallBmsDataConstructorAndPushIt( self.bms_data_ ); } );
               }
               return TtSquirrel::Const::NoneReturnValue;
             } ) );

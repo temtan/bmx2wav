@@ -24,6 +24,10 @@ namespace Tag {
   DEFINE_PARAMETER_NAME_STRING( must_read_as_utf8 );
   DEFINE_PARAMETER_NAME_STRING( not_nesting_if_statement );
   DEFINE_PARAMETER_NAME_STRING( convert_to_file_format );
+  DEFINE_PARAMETER_NAME_STRING( wav_array );
+  DEFINE_PARAMETER_NAME_STRING( bmp_array );
+  DEFINE_PARAMETER_NAME_STRING( extended_bpm_array );
+  DEFINE_PARAMETER_NAME_STRING( stop_sequence_array );
   // DEFINE_PARAMETER_NAME_STRING(  );
 }
 
@@ -67,6 +71,25 @@ SquirrelVMBase::InitializeBmsDataClass( void )
                 }
               } );
 
+            auto set_register_array = [&] ( const std::string& name, BL::RegisterArray& array ) {
+              vm.SetToTopByString(
+                name,
+                [&] () {
+                  vm.Native().NewArray( Const::WORD_MAX_COUNT );
+                  for ( unsigned int i = 0; i < Const::WORD_MAX_COUNT; ++i ) {
+                    if ( array.IsExists( BL::Word( i ) ) ) {
+                      vm.SetToTop( [&] () { vm.Native().PushInteger( i ); },
+                                   [&] () { vm.Native().PushString( array.At( BL::Word( i ) ) ); } );
+                    }
+                  }
+                } );
+            };
+
+            set_register_array( Tag::wav_array,           self.wav_array_ );
+            set_register_array( Tag::bmp_array,           self.bmp_array_ );
+            set_register_array( Tag::extended_bpm_array,  self.extended_bpm_array_ );
+            set_register_array( Tag::stop_sequence_array, self.stop_sequence_array_ );
+
             vm.SetStringToTopByString(  Tag::path,                         self.path_ );
             vm.SetIntegerToTopByString( Tag::object_count,                 self.GetObjectCount() );
             vm.SetIntegerToTopByString( Tag::object_count_of_1P,           self.GetObjectCountOf1P() );
@@ -83,6 +106,10 @@ SquirrelVMBase::InitializeBmsDataClass( void )
 
       // -- プロパティ
       this->NewNullSlotOfTopByString( Tag::headers );
+      this->NewNullSlotOfTopByString( Tag::wav_array );
+      this->NewNullSlotOfTopByString( Tag::bmp_array );
+      this->NewNullSlotOfTopByString( Tag::extended_bpm_array );
+      this->NewNullSlotOfTopByString( Tag::stop_sequence_array );
       this->NewNullSlotOfTopByString( Tag::path );
       this->NewNullSlotOfTopByString( Tag::object_count );
       this->NewNullSlotOfTopByString( Tag::object_count_of_1P );
@@ -177,7 +204,7 @@ SquirrelVMBase::InitializeBmsDataClass( void )
               bms_data->most_serious_error_level_ = ErrorLevel::Internal;
             }
 
-            vm.CallBmsDataContructorAndPushIt( bms_data );
+            vm.CallBmsDataConstructorAndPushIt( bms_data );
             return TtSquirrel::Const::ExistReturnValue;
           } ) );
           Native().SetParamsCheck( 2, "xs" );
@@ -187,7 +214,7 @@ SquirrelVMBase::InitializeBmsDataClass( void )
 
 
 void
-SquirrelVMBase::CallBmsDataContructorAndPushIt( std::shared_ptr<BL::BmsData> bms_data )
+SquirrelVMBase::CallBmsDataConstructorAndPushIt( std::shared_ptr<BL::BmsData> bms_data )
 {
   this->CallAndPushReturnValue(
     [&] () { this->GetByStringFromRootTable( Tag::BmsData ); },
