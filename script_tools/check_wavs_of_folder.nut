@@ -14,18 +14,10 @@ class Entry {
   use = false;
 };
 
-/*
 local dialog = FolderBrowserDialog();
 
 if ( dialog.show_dialog() ) {
   local input_dir = dialog.selected_path;
- */
-if ( true ) {
-  local user_dialog = UserInputDialogNumber();
-  user_dialog.title = "フォルダ指定";
-  user_dialog.explanation = "フォルダをD&Dするのだ";
-  user_dialog.show_dialog();
-  local input_dir = user_dialog.input;
 
   local table = {};
   local if_not_in_table_new_slot = function( name ) {
